@@ -347,9 +347,32 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
   }
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-100 py-20 lg:py-28">
-      {/* Soft glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.15),transparent_40%)]" />
+    <section className="relative overflow-hidden bg-gradient-to-br from-[#f0f4ff] via-[#dbe7ff] to-[#c0d4ff] py-20 lg:py-28">
+      {/* Animated Grid Background */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        initial={{ backgroundPosition: '0 0' }}
+        animate={{ backgroundPosition: '32px 32px' }}
+        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+        style={{
+          backgroundImage: `
+            repeating-linear-gradient(0deg, rgba(37,99,235,0.05), rgba(37,99,235,0.05) 1px, transparent 1px, transparent 32px),
+            repeating-linear-gradient(90deg, rgba(37,99,235,0.05), rgba(37,99,235,0.05) 1px, transparent 1px, transparent 32px)
+          `
+        }}
+      />
+
+      {/* Floating decorative shapes */}
+      <motion.div
+        animate={{ y: [0, 20, 0], x: [0, 10, 0] }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute -top-32 -left-32 w-[400px] h-[400px] bg-blue-300/20 rounded-full blur-3xl"
+      />
+      <motion.div
+        animate={{ y: [0, -15, 0], x: [0, -10, 0] }}
+        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute bottom-0 -right-40 w-[500px] h-[500px] bg-indigo-300/20 rounded-full blur-3xl"
+      />
 
       <div className="relative max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-20 items-center">
@@ -421,27 +444,23 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
               )}
             </div>
 
-            <div className="flex gap-4 pt-4">
+            <div className="flex flex-row gap-2 pt-3">
               <motion.button
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.96 }}
                 onClick={() => onNavigate('signup')}
-                className="group relative overflow-hidden rounded-xl bg-blue-600 px-7 py-3 font-semibold text-white shadow-lg transition-all hover:shadow-xl"
+                className="rounded-full border-2 border-blue-600 px-6 py-2.5 font-semibold text-blue-600 bg-white hover:bg-blue-50 transition-all text-sm"
               >
-                <span className="relative z-10 flex items-center gap-2">
-                  Hire a Researcher
-                  <ArrowRight size={18} />
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-700 opacity-0 transition group-hover:opacity-100" />
+                Join as expert
               </motion.button>
 
               <motion.button
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.96 }}
                 onClick={() => onNavigate('bidding')}
-                className="rounded-xl border border-blue-600 px-7 py-3 font-semibold text-blue-600 backdrop-blur transition hover:bg-blue-50"
+                className="rounded-full bg-blue-600 hover:bg-blue-700 px-6 py-2.5 font-semibold text-white shadow-lg transition-all text-sm"
               >
-                Join as a Researcher
+                Request a Service
               </motion.button>
             </div>
           </motion.div>
@@ -451,27 +470,25 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1 }}
-            className="relative flex justify-center"
+            className="relative hidden md:flex justify-center"
           >
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentImageIndex}
-                initial={{ opacity: 0, rotateY: 40 }}
-                animate={{ opacity: 1, rotateY: 0 }}
-                exit={{ opacity: 0, rotateY: -40 }}
-                transition={{ duration: 0.8 }}
-                className="relative"
-                style={{ perspective: 1200 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+                className="relative p-1 bg-gradient-to-br from-blue-400 via-blue-500 to-indigo-500 rounded-3xl"
               >
                 <motion.img
                   src={researcherImages[currentImageIndex].src}
                   alt=""
-                  className="h-[520px] w-[380px] rounded-3xl object-cover"
+                  className="h-[420px] w-[320px] rounded-3xl object-cover"
                   style={{
                     boxShadow:
                       '0 40px 80px rgba(37,99,235,0.25)',
                   }}
-                  whileHover={{ rotateY: -6, rotateX: 4 }}
                 />
 
                 {/* Badge */}

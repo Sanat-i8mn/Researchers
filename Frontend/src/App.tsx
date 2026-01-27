@@ -1,34 +1,42 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
 import { logoutUser, loginUser as apiLoginUser, registerUser, adminLogin as apiAdminLogin } from './services/api';
-import LandingPage from './pages/LandingPage';
-import AboutPage from './pages/AboutPage';
-import BlogPage from './pages/BlogPage';
-import PricingPage from './pages/PricingPage';
-import LoginPage from './pages/Auth/LoginPage';
-import SignupPage from './pages/Auth/SignupPage';
-import AdminLoginPage from './pages/Auth/AdminLoginPage';
-import BiddingPage from './pages/BiddingPage';
-import MessagingPage from './pages/MessagingPage';
-import EscrowPaymentPage from './pages/EscrowPaymentPage';
-import VerificationCertificationPage from './pages/VerificationCertificationPage';
-import FreelancerAccountDetailsPage from './pages/FreelancerAccountDetailsPage';
-import Dashboard from './pages/Dashboard';
-import AdminDashboard from './pages/Dashboard/Admin/AdminDashboard';
-import TermsAndConditions from './pages/Policies/TermsAndConditions';
-import PrivacyPolicy from './pages/Policies/PrivacyPolicy';
-import AcademicIntegrity from './pages/Policies/AcademicIntegrity';
-import EscrowServiceTerms from './pages/Policies/EscrowServiceTerms';
-import ContactPage from './pages/ContactPage';
-import HelpCenterPage from './pages/HelpCenterPage';
-import FAQPage from './pages/FAQPage';
-import CookiePolicyPage from './pages/CookiePolicyPage';
 import Navbar from './components/layout/Navbar';
-import ProfileViewPopup from './components/shared/ProfileViewPopup';
 import toast from 'react-hot-toast';
 
+// Lazy load pages
+const LandingPage = lazy(() => import('./pages/LandingPage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const BlogPage = lazy(() => import('./pages/BlogPage'));
+const PricingPage = lazy(() => import('./pages/PricingPage'));
+const LoginPage = lazy(() => import('./pages/Auth/LoginPage'));
+const SignupPage = lazy(() => import('./pages/Auth/SignupPage'));
+const AdminLoginPage = lazy(() => import('./pages/Auth/AdminLoginPage'));
+const BiddingPage = lazy(() => import('./pages/BiddingPage'));
+const MessagingPage = lazy(() => import('./pages/MessagingPage'));
+const EscrowPaymentPage = lazy(() => import('./pages/EscrowPaymentPage'));
+const VerificationCertificationPage = lazy(() => import('./pages/VerificationCertificationPage'));
+const FreelancerAccountDetailsPage = lazy(() => import('./pages/FreelancerAccountDetailsPage'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const AdminDashboard = lazy(() => import('./pages/Dashboard/Admin/AdminDashboard'));
+const TermsAndConditions = lazy(() => import('./pages/Policies/TermsAndConditions'));
+const PrivacyPolicy = lazy(() => import('./pages/Policies/PrivacyPolicy'));
+const AcademicIntegrity = lazy(() => import('./pages/Policies/AcademicIntegrity'));
+const EscrowServiceTerms = lazy(() => import('./pages/Policies/EscrowServiceTerms'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
+const HelpCenterPage = lazy(() => import('./pages/HelpCenterPage'));
+const FAQPage = lazy(() => import('./pages/FAQPage'));
+const CookiePolicyPage = lazy(() => import('./pages/CookiePolicyPage'));
+const ProfileViewPopup = lazy(() => import('./components/shared/ProfileViewPopup'));
+
 type PageType = 'home' | 'about' | 'blog' | 'pricing' | 'login' | 'signup' | 'admin-login' | 'bidding' | 'messaging' | 'escrow' | 'verification' | 'freelancer-account-details' | 'client-dashboard' | 'freelancer-dashboard' | 'admin-dashboard' | 'terms-and-conditions' | 'privacy-policy' | 'academic-integrity-policy' | 'escrow-service-terms' | 'contact-us' | 'help-center' | 'faq' | 'cookie-policy';
+
+const LoadingSpinner = () => (
+  <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#f0f4ff] via-[#dbe7ff] to-[#c0d4ff]">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+  </div>
+);
 
 function AppContent() {
   const navigate = useNavigate();
@@ -37,66 +45,35 @@ function AppContent() {
   const [currentPage, setCurrentPage] = useState<PageType>('home');
   const [showProfilePopup, setShowProfilePopup] = useState(false);
 
-  // Handle navigation with URL updates
   const handleNavigate = (page: PageType) => {
     setCurrentPage(page);
     const routes: Record<PageType, string> = {
-      'home': '/',
-      'about': '/about',
-      'blog': '/blog',
-      'pricing': '/pricing',
-      'login': '/login',
-      'signup': '/signup',
-      'admin-login': '/admin/login',
-      'bidding': '/bidding',
-      'messaging': '/messaging',
-      'escrow': '/escrow',
-      'verification': '/verification',
-      'freelancer-account-details': '/freelancer-account-details',
-      'client-dashboard': '/client-dashboard',
-      'freelancer-dashboard': '/freelancer-dashboard',
-      'admin-dashboard': '/admin-dashboard',
-      'terms-and-conditions': '/terms-and-conditions',
-      'privacy-policy': '/privacy-policy',
-      'academic-integrity-policy': '/academic-integrity-policy',
-      'escrow-service-terms': '/escrow-service-terms',
-      'contact-us': '/contact-us',
-      'help-center': '/help-center',
-      'faq': '/faq',
-      'cookie-policy': '/cookie-policy'
+      'home': '/', 'about': '/about', 'blog': '/blog', 'pricing': '/pricing',
+      'login': '/login', 'signup': '/signup', 'admin-login': '/admin/login',
+      'bidding': '/bidding', 'messaging': '/messaging', 'escrow': '/escrow',
+      'verification': '/verification', 'freelancer-account-details': '/freelancer-account-details',
+      'client-dashboard': '/client-dashboard', 'freelancer-dashboard': '/freelancer-dashboard',
+      'admin-dashboard': '/admin-dashboard', 'terms-and-conditions': '/terms-and-conditions',
+      'privacy-policy': '/privacy-policy', 'academic-integrity-policy': '/academic-integrity-policy',
+      'escrow-service-terms': '/escrow-service-terms', 'contact-us': '/contact-us',
+      'help-center': '/help-center', 'faq': '/faq', 'cookie-policy': '/cookie-policy'
     };
     navigate(routes[page]);
   };
 
-  // Sync currentPage with URL changes
   useEffect(() => {
     const pathToPage: Record<string, PageType> = {
-      '/': 'home',
-      '/about': 'about',
-      '/blog': 'blog',
-      '/pricing': 'pricing',
-      '/login': 'login',
-      '/signup': 'signup',
-      '/admin': 'admin-login',
-      '/bidding': 'bidding',
-      '/messaging': 'messaging',
-      '/escrow': 'escrow',
-      '/verification': 'verification',
-      '/freelancer-account-details': 'freelancer-account-details',
-      '/client-dashboard': 'client-dashboard',
-      '/freelancer-dashboard': 'freelancer-dashboard',
-      '/admin-dashboard': 'admin-dashboard',
-      '/terms-and-conditions': 'terms-and-conditions',
-      '/privacy-policy': 'privacy-policy',
-      '/academic-integrity-policy': 'academic-integrity-policy',
-      '/escrow-service-terms': 'escrow-service-terms',
-      '/contact-us': 'contact-us',
-      '/help-center': 'help-center',
-      '/faq': 'faq',
-      '/cookie-policy': 'cookie-policy'
+      '/': 'home', '/about': 'about', '/blog': 'blog', '/pricing': 'pricing',
+      '/login': 'login', '/signup': 'signup', '/admin': 'admin-login',
+      '/bidding': 'bidding', '/messaging': 'messaging', '/escrow': 'escrow',
+      '/verification': 'verification', '/freelancer-account-details': 'freelancer-account-details',
+      '/client-dashboard': 'client-dashboard', '/freelancer-dashboard': 'freelancer-dashboard',
+      '/admin-dashboard': 'admin-dashboard', '/terms-and-conditions': 'terms-and-conditions',
+      '/privacy-policy': 'privacy-policy', '/academic-integrity-policy': 'academic-integrity-policy',
+      '/escrow-service-terms': 'escrow-service-terms', '/contact-us': 'contact-us',
+      '/help-center': 'help-center', '/faq': 'faq', '/cookie-policy': 'cookie-policy'
     };
     
-    // Handle dynamic routes
     if (location.pathname.startsWith('/bidding')) {
       setCurrentPage('bidding');
     } else {
@@ -106,37 +83,17 @@ function AppContent() {
   }, [location.pathname]);
 
   const handleLogin = async (email: string, password: string) => {
-    try {
-      const response = await apiLoginUser({ email, password });
-      if (response.success && response.user) {
-        setUser(response.user);
-        // Redirect based on role from backend
-        if (response.user.role === 'client') {
-          navigate('/client-dashboard');
-        } else if (response.user.role === 'freelancer') {
-          navigate('/freelancer-dashboard');
-        }
-      }
-    } catch (error: any) {
-      throw error; // Let LoginPage handle the error
+    const response = await apiLoginUser({ email, password });
+    if (response.success && response.user) {
+      setUser(response.user);
+      navigate(response.user.role === 'client' ? '/client-dashboard' : '/freelancer-dashboard');
     }
   };
 
   const handleSignup = async (data: any) => {
-    try {
-      await registerUser(data);
-      // After successful registration, fetch user details from backend
-      await refreshUser();
-      // User state will be updated by refreshUser, then redirect
-      if (data.role === 'client') {
-      
-        navigate('/login');
-      } else {
-        navigate('/login');
-      }
-    } catch (error: any) {
-      throw error; // Let SignupPage handle the error
-    }
+    await registerUser(data);
+    await refreshUser();
+    navigate('/login');
   };
 
   const handleLogout = async () => {
@@ -146,90 +103,55 @@ function AppContent() {
       navigate('/');
       toast.success('Logged out successfully');
     } catch (error) {
-      console.error('Logout error:', error);
       toast.error('Logout failed');
     }
   };
 
   const handleAdminLogin = async (email: string, password: string) => {
-    try {
-      const response = await apiAdminLogin({ email, password });
-      if (response.success && response.user) {
-        setUser(response.user);
-        navigate('/admin-dashboard');
-      }
-    } catch (error: any) {
-      throw error; // Let AdminLoginPage handle the error
+    const response = await apiAdminLogin({ email, password });
+    if (response.success && response.user) {
+      setUser(response.user);
+      navigate('/admin-dashboard');
     }
   };
 
   const renderPage = () => {
     switch (currentPage) {
-      case 'home':
-        return <LandingPage onNavigate={handleNavigate} />;
-      case 'about':
-        return <AboutPage onNavigate={handleNavigate} />;
-      case 'blog':
-        return <BlogPage onNavigate={handleNavigate} />;
-      case 'pricing':
-        return <PricingPage onNavigate={handleNavigate} />;
-      case 'login':
-        return <LoginPage onLogin={handleLogin} onSwitchToSignup={() => handleNavigate('signup')} />;
-      case 'signup':
-        return <SignupPage onSignup={handleSignup} onSwitchToLogin={() => handleNavigate('login')} />;
-      case 'admin-login':
-        return <AdminLoginPage onAdminLogin={handleAdminLogin} />;
-      case 'bidding':
-        return <BiddingPage />;
-      case 'messaging':
-        return <MessagingPage />;
-      case 'escrow':
-        return <EscrowPaymentPage />;
-      case 'verification':
-        return <VerificationCertificationPage />;
-      case 'freelancer-account-details':
-        return <FreelancerAccountDetailsPage />;
-      case 'client-dashboard':
-        return <Dashboard user={user} />;
-      case 'freelancer-dashboard':
-        return <Dashboard user={user} />;
+      case 'home': return <LandingPage onNavigate={handleNavigate} />;
+      case 'about': return <AboutPage onNavigate={handleNavigate} />;
+      case 'blog': return <BlogPage onNavigate={handleNavigate} />;
+      case 'pricing': return <PricingPage onNavigate={handleNavigate} />;
+      case 'login': return <LoginPage onLogin={handleLogin} onSwitchToSignup={() => handleNavigate('signup')} />;
+      case 'signup': return <SignupPage onSignup={handleSignup} onSwitchToLogin={() => handleNavigate('login')} />;
+      case 'admin-login': return <AdminLoginPage onAdminLogin={handleAdminLogin} />;
+      case 'bidding': return <BiddingPage />;
+      case 'messaging': return <MessagingPage />;
+      case 'escrow': return <EscrowPaymentPage />;
+      case 'verification': return <VerificationCertificationPage />;
+      case 'freelancer-account-details': return <FreelancerAccountDetailsPage />;
+      case 'client-dashboard': return <Dashboard user={user} />;
+      case 'freelancer-dashboard': return <Dashboard user={user} />;
       case 'admin-dashboard':
-        // Protect admin dashboard - only allow access if logged in as admin
         if (!isAuthenticated || user?.role !== 'admin') {
           navigate('/admin/login');
           return <AdminLoginPage onAdminLogin={handleAdminLogin} />;
         }
         return <AdminDashboard />;
-      case 'terms-and-conditions':
-        return <TermsAndConditions />;
-      case 'privacy-policy':
-        return <PrivacyPolicy />;
-      case 'academic-integrity-policy':
-        return <AcademicIntegrity />;
-      case 'escrow-service-terms':
-        return <EscrowServiceTerms />;
-      case 'contact-us':
-        return <ContactPage />;
-      case 'help-center':
-        return <HelpCenterPage />;
-      case 'faq':
-        return <FAQPage />;
-      case 'cookie-policy':
-        return <CookiePolicyPage />;
-      default:
-        return <LandingPage onNavigate={handleNavigate} />;
+      case 'terms-and-conditions': return <TermsAndConditions />;
+      case 'privacy-policy': return <PrivacyPolicy />;
+      case 'academic-integrity-policy': return <AcademicIntegrity />;
+      case 'escrow-service-terms': return <EscrowServiceTerms />;
+      case 'contact-us': return <ContactPage />;
+      case 'help-center': return <HelpCenterPage />;
+      case 'faq': return <FAQPage />;
+      case 'cookie-policy': return <CookiePolicyPage />;
+      default: return <LandingPage onNavigate={handleNavigate} />;
     }
   };
 
-  const showNavigation = currentPage !== 'login' && currentPage !== 'signup' && currentPage !== 'admin-login' && currentPage !== 'admin-dashboard' && currentPage !== 'terms-and-conditions' && currentPage !== 'privacy-policy' && currentPage !== 'academic-integrity-policy' && currentPage !== 'escrow-service-terms' && currentPage !== 'contact-us' && currentPage !== 'help-center' && currentPage !== 'faq' && currentPage !== 'cookie-policy';
+  const showNavigation = !['login', 'signup', 'admin-login', 'admin-dashboard', 'terms-and-conditions', 'privacy-policy', 'academic-integrity-policy', 'escrow-service-terms', 'contact-us', 'help-center', 'faq', 'cookie-policy'].includes(currentPage);
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#2D6CDF]"></div>
-      </div>
-    );
-  }
+  if (loading) return <LoadingSpinner />;
 
   return (
     <>
@@ -241,18 +163,19 @@ function AppContent() {
         />
       )}
 
-      {renderPage()}
+      <Suspense fallback={<LoadingSpinner />}>
+        {renderPage()}
+      </Suspense>
 
-      {/* Profile View Popup */}
       {showProfilePopup && (
-        <ProfileViewPopup onClose={() => setShowProfilePopup(false)} />
+        <Suspense fallback={null}>
+          <ProfileViewPopup onClose={() => setShowProfilePopup(false)} />
+        </Suspense>
       )}
     </>
   );
 }
 
-function App() {
+export default function App() {
   return <AppContent />;
 }
-
-export default App;

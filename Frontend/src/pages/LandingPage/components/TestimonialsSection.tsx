@@ -1,9 +1,7 @@
-import { Star } from 'lucide-react';
-import { useEffect, useRef } from 'react';
+import { Star, Quote } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function TestimonialsSection() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-
   const testimonials = [
     {
       name: 'Sarah Johnson',
@@ -33,69 +31,102 @@ export default function TestimonialsSection() {
       rating: 5,
       quote: 'The platform connected us with world-class researchers. Our project was completed ahead of schedule.',
     },
+    {
+      name: 'Lisa Anderson',
+      title: 'Head of R&D, MedTech',
+      photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&h=150&fit=crop',
+      rating: 5,
+      quote: 'Outstanding service! Found the perfect match for our complex biotech project within days.',
+    },
+    {
+      name: 'James Wilson',
+      title: 'Founder, DataCorp',
+      photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop',
+      rating: 5,
+      quote: 'The AI matching system is brilliant. Saved us weeks of searching for the right data scientist.',
+    },
   ];
 
-  useEffect(() => {
-    const scrollContainer = scrollRef.current;
-    if (!scrollContainer) return;
-
-    let scrollAmount = 0;
-    const scrollSpeed = 1;
-
-    const autoScroll = () => {
-      scrollAmount += scrollSpeed;
-      if (scrollAmount >= scrollContainer.scrollWidth / 2) {
-        scrollAmount = 0;
-      }
-      scrollContainer.scrollLeft = scrollAmount;
-    };
-
-    const interval = setInterval(autoScroll, 30);
-
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <section className="relative py-20 bg-gradient-to-br from-[#0A0E27] via-[#1a1f3a] to-[#0f1629] overflow-hidden">
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" />
-      </div>
+    <section className="relative py-28 bg-gradient-to-br from-[#f0f4ff] via-[#dbe7ff] to-[#c0d4ff] overflow-hidden">
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        initial={{ backgroundPosition: '0 0' }}
+        animate={{ backgroundPosition: '32px 32px' }}
+        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+        style={{
+          backgroundImage: `
+            repeating-linear-gradient(0deg, rgba(37,99,235,0.05), rgba(37,99,235,0.05) 1px, transparent 1px, transparent 32px),
+            repeating-linear-gradient(90deg, rgba(37,99,235,0.05), rgba(37,99,235,0.05) 1px, transparent 1px, transparent 32px)
+          `
+        }}
+      />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+      <motion.div
+        animate={{ y: [0, 20, 0], x: [0, 10, 0] }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute -top-32 -left-32 w-[400px] h-[400px] bg-blue-300/20 rounded-full blur-3xl"
+      />
+      <motion.div
+        animate={{ y: [0, -15, 0], x: [0, -10, 0] }}
+        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute bottom-0 -right-40 w-[500px] h-[500px] bg-indigo-300/20 rounded-full blur-3xl"
+      />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 relative inline-block">
             What Our Clients Say
+            <span className="absolute left-0 -bottom-2 w-24 h-1 bg-blue-500 rounded-full"></span>
           </h2>
-          <p className="text-lg text-gray-300">
+          <p className="text-lg md:text-xl text-gray-600 mt-4">
             Trusted by thousands of satisfied clients
           </p>
-        </div>
+        </motion.div>
 
-        <div ref={scrollRef} className="flex gap-6 overflow-x-hidden pb-4">
-          {[...testimonials, ...testimonials].map((testimonial, index) => (
-            <div
-              key={index}
-              className="min-w-[350px] bg-white/5 backdrop-blur-sm border border-white/10 shadow-lg rounded-2xl p-8 flex-shrink-0 hover:bg-white/10 transition-all"
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {testimonials.map((testimonial, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{ y: -8 }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              viewport={{ once: true }}
+              className="relative bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all"
             >
-              <div className="flex gap-1 mb-4">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} size={20} className="text-yellow-400 fill-yellow-400" />
+              <div className="absolute -top-4 -left-4 w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center shadow-lg">
+                <Quote className="text-white" size={20} />
+              </div>
+
+              <div className="flex gap-1 mb-4 mt-2">
+                {[...Array(testimonial.rating)].map((_, idx) => (
+                  <Star key={idx} size={18} className="text-yellow-400 fill-yellow-400" />
                 ))}
               </div>
-              <p className="text-gray-300 mb-6 italic">"{testimonial.quote}"</p>
-              <div className="flex items-center gap-3">
+
+              <p className="text-gray-700 mb-6 leading-relaxed text-base">
+                {testimonial.quote}
+              </p>
+
+              <div className="flex items-center gap-4 pt-4 border-t border-gray-100">
                 <img
                   src={testimonial.photo}
                   alt={testimonial.name}
-                  className="w-12 h-12 rounded-full object-cover"
+                  className="w-14 h-14 rounded-full object-cover ring-4 ring-blue-100"
                 />
                 <div>
-                  <div className="font-bold text-white">{testimonial.name}</div>
-                  <div className="text-sm text-gray-400">{testimonial.title}</div>
+                  <div className="font-bold text-gray-900 text-lg">{testimonial.name}</div>
+                  <div className="text-sm text-blue-600 font-medium">{testimonial.title}</div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

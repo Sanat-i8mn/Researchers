@@ -1,10 +1,34 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  optimizeDeps: {
-    exclude: ['lucide-react'],
+  
+  server: {
+    port: 5173,
+    host: true,
+    hmr: {
+      overlay: false
+    }
   },
+
+  build: {
+    target: 'esnext',
+    minify: 'esbuild',
+    cssMinify: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'framer': ['framer-motion'],
+          'icons': ['lucide-react']
+        }
+      }
+    },
+    chunkSizeWarningLimit: 1000
+  },
+
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom', 'framer-motion']
+  }
 });

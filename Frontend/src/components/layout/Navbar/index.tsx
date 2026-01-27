@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Menu, X, ChevronDown, Bell, Search } from 'lucide-react';
 import { useAuth } from '../../../contexts/AuthContext';
 import ProfileDropdown from '../../ProfileDropdown';
 
@@ -14,6 +14,22 @@ interface NavbarProps {
 export default function Navbar({ onNavigate, onViewProfile, onLogout }: NavbarProps) {
   const { user, isAuthenticated } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [mobileMenuOpen]);
 
   const handleMobileNavigate = (page: PageType) => {
     onNavigate(page);
@@ -21,99 +37,66 @@ export default function Navbar({ onNavigate, onViewProfile, onLogout }: NavbarPr
   };
 
   return (
-    <nav className="sticky top-0 z-50 relative overflow-hidden">
-      {/* Background with gradient matching homepage */}
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #0A0E27 0%, #1a1f3a 50%, #0f1629 100%)' }}></div>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'shadow-2xl' : ''}`}>
+      <div className="absolute inset-0" style={{ background: scrolled ? 'rgba(10, 14, 39, 0.95)' : 'linear-gradient(135deg, #0A0E27 0%, #1a1f3a 50%, #0f1629 100%)' }}></div>
       
-      {/* Animated glow orbs */}
       <div className="absolute top-0 left-20 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }}></div>
       <div className="absolute top-0 right-20 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s', animationDelay: '2s' }}></div>
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s', animationDelay: '1s' }}></div>
       
-      {/* Glassmorphism overlay */}
-      <div className="absolute inset-0 bg-white/5 backdrop-blur-sm border-b border-white/10"></div>
+      <div className={`absolute inset-0 backdrop-blur-md border-b transition-all ${scrolled ? 'bg-white/10 border-white/20' : 'bg-white/5 border-white/10'}`}></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <div className="flex items-center gap-10">
+        <div className="flex justify-between items-center h-16 md:h-20">
+          <div className="flex items-center gap-8 lg:gap-12">
             <div
-              className="flex items-center gap-2 cursor-pointer group transition-all"
+              className="flex items-center gap-2 cursor-pointer group"
               onClick={() => onNavigate(isAuthenticated && user?.role === 'client' ? 'client-dashboard' : 'home')}
             >
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-lg flex items-center justify-center shadow-lg shadow-cyan-500/50 group-hover:shadow-cyan-500/70 transition-all group-hover:scale-105">
-                <span className="text-white font-bold text-lg sm:text-xl">R</span>
+              <div className="w-9 h-9 md:w-11 md:h-11 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-xl flex items-center justify-center shadow-lg shadow-cyan-500/50 group-hover:shadow-cyan-500/80 transition-all group-hover:scale-110 group-hover:rotate-6">
+                <span className="text-white font-bold text-xl md:text-2xl">R</span>
               </div>
-              <span className="text-lg sm:text-xl font-bold text-white group-hover:text-cyan-400 transition-colors">ResearchHub</span>
+              <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-white to-cyan-400 bg-clip-text text-transparent group-hover:from-cyan-400 group-hover:to-blue-400 transition-all">ResearchHub</span>
             </div>
 
-            {/* Desktop Navigation Links - Left Side */}
-            <div className="hidden lg:flex items-center gap-6">
+            <div className="hidden lg:flex items-center gap-1">
               {isAuthenticated && user ? (
                 <>
                   {user.role === 'client' && (
-                    <button
-                      onClick={() => onNavigate('client-dashboard')}
-                      className="text-gray-300 hover:text-cyan-400 font-semibold transition-all text-sm"
-                    >
+                    <button onClick={() => onNavigate('client-dashboard')} className="px-4 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg font-medium transition-all">
                       Dashboard
                     </button>
                   )}
                   {user.role === 'freelancer' && (
-                    <button
-                      onClick={() => onNavigate('freelancer-dashboard')}
-                      className="text-gray-300 hover:text-cyan-400 font-semibold transition-all text-sm"
-                    >
+                    <button onClick={() => onNavigate('freelancer-dashboard')} className="px-4 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg font-medium transition-all">
                       Dashboard
                     </button>
                   )}
                   {user.role !== 'client' && (
-                    <button
-                      onClick={() => onNavigate('bidding')}
-                      className="text-gray-300 hover:text-cyan-400 font-semibold transition-all text-sm"
-                    >
+                    <button onClick={() => onNavigate('bidding')} className="px-4 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg font-medium transition-all">
                       Projects
                     </button>
                   )}
-                  <button
-                    onClick={() => onNavigate('messaging')}
-                    className="text-gray-300 hover:text-cyan-400 font-semibold transition-all text-sm"
-                  >
+                  <button onClick={() => onNavigate('messaging')} className="px-4 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg font-medium transition-all">
                     Messages
                   </button>
                   {user.role === 'freelancer' && (
-                    <button
-                      onClick={() => onNavigate('verification')}
-                      className="text-gray-300 hover:text-cyan-400 font-semibold transition-all text-sm"
-                    >
+                    <button onClick={() => onNavigate('verification')} className="px-4 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg font-medium transition-all">
                       Verification
                     </button>
                   )}
                 </>
               ) : (
                 <>
-                  <button
-                    onClick={() => onNavigate('bidding')}
-                    className="text-gray-300 hover:text-cyan-400 font-semibold transition-all text-sm"
-                  >
+                  <button onClick={() => onNavigate('bidding')} className="px-4 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg font-medium transition-all">
                     Find Projects
                   </button>
-                  <button
-                    onClick={() => onNavigate('login')}
-                    className="text-gray-300 hover:text-cyan-400 font-semibold transition-all text-sm"
-                  >
+                  <button onClick={() => onNavigate('login')} className="px-4 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg font-medium transition-all">
                     Post Projects
                   </button>
-                  <button
-                    onClick={() => onNavigate('pricing')}
-                    className="text-gray-300 hover:text-cyan-400 font-semibold transition-all text-sm"
-                  >
+                  <button onClick={() => onNavigate('pricing')} className="px-4 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg font-medium transition-all">
                     Pricing
                   </button>
-                  <button
-                    onClick={() => onNavigate('blog')}
-                    className="text-gray-300 hover:text-cyan-400 font-semibold transition-all text-sm"
-                  >
+                  <button onClick={() => onNavigate('blog')} className="px-4 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg font-medium transition-all">
                     Blog
                   </button>
                 </>
@@ -121,159 +104,106 @@ export default function Navbar({ onNavigate, onViewProfile, onLogout }: NavbarPr
             </div>
           </div>
 
-          {/* Desktop Auth Buttons - Right Side */}
           <div className="hidden lg:flex items-center gap-3">
             {isAuthenticated && user ? (
-              <ProfileDropdown
-                onViewProfile={onViewProfile}
-                onLogout={onLogout}
-              />
+              <ProfileDropdown onViewProfile={onViewProfile} onLogout={onLogout} />
             ) : (
               <>
-                <button
-                  onClick={() => onNavigate('login')}
-                  className="text-gray-300 hover:text-white font-semibold transition-all px-4 py-2 rounded-lg hover:bg-white/10 text-sm"
-                >
+                <button onClick={() => onNavigate('login')} className="px-5 py-2.5 text-gray-300 hover:text-white font-semibold transition-all rounded-lg hover:bg-white/10">
                   Login
                 </button>
-                <button
-                  onClick={() => onNavigate('signup')}
-                  className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white px-6 py-2.5 rounded-lg font-bold transition-all shadow-lg shadow-cyan-500/50 hover:shadow-cyan-500/70 hover:scale-105 text-sm"
-                >
-                  Sign Up
+                <button onClick={() => onNavigate('signup')} className="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white rounded-lg font-bold transition-all shadow-lg shadow-cyan-500/50 hover:shadow-cyan-500/80 hover:scale-105">
+                  Join as Expert
                 </button>
               </>
             )}
           </div>
 
-          {/* Mobile Menu Toggle */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden text-white"
-          >
-            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="lg:hidden p-2 text-white hover:bg-white/10 rounded-lg transition-all">
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden relative z-10" style={{ background: 'linear-gradient(135deg, #0A0E27 0%, #1a1f3a 50%, #0f1629 100%)' }}>
-          <div className="px-4 py-4 max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-white/10">
+      <div className={`lg:hidden fixed inset-0 top-16 md:top-20 bg-black/60 backdrop-blur-sm transition-all duration-300 ${mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} onClick={() => setMobileMenuOpen(false)}>
+        <div className={`absolute top-0 left-0 right-0 bg-gradient-to-b from-[#0A0E27] to-[#1a1f3a] border-b border-white/10 shadow-2xl transition-transform duration-300 ${mobileMenuOpen ? 'translate-y-0' : '-translate-y-full'}`} onClick={(e) => e.stopPropagation()}>
+          <div className="max-h-[calc(100vh-4rem)] md:max-h-[calc(100vh-5rem)] overflow-y-auto px-4 py-6">
             {isAuthenticated && user ? (
               <>
-                {/* User Profile Card */}
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-4 mb-4 border border-white/20">
+                <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-2xl p-4 mb-6 border border-white/20 shadow-xl">
                   <div className="flex items-center gap-3">
                     {user.profilePhoto ? (
-                      <img 
-                        src={user.profilePhoto} 
-                        alt={user.fullname}
-                        className="w-12 h-12 rounded-full object-cover shadow-md"
-                      />
+                      <img src={user.profilePhoto} alt={user.fullname} className="w-14 h-14 rounded-full object-cover ring-2 ring-cyan-500/50 shadow-lg" />
                     ) : (
-                      <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                      <div className="w-14 h-14 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg ring-2 ring-cyan-500/50">
                         {user.fullname.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2)}
                       </div>
                     )}
                     <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-white truncate">{user.fullname}</p>
-                      <p className="text-sm text-gray-300">{user.role === 'client' ? 'Client' : 'Researcher'}</p>
+                      <p className="font-bold text-white truncate text-lg">{user.fullname}</p>
+                      <p className="text-sm text-cyan-400 font-medium">{user.role === 'client' ? 'Client' : 'Researcher'}</p>
                     </div>
                   </div>
                 </div>
 
-                {/* Authenticated User Menu Items */}
-                {user.role === 'client' && (
-                  <button
-                    onClick={() => handleMobileNavigate('client-dashboard')}
-                    className="block w-full text-left py-3 text-gray-300 hover:text-cyan-400 font-semibold transition-colors"
-                  >
-                    Dashboard
+                <div className="space-y-1">
+                  {user.role === 'client' && (
+                    <button onClick={() => handleMobileNavigate('client-dashboard')} className="w-full text-left px-4 py-3.5 text-gray-300 hover:text-white hover:bg-white/10 rounded-xl font-semibold transition-all">
+                      Dashboard
+                    </button>
+                  )}
+                  {user.role === 'freelancer' && (
+                    <button onClick={() => handleMobileNavigate('freelancer-dashboard')} className="w-full text-left px-4 py-3.5 text-gray-300 hover:text-white hover:bg-white/10 rounded-xl font-semibold transition-all">
+                      Dashboard
+                    </button>
+                  )}
+                  {user.role !== 'client' && (
+                    <button onClick={() => handleMobileNavigate('bidding')} className="w-full text-left px-4 py-3.5 text-gray-300 hover:text-white hover:bg-white/10 rounded-xl font-semibold transition-all">
+                      Projects
+                    </button>
+                  )}
+                  <button onClick={() => handleMobileNavigate('messaging')} className="w-full text-left px-4 py-3.5 text-gray-300 hover:text-white hover:bg-white/10 rounded-xl font-semibold transition-all">
+                    Messages
                   </button>
-                )}
-                {user.role === 'freelancer' && (
-                  <button
-                    onClick={() => handleMobileNavigate('freelancer-dashboard')}
-                    className="block w-full text-left py-3 text-gray-300 hover:text-cyan-400 font-semibold transition-colors"
-                  >
-                    Dashboard
-                  </button>
-                )}
-                {user.role !== 'client' && (
-                  <button
-                    onClick={() => handleMobileNavigate('bidding')}
-                    className="block w-full text-left py-3 text-gray-300 hover:text-cyan-400 font-semibold transition-colors"
-                  >
-                    Projects
-                  </button>
-                )}
-                <button
-                  onClick={() => handleMobileNavigate('messaging')}
-                  className="block w-full text-left py-3 text-gray-300 hover:text-cyan-400 font-semibold transition-colors"
-                >
-                  Messages
-                </button>
+                </div>
 
-                <div className="border-t border-white/10 my-3"></div>
+                <div className="border-t border-white/10 my-4"></div>
 
-                <button
-                  onClick={() => { 
-                    onViewProfile();
-                    setMobileMenuOpen(false); 
-                  }}
-                  className="block w-full text-left py-3 text-gray-300 hover:text-cyan-400 font-semibold transition-colors"
-                >
-                  Profile
-                </button>
-                <button
-                  onClick={() => { 
-                    onLogout(); 
-                    setMobileMenuOpen(false); 
-                  }}
-                  className="block w-full text-left py-3 text-red-400 hover:text-red-300 font-semibold transition-colors"
-                >
-                  Logout
-                </button>
+                <div className="space-y-1">
+                  <button onClick={() => { onViewProfile(); setMobileMenuOpen(false); }} className="w-full text-left px-4 py-3.5 text-gray-300 hover:text-white hover:bg-white/10 rounded-xl font-semibold transition-all">
+                    Profile
+                  </button>
+                  <button onClick={() => { onLogout(); setMobileMenuOpen(false); }} className="w-full text-left px-4 py-3.5 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-xl font-semibold transition-all">
+                    Logout
+                  </button>
+                </div>
               </>
             ) : (
               <>
-                {/* Guest User Menu Items */}
-                <button
-                  onClick={() => handleMobileNavigate('blog')}
-                  className="block w-full text-left py-3 text-gray-300 hover:text-cyan-400 font-semibold transition-colors"
-                >
-                  Blog
-                </button>
-                <button
-                  onClick={() => handleMobileNavigate('pricing')}
-                  className="block w-full text-left py-3 text-gray-300 hover:text-cyan-400 font-semibold transition-colors"
-                >
-                  Pricing
-                </button>
-                <button
-                  onClick={() => handleMobileNavigate('bidding')}
-                  className="block w-full text-left py-3 text-gray-300 hover:text-cyan-400 font-semibold transition-colors"
-                >
-                  Find Projects
-                </button>
-                <button
-                  onClick={() => handleMobileNavigate('login')}
-                  className="block w-full text-left py-3 text-gray-300 hover:text-white font-semibold transition-colors"
-                >
-                  Sign In
-                </button>
-                <button
-                  onClick={() => handleMobileNavigate('signup')}
-                  className="block w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white py-3 rounded-lg font-bold text-center transition-all shadow-lg shadow-cyan-500/50 mt-2"
-                >
-                  Get Started
-                </button>
+                <div className="space-y-1 mb-4">
+                  <button onClick={() => handleMobileNavigate('bidding')} className="w-full text-left px-4 py-3.5 text-gray-300 hover:text-white hover:bg-white/10 rounded-xl font-semibold transition-all">
+                    Find Projects
+                  </button>
+                  <button onClick={() => handleMobileNavigate('pricing')} className="w-full text-left px-4 py-3.5 text-gray-300 hover:text-white hover:bg-white/10 rounded-xl font-semibold transition-all">
+                    Pricing
+                  </button>
+                  <button onClick={() => handleMobileNavigate('blog')} className="w-full text-left px-4 py-3.5 text-gray-300 hover:text-white hover:bg-white/10 rounded-xl font-semibold transition-all">
+                    Blog
+                  </button>
+                </div>
+                <div className="space-y-2">
+                  <button onClick={() => handleMobileNavigate('login')} className="w-full px-4 py-3.5 text-gray-300 hover:text-white font-semibold transition-all border border-white/20 rounded-xl hover:bg-white/10">
+                    Sign In
+                  </button>
+                  <button onClick={() => handleMobileNavigate('signup')} className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white py-3.5 rounded-xl font-bold transition-all shadow-lg shadow-cyan-500/50 hover:shadow-cyan-500/80">
+                    Join as Expert
+                  </button>
+                </div>
               </>
             )}
           </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 }

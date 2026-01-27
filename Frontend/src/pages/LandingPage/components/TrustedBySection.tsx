@@ -52,6 +52,10 @@ export default function TrustedBySection() {
     { name: 'Apple', logo: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg' },
     { name: 'Microsoft', logo: 'https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg' },
     { name: 'Tesla', logo: 'https://upload.wikimedia.org/wikipedia/commons/b/bd/Tesla_Motors.svg' },
+    { name: 'Amazon', logo: 'https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg' },
+    { name: 'Meta', logo: 'https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg' },
+    { name: 'Netflix', logo: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg' },
+    { name: 'IBM', logo: 'https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg' },
   ];
 
   const stats = [
@@ -64,17 +68,23 @@ export default function TrustedBySection() {
   return (
     <section className="relative bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Logos */}
-        <div className="flex items-center justify-center gap-12 flex-wrap mb-8">
-          {companies.map((company) => (
-            <div key={company.name} className="flex items-center justify-center">
-              <img
-                src={company.logo}
-                alt={company.name}
-                className="h-12 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
-              />
-            </div>
-          ))}
+        {/* Logos - Scrolling */}
+        <div className="overflow-hidden mb-8">
+          <motion.div
+            className="flex items-center gap-8 md:gap-16"
+            animate={{ x: ['0%', '-50%'] }}
+            transition={{ repeat: Infinity, duration: 25, ease: 'linear' }}
+          >
+            {[...companies, ...companies].map((company, idx) => (
+              <div key={idx} className="flex items-center justify-center flex-shrink-0">
+                <img
+                  src={company.logo}
+                  alt={company.name}
+                  className="h-6 md:h-10 w-auto object-contain"
+                />
+              </div>
+            ))}
+          </motion.div>
         </div>
       </div>
 
