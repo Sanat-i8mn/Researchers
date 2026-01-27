@@ -19,11 +19,15 @@ import {
   approveProjectCompletion,
   getAdminProjects,
   releasePayment,
+  postProjectFromLanding,
 } from "../controllers/project/project.controller.js";
 import isAuthenticated from "../middlewares/isAuthenticated.js";
 import { multipleUpload } from "../middlewares/mutler.js";
 
 const router = express.Router();
+
+// Landing page post project (no auth required)
+router.post("/post-from-landing", multipleUpload, postProjectFromLanding);
 
 // Project CRUD operations
 router.post("/create", isAuthenticated, multipleUpload, createProject);

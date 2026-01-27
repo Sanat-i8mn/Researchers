@@ -3,7 +3,7 @@ import { Menu, X, ChevronDown, Bell, Search } from 'lucide-react';
 import { useAuth } from '../../../contexts/AuthContext';
 import ProfileDropdown from '../../ProfileDropdown';
 
-type PageType = 'home' | 'about' | 'blog' | 'pricing' | 'login' | 'signup' | 'admin-login' | 'bidding' | 'messaging' | 'escrow' | 'verification' | 'freelancer-account-details' | 'client-dashboard' | 'freelancer-dashboard' | 'admin-dashboard';
+type PageType = 'home' | 'about' | 'blog' | 'pricing' | 'login' | 'signup' | 'admin-login' | 'bidding' | 'post-project' | 'messaging' | 'escrow' | 'verification' | 'freelancer-account-details' | 'client-dashboard' | 'freelancer-dashboard' | 'admin-dashboard';
 
 interface NavbarProps {
   onNavigate: (page: PageType) => void;
@@ -119,9 +119,17 @@ export default function Navbar({ onNavigate, onViewProfile, onLogout }: NavbarPr
             )}
           </div>
 
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="lg:hidden p-2 text-white hover:bg-white/10 rounded-lg transition-all">
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className="flex items-center gap-2">
+            <button onClick={() => onNavigate('signup')} className="hidden sm:block lg:hidden px-3 py-1.5 text-xs font-semibold text-blue-600 bg-white rounded-full hover:bg-gray-100 transition-all">
+              Join as expert
+            </button>
+            <button onClick={() => onNavigate('post-project')} className="hidden sm:block lg:hidden px-3 py-1.5 text-xs font-semibold text-white bg-blue-600 rounded-full hover:bg-blue-700 transition-all">
+              Request a Service
+            </button>
+            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="lg:hidden p-2 text-white hover:bg-white/10 rounded-lg transition-all">
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </div>
 

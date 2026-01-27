@@ -29,8 +29,9 @@ const HelpCenterPage = lazy(() => import('./pages/HelpCenterPage'));
 const FAQPage = lazy(() => import('./pages/FAQPage'));
 const CookiePolicyPage = lazy(() => import('./pages/CookiePolicyPage'));
 const ProfileViewPopup = lazy(() => import('./components/shared/ProfileViewPopup'));
+const PostProjectPage = lazy(() => import('./pages/PostProjectPage'));
 
-type PageType = 'home' | 'about' | 'blog' | 'pricing' | 'login' | 'signup' | 'admin-login' | 'bidding' | 'messaging' | 'escrow' | 'verification' | 'freelancer-account-details' | 'client-dashboard' | 'freelancer-dashboard' | 'admin-dashboard' | 'terms-and-conditions' | 'privacy-policy' | 'academic-integrity-policy' | 'escrow-service-terms' | 'contact-us' | 'help-center' | 'faq' | 'cookie-policy';
+type PageType = 'home' | 'about' | 'blog' | 'pricing' | 'login' | 'signup' | 'admin-login' | 'bidding' | 'post-project' | 'messaging' | 'escrow' | 'verification' | 'freelancer-account-details' | 'client-dashboard' | 'freelancer-dashboard' | 'admin-dashboard' | 'terms-and-conditions' | 'privacy-policy' | 'academic-integrity-policy' | 'escrow-service-terms' | 'contact-us' | 'help-center' | 'faq' | 'cookie-policy';
 
 const LoadingSpinner = () => (
   <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#f0f4ff] via-[#dbe7ff] to-[#c0d4ff]">
@@ -50,7 +51,7 @@ function AppContent() {
     const routes: Record<PageType, string> = {
       'home': '/', 'about': '/about', 'blog': '/blog', 'pricing': '/pricing',
       'login': '/login', 'signup': '/signup', 'admin-login': '/admin/login',
-      'bidding': '/bidding', 'messaging': '/messaging', 'escrow': '/escrow',
+      'bidding': '/bidding', 'post-project': '/post-project', 'messaging': '/messaging', 'escrow': '/escrow',
       'verification': '/verification', 'freelancer-account-details': '/freelancer-account-details',
       'client-dashboard': '/client-dashboard', 'freelancer-dashboard': '/freelancer-dashboard',
       'admin-dashboard': '/admin-dashboard', 'terms-and-conditions': '/terms-and-conditions',
@@ -65,7 +66,7 @@ function AppContent() {
     const pathToPage: Record<string, PageType> = {
       '/': 'home', '/about': 'about', '/blog': 'blog', '/pricing': 'pricing',
       '/login': 'login', '/signup': 'signup', '/admin': 'admin-login',
-      '/bidding': 'bidding', '/messaging': 'messaging', '/escrow': 'escrow',
+      '/bidding': 'bidding', '/post-project': 'post-project', '/messaging': 'messaging', '/escrow': 'escrow',
       '/verification': 'verification', '/freelancer-account-details': 'freelancer-account-details',
       '/client-dashboard': 'client-dashboard', '/freelancer-dashboard': 'freelancer-dashboard',
       '/admin-dashboard': 'admin-dashboard', '/terms-and-conditions': 'terms-and-conditions',
@@ -125,6 +126,7 @@ function AppContent() {
       case 'signup': return <SignupPage onSignup={handleSignup} onSwitchToLogin={() => handleNavigate('login')} />;
       case 'admin-login': return <AdminLoginPage onAdminLogin={handleAdminLogin} />;
       case 'bidding': return <BiddingPage />;
+      case 'post-project': return <PostProjectPage />;
       case 'messaging': return <MessagingPage />;
       case 'escrow': return <EscrowPaymentPage />;
       case 'verification': return <VerificationCertificationPage />;
@@ -149,7 +151,7 @@ function AppContent() {
     }
   };
 
-  const showNavigation = !['login', 'signup', 'admin-login', 'admin-dashboard', 'terms-and-conditions', 'privacy-policy', 'academic-integrity-policy', 'escrow-service-terms', 'contact-us', 'help-center', 'faq', 'cookie-policy'].includes(currentPage);
+  const showNavigation = !['login', 'signup', 'admin-login', 'admin-dashboard', 'post-project', 'terms-and-conditions', 'privacy-policy', 'academic-integrity-policy', 'escrow-service-terms', 'contact-us', 'help-center', 'faq', 'cookie-policy'].includes(currentPage);
 
   if (loading) return <LoadingSpinner />;
 

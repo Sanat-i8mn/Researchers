@@ -457,7 +457,7 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
               <motion.button
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.96 }}
-                onClick={() => onNavigate('bidding')}
+                onClick={() => onNavigate('post-project')}
                 className="rounded-full bg-blue-600 hover:bg-blue-700 px-6 py-2.5 font-semibold text-white shadow-lg transition-all text-sm"
               >
                 Request a Service

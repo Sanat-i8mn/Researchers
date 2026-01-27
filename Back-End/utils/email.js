@@ -370,4 +370,29 @@ export const sendPaymentReleasedEmail = async ({
   }
 };
 
+/**
+ * Generic email sender
+ * @param {Object} options - Email options
+ * @param {string} options.to - Recipient email
+ * @param {string} options.subject - Email subject
+ * @param {string} options.html - HTML content
+ */
+export const sendEmail = async ({ to, subject, html }) => {
+  try {
+    const mailOptions = {
+      from: `"ResearchHub" <${process.env.EMAIL_USER || "av457508@gmail.com"}>`,
+      to,
+      subject,
+      html,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log(`✅ Email sent to ${to}:`, info.messageId);
+    return { success: true, messageId: info.messageId };
+  } catch (error) {
+    console.error("❌ Error sending email:", error);
+    throw error;
+  }
+};
+
 export default transporter;

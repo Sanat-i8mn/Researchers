@@ -39,3 +39,8 @@ export {
   getAdminProjects,
   releasePayment,
 } from "./project.payment.controller.js";
+
+// Landing page post project flow
+export {
+  postProjectFromLanding,
+} from "./project.postflow.controller.js";
