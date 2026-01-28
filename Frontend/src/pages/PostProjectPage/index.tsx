@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { FileText, Users, CheckCircle, Lock, Shield, DollarSign, PenTool, BookOpen, Briefcase, TrendingUp, Lightbulb } from 'lucide-react';
+import { FileText, Users, CheckCircle, Lock, Shield, DollarSign, PenTool, BookOpen, Briefcase, TrendingUp, Lightbulb, Pencil } from 'lucide-react';
 import { postProjectFromLanding } from '../../services/projectService';
+import './../../components/DualRangeSlider.css';
+
 
 export default function PostProjectPage() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -106,73 +108,29 @@ export default function PostProjectPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header with Logo */}
-      <div className="bg-white border-b border-gray-200">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      {/* Header */}
+      <div className="bg-slate-800 border-b border-slate-700">
         <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.location.href = '/'}>
             <div className="w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-lg">R</span>
             </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">
+            <span className="text-xl font-bold text-white">
+
               ResearchHub
             </span>
           </div>
         </div>
       </div>
 
-      {/* Progress Steps */}
-      <div className="bg-white border-b border-gray-200 py-8">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="flex items-center justify-between">
-            {steps.map((step, index) => (
-              <div key={step.number} className="flex items-center flex-1">
-                <div className="flex flex-col items-center">
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                    currentStep >= step.number 
-                      ? 'bg-blue-600 text-white' 
-                      : 'bg-gray-200 text-gray-400'
-                  }`}>
-                    <step.icon size={20} />
-                  </div>
-                  <div className="mt-2 text-center">
-                    <div className={`text-sm font-semibold ${
-                      currentStep >= step.number ? 'text-blue-600' : 'text-gray-400'
-                    }`}>
-                      {step.title}
-                    </div>
-                    <div className="text-xs text-gray-500 mt-1">
-                      {step.number === 1 && 'Describe your project requirements, choose your budget and the expertise you need.'}
-                      {step.number === 2 && 'Interact freely with freelancers before accepting quotation from ResearchHub.'}
-                      {step.number === 3 && 'Review deliverables and approve only if satisfied with quality.'}
-                    </div>
-                  </div>
-                </div>
-                {index < steps.length - 1 && (
-                  <div className={`flex-1 h-0.5 mx-4 ${
-                    currentStep > step.number ? 'bg-blue-600' : 'bg-gray-200'
-                  }`} />
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Info Banner */}
-      <div className="bg-gray-100 border-b border-gray-200 py-3">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="flex items-center gap-2 text-sm text-gray-700">
-            <span className="w-5 h-5 bg-gray-800 rounded-full flex items-center justify-center text-white text-xs">i</span>
-            <span>Creating a project job usually takes between 5 – 7 minutes.</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-6 py-12">
+      <div className="flex">
+        {/* Main Content */}
+        <div className="flex-1 flex justify-center pr-80">
+          <div className="w-full max-w-2xl px-6 py-12">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 overflow-hidden">
         {currentStep === 1 && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+          <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Your Privacy Matters</h2>
             <p className="text-gray-600 mb-8">
               We are committed to protecting your privacy and confidentiality. Please specify who can see your project.
@@ -272,7 +230,7 @@ export default function PostProjectPage() {
               onClick={() => setCurrentStep(2)}
               className={`w-full py-3 px-6 rounded-lg font-semibold transition-all ${
                 agreedToTerms
-                  ? 'bg-green-600 hover:bg-green-700 text-white'
+                  ? 'bg-blue-600 hover:bg-blue-700 text-white'
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'
               }`}
             >
@@ -282,7 +240,7 @@ export default function PostProjectPage() {
         )}
 
         {currentStep === 2 && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+          <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-8">What are you looking for?</h2>
             
             <div className="grid grid-cols-3 gap-6 mb-12">
@@ -323,7 +281,7 @@ export default function PostProjectPage() {
                 onClick={() => setCurrentStep(3)}
                 className={`px-8 py-3 rounded-lg font-semibold transition-all ${
                   selectedCategory
-                    ? 'bg-green-600 hover:bg-green-700 text-white'
+                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
               >
@@ -334,7 +292,7 @@ export default function PostProjectPage() {
         )}
 
         {currentStep === 3 && selectedCategory === 'writing' && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+          <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Choose a Type</h2>
             <p className="text-gray-600 mb-6">
               Select the primary goal of your project so that our experts understand your requirements.
@@ -448,7 +406,7 @@ export default function PostProjectPage() {
                 onClick={() => setCurrentStep(4)}
                 className={`px-8 py-3 rounded-lg font-semibold transition-all ${
                   selectedType && selectedActivity && selectedDeliverable && lengthValue
-                    ? 'bg-green-600 hover:bg-green-700 text-white'
+                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
               >
@@ -459,7 +417,7 @@ export default function PostProjectPage() {
         )}
 
         {currentStep === 4 && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+          <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2">What kind of expertise would you like the freelancer to have?</h2>
             <p className="text-gray-600 mb-6">
               What kind of expertise would you like the freelancer to have?
@@ -548,7 +506,7 @@ export default function PostProjectPage() {
                 onClick={() => setCurrentStep(5)}
                 className={`px-8 py-3 rounded-lg font-semibold transition-all ${
                   selectedExpertise.length > 0 && industryName
-                    ? 'bg-green-600 hover:bg-green-700 text-white'
+                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
               >
@@ -559,7 +517,7 @@ export default function PostProjectPage() {
         )}
 
         {currentStep === 5 && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+          <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Project title</h2>
             <p className="text-gray-600 mb-6">
               Briefly define the main goal of your project so that freelancers immediately understand your requirements.
@@ -605,7 +563,7 @@ export default function PostProjectPage() {
                 onClick={() => setCurrentStep(6)}
                 className={`px-8 py-3 rounded-lg font-semibold transition-all ${
                   projectTitle.trim()
-                    ? 'bg-green-600 hover:bg-green-700 text-white'
+                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
               >
@@ -616,7 +574,7 @@ export default function PostProjectPage() {
         )}
 
         {currentStep === 6 && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+          <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">Sign up to post your project for free. Get quotes in 24 hours.</h2>
             
             <div className="max-w-md mx-auto mt-8">
@@ -692,7 +650,7 @@ export default function PostProjectPage() {
                 onClick={() => setCurrentStep(7)}
                 className={`w-full py-3 px-6 rounded-lg font-bold text-lg transition-all mb-4 ${
                   email && firstName && lastName && phoneNumber
-                    ? 'bg-green-600 hover:bg-green-700 text-white'
+                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
               >
@@ -721,7 +679,7 @@ export default function PostProjectPage() {
         )}
 
         {currentStep === 7 && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+          <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Project description</h2>
             <p className="text-gray-600 mb-6">
               Describe what you need to get done in detail. Outline the scope of work and skills required. List out deliverables.
@@ -787,7 +745,7 @@ export default function PostProjectPage() {
                 onClick={() => setCurrentStep(8)}
                 className={`px-8 py-3 rounded-lg font-semibold transition-all ${
                   projectDescription.trim()
-                    ? 'bg-green-600 hover:bg-green-700 text-white'
+                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
               >
@@ -798,7 +756,7 @@ export default function PostProjectPage() {
         )}
 
         {currentStep === 8 && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+          <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Choose your fee type and budget</h2>
             <p className="text-gray-600 mb-6">
               You can edit your fee even after posting your project.
@@ -833,20 +791,49 @@ export default function PostProjectPage() {
             {/* Budget Range */}
             <div className="mb-6">
               <label className="block text-sm font-semibold text-gray-700 mb-3">
-                Choose a budget: USD 500-USD 4000
+                Choose a budget: USD {budgetRange.split('-')[0]} - USD {budgetRange.split('-')[1]}
               </label>
-              <input
-                type="range"
-                min="500"
-                max="4000"
-                step="100"
-                value={budgetRange.split('-')[1]}
-                onChange={(e) => setBudgetRange(`500-${e.target.value}`)}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
-              />
+              <div className="dual-range-slider">
+                <div className="range-track"></div>
+                <div 
+                  className="range-fill"
+                  style={{
+                    left: `${((parseInt(budgetRange.split('-')[0]) - 500) / 3500) * 100}%`,
+                    width: `${((parseInt(budgetRange.split('-')[1]) - parseInt(budgetRange.split('-')[0])) / 3500) * 100}%`
+                  }}
+                ></div>
+                <input
+                  type="range"
+                  min="500"
+                  max="4000"
+                  step="100"
+                  value={budgetRange.split('-')[0]}
+                  onChange={(e) => {
+                    const minVal = parseInt(e.target.value);
+                    const maxVal = parseInt(budgetRange.split('-')[1]);
+                    if (minVal <= maxVal) {
+                      setBudgetRange(`${minVal}-${maxVal}`);
+                    }
+                  }}
+                />
+                <input
+                  type="range"
+                  min="500"
+                  max="4000"
+                  step="100"
+                  value={budgetRange.split('-')[1]}
+                  onChange={(e) => {
+                    const maxVal = parseInt(e.target.value);
+                    const minVal = parseInt(budgetRange.split('-')[0]);
+                    if (maxVal >= minVal) {
+                      setBudgetRange(`${minVal}-${maxVal}`);
+                    }
+                  }}
+                />
+              </div>
               <div className="flex justify-between text-sm text-gray-600 mt-2">
                 <span>USD 500</span>
-                <span className="font-semibold text-blue-600">USD {budgetRange.split('-')[1]}</span>
+                <span className="font-semibold text-blue-600">USD {budgetRange.split('-')[0]} - USD {budgetRange.split('-')[1]}</span>
                 <span>USD 4000</span>
               </div>
             </div>
@@ -878,7 +865,7 @@ export default function PostProjectPage() {
               </button>
               <button
                 onClick={() => setCurrentStep(9)}
-                className="px-8 py-3 rounded-lg font-semibold bg-green-600 hover:bg-green-700 text-white transition-all"
+                className="px-8 py-3 rounded-lg font-semibold bg-blue-600 hover:bg-blue-700 text-white transition-all"
               >
                 Post Project
               </button>
@@ -887,7 +874,7 @@ export default function PostProjectPage() {
         )}
 
         {currentStep === 9 && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+          <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-6">By when do you need to hire a freelancer?</h2>
             
             {/* Timeline Options */}
@@ -960,7 +947,7 @@ export default function PostProjectPage() {
                 onClick={() => setCurrentStep(10)}
                 className={`px-8 py-3 rounded-lg font-bold text-lg transition-all ${
                   hiringTimeline
-                    ? 'bg-green-600 hover:bg-green-700 text-white'
+                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
               >
@@ -971,7 +958,7 @@ export default function PostProjectPage() {
         )}
 
         {currentStep === 10 && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+          <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Update Billing Address</h2>
             
             <div className="mb-6">
@@ -1102,7 +1089,7 @@ export default function PostProjectPage() {
                     setIsSubmitting(false);
                   }
                 }} 
-                className={`px-8 py-3 rounded-lg font-bold text-lg transition-all ${addressLine1 && zipCode && !isSubmitting ? 'bg-green-600 hover:bg-green-700 text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}>
+                className={`px-8 py-3 rounded-lg font-bold text-lg transition-all ${addressLine1 && zipCode && !isSubmitting ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}>
                 {isSubmitting ? 'Submitting...' : 'Complete Submission'}
               </button>
             </div>
@@ -1113,6 +1100,100 @@ export default function PostProjectPage() {
             )}
           </div>
         )}
+
+        </div>
+        </div>
+        </div>
+
+        {/* Right Sidebar - Fixed */}
+        <div className="fixed right-0 top-0 w-80 bg-slate-800 text-white p-6 h-screen overflow-hidden pt-20">
+          {currentStep <= 6 ? (
+            <div className="space-y-6">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Shield size={20} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-bold text-base mb-1 truncate">Confidentiality Assured</h3>
+                  <p className="text-xs text-gray-300">
+                    Choose who can see your project and invite best freelancers for your project.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <CheckCircle size={20} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-bold text-base mb-1 truncate">100% Satisfaction Guaranteed</h3>
+                  <p className="text-xs text-gray-300">
+                    Throughout the project cycle, work closely with the freelancer to ensure that deliverables meet and exceed your expectations.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 bg-cyan-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <DollarSign size={20} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-bold text-base mb-1 truncate">Flexible, Secure Payments</h3>
+                  <p className="text-xs text-gray-300">
+                    Pay by the hour or per project. Revise your fee after you discuss with freelancers if you're not sure while posting your project.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="overflow-hidden">
+              <h3 className="text-base font-semibold mb-3 truncate">Project Summary</h3>
+              <div className="border-t border-white/20 mb-4" />
+
+              <div className="relative pl-8">
+                <div className="absolute left-3 top-2 bottom-2 border-l-2 border-dashed border-blue-400/70" />
+                
+                <div className="space-y-4">
+                  {[
+                    { label: 'Privacy', value: privacyOption === 'all' ? 'All ResearchHub Experts' : 'Invitation Only', completed: true },
+                    { label: 'Scope Of Work', value: `${selectedCategory}, ${selectedType}`, completed: !!selectedCategory },
+                    { label: 'Expertise & Industry', value: `${selectedExpertise.join(', ')}, ${industryName}`, completed: selectedExpertise.length > 0 },
+                    { label: 'Title', value: projectTitle || 'Not set yet', completed: !!projectTitle },
+                    { label: 'Description', value: projectDescription ? `${projectDescription.substring(0, 30)}...` : 'Not set yet', completed: !!projectDescription },
+                    { label: 'Budget', value: currentStep >= 8 ? `USD ${budgetRange.split('-')[0]} - USD ${budgetRange.split('-')[1]}` : 'Not set yet', completed: currentStep >= 8, active: currentStep === 8 },
+                    { label: 'Hiring timeline', value: hiringTimeline || 'Not set yet', completed: !!hiringTimeline, active: currentStep === 9 }
+                  ].map((item, index) => (
+                    <div key={index} className="relative flex gap-3">
+                      <div className="absolute left-[-24px] top-1">
+                        {item.completed ? (
+                          <div className="w-4 h-4 bg-blue-400 rounded-full" />
+                        ) : item.active ? (
+                          <div className="w-5 h-5 rounded-full border-2 border-blue-400 flex items-center justify-center bg-white">
+                            <CheckCircle size={12} className="text-blue-500" />
+                          </div>
+                        ) : (
+                          <div className="w-3 h-3 bg-gray-500 rounded-full" />
+                        )}
+                      </div>
+
+                      <div className={`flex-1 rounded-lg px-3 py-2 min-w-0 ${item.active ? 'bg-slate-700' : ''}`}>
+                        <div className="flex justify-between items-start gap-2">
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs font-semibold text-white truncate">{item.label}</p>
+                            <p className="text-xs text-white/70 truncate">{item.value}</p>
+                          </div>
+                          <button className="text-white/70 hover:text-white flex-shrink-0">
+                            <Pencil size={12} />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Success Modal */}
@@ -1163,49 +1244,6 @@ export default function PostProjectPage() {
             >
               Invite Experts
             </button>
-          </div>
-        </div>
-      )}
-
-      {/* Right Sidebar - Features */}
-      {currentStep === 1 && (
-        <div className="fixed right-0 top-0 bottom-0 w-96 bg-gradient-to-b from-slate-700 to-slate-800 text-white p-8 hidden xl:block">
-          <div className="space-y-12 mt-32">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
-                <Shield size={24} />
-              </div>
-              <div>
-                <h3 className="font-bold text-lg mb-2">Confidentiality Assured</h3>
-                <p className="text-sm text-gray-300">
-                  Choose who can see your project and invite best freelancers for your project.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
-                <CheckCircle size={24} />
-              </div>
-              <div>
-                <h3 className="font-bold text-lg mb-2">100% Satisfaction Guaranteed</h3>
-                <p className="text-sm text-gray-300">
-                  Throughout the project cycle, work closely with the freelancer to ensure that deliverables meet and exceed your expectations.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-cyan-500 rounded-full flex items-center justify-center flex-shrink-0">
-                <DollarSign size={24} />
-              </div>
-              <div>
-                <h3 className="font-bold text-lg mb-2">Flexible, Secure Payments</h3>
-                <p className="text-sm text-gray-300">
-                  Pay by the hour or per project. Revise your fee after you discuss with freelancers if you're not sure while posting your project.
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       )}
