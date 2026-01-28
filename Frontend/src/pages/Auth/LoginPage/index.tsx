@@ -158,7 +158,7 @@ export default function LoginPage({ onLogin, onSwitchToSignup }: LoginPageProps)
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: 'linear-gradient(135deg, #0A0E27 0%, #1a1f3a 50%, #0f1629 100%)' }}>
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 to-indigo-100">
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full"
@@ -198,16 +198,21 @@ export default function LoginPage({ onLogin, onSwitchToSignup }: LoginPageProps)
           }
         }
       `}</style>
-      <div className="max-w-md w-full relative z-10">
+      <div className="max-w-lg w-full relative z-10">
         <div className="text-center mb-8">
           <button 
             onClick={() => window.location.href = '/'}
-            className="w-16 h-16 bg-[#2D6CDF] rounded-2xl flex items-center justify-center mx-auto mb-4 hover:bg-[#1F1F1F] transition-colors cursor-pointer"
+            className="w-50 h-15  via-blue-500 to-indigo-500"
           >
-            <span className="text-white font-bold text-3xl">R</span>
+            <img
+              src="/images/login.png"
+              alt="ResearchHub"
+              className="h-16 w-auto object-contain"
+            />
+            
           </button>
-          <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
-          <p className="text-white">Sign in to your ResearchHub account</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h1>
+          <p className="text-gray-700">Sign in to your ResearchHub account</p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-xl p-8">

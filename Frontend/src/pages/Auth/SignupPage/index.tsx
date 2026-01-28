@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Mail, Lock, User, Eye, EyeOff, Briefcase, GraduationCap, Phone, X, ChevronDown } from 'lucide-react';
+import { Mail, Lock, User, Eye, EyeOff, Briefcase, GraduationCap, Phone, ChevronDown } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { googleSignup } from '../../../services/api';
-import { motion } from 'framer-motion';
+import { useEffect, useRef } from 'react';
 
 const topCountries = [
   { code: '+1', name: 'United States', flag: '🇺🇸' },
@@ -52,6 +52,87 @@ export default function SignupPage({ onSignup, onSwitchToLogin }: SignupPageProp
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particles: Array<{
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      radius: number;
+    }> = [];
+
+    for (let i = 0; i < 80; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        radius: Math.random() * 2 + 1,
+      });
+    }
+
+    let animationId: number;
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach((particle, i) => {
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+
+        if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
+        if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(59, 130, 246, 0.6)';
+        ctx.fill();
+
+        particles.forEach((otherParticle, j) => {
+          if (i === j) return;
+          const dx = particle.x - otherParticle.x;
+          const dy = particle.y - otherParticle.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 150) {
+            ctx.beginPath();
+            ctx.moveTo(particle.x, particle.y);
+            ctx.lineTo(otherParticle.x, otherParticle.y);
+            ctx.strokeStyle = `rgba(59, 130, 246, ${0.2 * (1 - distance / 150)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        });
+      });
+
+      animationId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    const handleResize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,15 +173,15 @@ export default function SignupPage({ onSignup, onSwitchToLogin }: SignupPageProp
   const handleGoogleSignup = () => {
     const clientId = '179509708444-hnlbsa5qpugc4kq3p4qb3u1kiu92qqgg.apps.googleusercontent.com';
     
-    if (window.google) {
-      window.google.accounts.id.initialize({
-        client_id: clientId,
-        callback: handleGoogleCallback
-      });
-      window.google.accounts.id.prompt();
-    } else {
-      toast.error('Google Sign-In is not available.');
-    }
+    // if (window.google) {
+    //   window.google.accounts.id.initialize({
+    //     client_id: clientId,
+    //     callback: handleGoogleCallback
+    //   });
+    //   window.google.accounts.id.prompt();
+    // } else {
+    //   toast.error('Google Sign-In is not available.');
+    // }
   };
 
   const handleGoogleCallback = async (response: any) => {
@@ -125,242 +206,243 @@ export default function SignupPage({ onSignup, onSwitchToLogin }: SignupPageProp
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-      <div className="relative w-full max-w-2xl max-h-[95vh] overflow-y-auto bg-gradient-to-br from-[#f0f4ff] via-[#dbe7ff] to-[#c0d4ff] rounded-2xl shadow-2xl">
-        {/* Close button - Top right of modal */}
-        <button
-          onClick={() => window.history.back()}
-          className="absolute top-1 right-1 z-[60] p-2 bg-gray-900 hover:bg-black rounded-full transition-colors shadow-xl"
-        >
-          <X size={24} className="text-white" />
-        </button>
-        {/* Animated Grid Background */}
-        <motion.div
-          className="absolute inset-0 pointer-events-none rounded-2xl"
-          initial={{ backgroundPosition: '0 0' }}
-          animate={{ backgroundPosition: '32px 32px' }}
-          transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-          style={{
-            backgroundImage: `
-              repeating-linear-gradient(0deg, rgba(37,99,235,0.05), rgba(37,99,235,0.05) 1px, transparent 1px, transparent 32px),
-              repeating-linear-gradient(90deg, rgba(37,99,235,0.05), rgba(37,99,235,0.05) 1px, transparent 1px, transparent 32px)
-            `
-          }}
-        />
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#f0f4ff] via-[#dbe7ff] to-[#c0d4ff]">
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full"
+      />
+      {/* Glow orbs */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-40 right-32 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute bottom-32 left-1/3 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+      </div>
+      
+      {/* Floating emojis */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {['📚', '🔬', '💡', '📊', '🎓', '✍️', '🔍', '📝'].map((emoji, i) => (
+          <div
+            key={i}
+            className="absolute text-white/10 text-6xl"
+            style={{
+              left: `${10 + (i * 12)}%`,
+              top: `${20 + (i % 3) * 25}%`,
+              animation: `float ${8 + i * 2}s ease-in-out infinite`,
+              animationDelay: `${i * 0.5}s`
+            }}
+          >
+            {emoji}
+          </div>
+        ))}
+      </div>
+      
+      <style>{`
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-20px);
+          }
+        }
+      `}</style>
+      
+      <div className="max-w-3xl w-full relative z-10">
+        <div className="text-center mb-8">
+          <button 
+            onClick={() => window.location.href = '/'}
+            className="w-50 h-15 rounded-2xl flex items-center justify-center mx-auto mb-4 cursor-pointer"
+          >
+            <img
+              src="/images/login.png"
+              alt="ResearchHub"
+              className="h-16 w-auto object-contain"
+            />
+          </button>
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">Join ResearchHub</h1>
+          <p className="text-gray-700">Create your account to get started</p>
+        </div>
 
-        {/* Floating decorative shapes */}
-        <motion.div
-          animate={{ y: [0, 20, 0], x: [0, 10, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute -top-32 -left-32 w-[400px] h-[400px] bg-blue-300/20 rounded-full blur-3xl"
-        />
-        <motion.div
-          animate={{ y: [0, -15, 0], x: [0, -10, 0] }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute bottom-0 -right-40 w-[500px] h-[500px] bg-indigo-300/20 rounded-full blur-3xl"
-        />
-
-        <div className="relative z-10 p-6">
-          <div className="mb-4">
-            <label className="block text-xs font-bold text-gray-900 mb-2">I want to:</label>
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+          <div className="mb-6">
+            <label className="block text-sm font-bold text-[#1F1F1F] mb-2">I want to:</label>
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
                 onClick={() => setFormData({ ...formData, role: 'client' })}
-                className={`p-3 border-2 rounded-xl transition-all bg-white shadow-lg ${
-                  formData.role === 'client'
-                    ? 'border-blue-600 ring-2 ring-blue-500/50'
-                    : 'border-gray-200 hover:border-blue-400'
-                }`}
+                className={`p-3 border-2 rounded-xl transition-all ${formData.role === 'client'
+                    ? 'border-[#2D6CDF] ring-2 ring-[#2D6CDF]/50'
+                    : 'border-gray-200 hover:border-[#2D6CDF]'
+                  }`}
               >
-                <Briefcase className="mx-auto mb-1 text-blue-600" size={24} />
-                <div className="font-bold text-gray-900 text-sm mb-0.5">Request Service</div>
+                <Briefcase className="mx-auto mb-1 text-[#2D6CDF]" size={24} />
+                <div className="font-bold text-[#1F1F1F] text-sm mb-0.5">Request Service</div>
                 <div className="text-xs text-gray-600">Need research help</div>
               </button>
               <button
                 type="button"
                 onClick={() => setFormData({ ...formData, role: 'freelancer' })}
-                className={`p-3 border-2 rounded-xl transition-all bg-white shadow-lg ${
-                  formData.role === 'freelancer'
-                    ? 'border-blue-600 ring-2 ring-blue-500/50'
-                    : 'border-gray-200 hover:border-blue-400'
-                }`}
+                className={`p-3 border-2 rounded-xl transition-all ${formData.role === 'freelancer'
+                    ? 'border-[#2D6CDF] ring-2 ring-[#2D6CDF]/50'
+                    : 'border-gray-200 hover:border-[#2D6CDF]'
+                  }`}
               >
-                <GraduationCap className="mx-auto mb-1 text-blue-600" size={24} />
-                <div className="font-bold text-gray-900 text-sm mb-0.5">Join as Expert</div>
+                <GraduationCap className="mx-auto mb-1 text-[#2D6CDF]" size={24} />
+                <div className="font-bold text-[#1F1F1F] text-sm mb-0.5">Join as Expert</div>
                 <div className="text-xs text-gray-600">I'm a researcher</div>
               </button>
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-3">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-bold text-gray-900 mb-1">First Name</label>
+                <label className="block text-sm font-bold text-[#1F1F1F] mb-2">First Name</label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
+                  <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                   <input
                     type="text"
                     value={formData.firstName}
                     onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                    placeholder="John"
+                    placeholder="First name"
                     required
-                    className="w-full pl-9 pr-3 py-2 text-sm bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 placeholder-gray-400 shadow-sm"
+                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2D6CDF] focus:border-transparent"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-bold text-gray-900 mb-1">Last Name</label>
+                <label className="block text-sm font-bold text-[#1F1F1F] mb-2">Last Name</label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
+                  <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                   <input
                     type="text"
                     value={formData.lastName}
                     onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                    placeholder="Doe"
+                    placeholder="Last name"
                     required
-                    className="w-full pl-9 pr-3 py-2 text-sm bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 placeholder-gray-400 shadow-sm"
+                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2D6CDF] focus:border-transparent"
                   />
                 </div>
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-900 mb-1">Email</label>
+              <label className="block text-sm font-bold text-[#1F1F1F] mb-2">Email Address</label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
+                <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                 <input
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="you@example.com"
                   required
-                  className="w-full pl-9 pr-3 py-2 text-sm bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 placeholder-gray-400 shadow-sm"
+                  className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2D6CDF] focus:border-transparent"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-900 mb-1">Contact Number</label>
+              <label className="block text-sm font-bold text-[#1F1F1F] mb-2">Phone Number</label>
               <div className="flex gap-2">
-                <div className="relative w-32">
-                  <button
-                    type="button"
-                    onClick={() => setShowCountryDropdown(!showCountryDropdown)}
-                    className="w-full px-3 py-2 text-sm bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 shadow-sm flex items-center justify-between"
+                <div className="relative">
+                  <select
+                    value={formData.countryCode}
+                    onChange={(e) => setFormData({ ...formData, countryCode: e.target.value })}
+                    className="w-20 px-2 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2D6CDF] focus:border-transparent appearance-none"
                   >
-                    <span>{topCountries.find(c => c.code === formData.countryCode)?.flag} {formData.countryCode}</span>
-                    <ChevronDown size={16} className="text-gray-400" />
-                  </button>
-                  {showCountryDropdown && (
-                    <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-xl z-50 max-h-60 overflow-y-auto">
-                      {topCountries.map((country) => (
-                        <button
-                          key={country.code}
-                          type="button"
-                          onClick={() => {
-                            setFormData({ ...formData, countryCode: country.code });
-                            setShowCountryDropdown(false);
-                          }}
-                          className="w-full px-3 py-2 text-left hover:bg-blue-50 transition-colors flex items-center gap-2 text-sm"
-                        >
-                          <span className="text-lg">{country.flag}</span>
-                          <span className="text-gray-700">{country.name}</span>
-                          <span className="text-gray-500 ml-auto">{country.code}</span>
-                        </button>
-                      ))}
-                    </div>
-                  )}
+                    {topCountries.map((country) => (
+                      <option key={country.code} value={country.code}>
+                        {country.code}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-                <div className="flex-1 relative">
-                  <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
+                <div className="relative flex-1">
+                  <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                   <input
                     type="tel"
                     value={formData.phoneNumber}
-                    onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value.replace(/\D/g, '') })}
-                    placeholder="Contact Number"
+                    onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+                    placeholder="Phone number"
                     required
-                    className="w-full pl-9 pr-3 py-2 text-sm bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 placeholder-gray-400 shadow-sm"
+                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2D6CDF] focus:border-transparent"
                   />
                 </div>
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-900 mb-1">Password</label>
+              <label className="block text-sm font-bold text-[#1F1F1F] mb-2">Password</label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
+                <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  placeholder="Min 8 characters"
+                  placeholder="Enter your password"
                   required
-                  minLength={8}
-                  className="w-full pl-9 pr-10 py-2 text-sm bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 placeholder-gray-400 shadow-sm"
+                  className="w-full pl-12 pr-12 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2D6CDF] focus:border-transparent"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
-                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-900 mb-1">Confirm Password</label>
+              <label className="block text-sm font-bold text-[#1F1F1F] mb-2">Confirm Password</label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
+                <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                 <input
                   type={showConfirmPassword ? 'text' : 'password'}
                   value={formData.confirmPassword}
                   onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                  placeholder="Re-enter password"
+                  placeholder="Confirm your password"
                   required
-                  className="w-full pl-9 pr-10 py-2 text-sm bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 placeholder-gray-400 shadow-sm"
+                  className="w-full pl-12 pr-12 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2D6CDF] focus:border-transparent"
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
-                  {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
               </div>
             </div>
 
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-              <label className="flex items-start cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={agreedToTerms}
-                  onChange={(e) => setAgreedToTerms(e.target.checked)}
-                  className="mt-0.5 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                />
-                <span className="ml-2 text-xs text-gray-700">
-                  I agree to Terms & Conditions, Privacy Policy, and Academic Integrity Policy
-                </span>
-              </label>
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                checked={agreedToTerms}
+                onChange={(e) => setAgreedToTerms(e.target.checked)}
+                className="w-4 h-4 text-[#2D6CDF] border-gray-300 rounded focus:ring-[#2D6CDF]"
+              />
+              <span className="ml-2 text-sm text-gray-700">
+                I agree to the <a href="#" className="text-[#2D6CDF] font-semibold hover:text-[#1F1F1F]">Terms and Conditions</a>
+              </span>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white py-2.5 rounded-lg font-bold hover:from-cyan-400 hover:to-blue-400 transition-all shadow-lg shadow-cyan-500/50 disabled:opacity-50 text-sm"
+              className="w-full bg-[#2D6CDF] text-white py-3 rounded-xl font-bold hover:bg-[#1F1F1F] transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'Creating...' : 'Create Account'}
+              {loading ? 'Creating account...' : 'Create Account'}
             </button>
           </form>
 
-          <div className="mt-4">
+          <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gray-300"></div>
               </div>
-              <div className="relative flex justify-center text-xs">
-                <span className="px-3 bg-gradient-to-br from-[#f0f4ff] via-[#dbe7ff] to-[#c0d4ff] text-gray-600">Or continue with</span>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-4 bg-white text-gray-500">Or continue with</span>
               </div>
             </div>
 
@@ -368,22 +450,22 @@ export default function SignupPage({ onSignup, onSwitchToLogin }: SignupPageProp
               type="button"
               onClick={handleGoogleSignup}
               disabled={loading}
-              className="w-full mt-3 flex items-center justify-center gap-2 bg-white border-2 border-gray-200 hover:border-blue-400 py-2.5 rounded-lg font-semibold transition-all text-sm text-gray-700 shadow-sm"
+              className="w-full mt-4 flex items-center justify-center gap-3 border-2 border-gray-300 py-3 rounded-xl font-semibold hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <GoogleIcon />
-              Google
+              {loading ? 'Signing up...' : 'Sign up with Google'}
             </button>
           </div>
+        </div>
 
-          <div className="text-center mt-4">
-            <span className="text-gray-600 text-sm">Already have an account? </span>
-            <button
-              onClick={onSwitchToLogin}
-              className="text-blue-600 font-bold hover:text-blue-700 transition-colors text-sm"
-            >
-              Sign in
-            </button>
-          </div>
+        <div className="text-center mt-6">
+          <span className="text-gray-600">Already have an account? </span>
+          <button
+            onClick={onSwitchToLogin}
+            className="text-[#2D6CDF] font-bold hover:text-[#1F1F1F] transition-colors"
+          >
+            Sign in
+          </button>
         </div>
       </div>
     </div>

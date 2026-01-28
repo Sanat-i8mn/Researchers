@@ -111,15 +111,13 @@ export default function PostProjectPage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Header */}
       <div className="bg-slate-800 border-b border-slate-700">
-        <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="max-w-7xl mx-auto px-6 py-3">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.location.href = '/'}>
-            <div className="w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">R</span>
-            </div>
-            <span className="text-xl font-bold text-white">
-
-              ResearchHub
-            </span>
+            <img
+              src="/images/logo.png"
+              alt="ResearchHub"
+              className="h-14 w-auto object-contain"
+            />
           </div>
         </div>
       </div>
