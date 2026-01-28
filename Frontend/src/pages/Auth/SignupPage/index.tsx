@@ -206,7 +206,7 @@ export default function SignupPage({ onSignup, onSwitchToLogin }: SignupPageProp
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#f0f4ff] via-[#dbe7ff] to-[#c0d4ff]">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#f0f4ff] via-[#dbe7ff] to-[#c0d4ff] pt-20">
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full"

@@ -15,6 +15,7 @@ export default function PostProjectPage() {
   const [lengthValue, setLengthValue] = useState<string>('');
   const [lengthUnit, setLengthUnit] = useState<'words' | 'pages'>('words');
   const [selectedExpertise, setSelectedExpertise] = useState<string[]>([]);
+  const [selectedMainExpertise, setSelectedMainExpertise] = useState<string>('');
   const [industryName, setIndustryName] = useState<string>('');
   const [showIndustryDropdown, setShowIndustryDropdown] = useState(false);
   const [projectTitle, setProjectTitle] = useState<string>('');
@@ -65,12 +66,82 @@ export default function PostProjectPage() {
     'Social Media Copy', 'Newsletter', 'UX Copy', 'SEO Writing', 'Web Copy'
   ];
 
+  const researchTypes = [
+    'Technology Scouting', 'Feasibility Study', 'Secondary Data Collection', 'User Research',
+    'Meta-Research', 'Systematic Literature Review', 'Gray Literature Search', 'Market Research',
+    'Fact Checking', 'Gap Analysis', 'Scientific and Technical Research'
+  ];
+
+  const marketResearchActivities = [
+    'Focus Group Moderation', 'Market Segmentation', 'Customer Journey Mapping/User Flow Mapping',
+    'Survey Result Analysis', 'Price-Point Research', 'One-on-One User Interviewing',
+    'Survey Design', 'User Observation', 'Ethnographic Research', 'Persona Definition',
+    'Feedback Clustering', 'Market Sizing', 'Conjoint Analysis'
+  ];
+
+  const marketResearchDeliverables = ['Report', 'Survey'];
+
+  const researchDeliverables = ['Report'];
+
+  const consultingTypes = [
+    'Scientific and Technical Consulting', 'Manufacturing Consulting', 'Business Strategy Consulting',
+    'Regulatory Consulting', 'Legal Consulting', 'Operations Consulting', 'Healthcare Consulting',
+    'Digital Strategy Consulting', 'Financial Consulting', 'Go-to-Market Strategy Consulting'
+  ];
+
+  const consultingDeliverables = ['Phone or Video Call', 'Slide Deck', 'Written Report', 'Workshop or Webinar'];
+
+  const dataAiTypes = [
+    'Image Analysis', 'Data Insights', 'Data Cleaning', 'Data Processing', 'Algorithm Design-ML',
+    'Text Mining & Analytics', 'Statistical Analysis', 'Algorithm Design-Non ML', 'Image Processing',
+    'Big Data Analytics', 'Data Visualization', 'Predictive Modeling', 'Data Mining'
+  ];
+
+  const imageAnalysisTechniques = ['Clustering', 'Similarity measures', 'Decision trees', 'Minimum spanning trees', 'Statistical image analysis'];
+  const dataCleaningActivities = ['Sorting', 'Machine translation', 'Convert data type', 'Handle missing values', 'Remove irrelevant data', 'Clear formatting', 'Fix errors', 'Standardize capitalization'];
+  const dataProcessingActivities = ['Sorting', 'Standardization', 'Validation', 'Computational operations'];
+  const algorithmDesignMLTechniques = ['Neural networks', 'Decision trees', 'Support vector machines', 'Gaussian mixture', 'KNN nearest neighbour'];
+  const textMiningTechniques = ['Text summarization', 'Natural language processing (NLP)', 'Information retrieval', 'Information extraction', 'Categorization', 'Clustering', 'Visualization'];
+  const statisticalActivities = ['Regression analysis', 'Mean calculation', 'Sample size determination', 'Standard deviation', 'Hypothesis testing'];
+  const algorithmDesignNonMLTechniques = ['Divide & conquer', 'Dynamic programming', 'Greedy algorithm', 'Genetic algorithms', 'Brute force', 'Backtracking', 'Transform & conquer'];
+  const imageProcessingTechniques = ['Image generation technique (GAN)', 'Image restoration', 'Template matching', 'Pixelation', 'Linear filtering', 'Independent component analysis'];
+  const bigDataAnalyticsTechniques = ['Regression analysis', 'Association rule learning', 'Genetic algorithms', 'Classification tree analysis'];
+  const dataVisualizationTechniques = ['Infographics', 'Dashboards', 'Charts', 'Tables', 'Maps', 'Graphs'];
+  const predictiveModelingTechniques = ['Neural networks', 'Gradient boosted model', 'Forecast model', 'Prophet model', 'Classification model', 'Time series model', 'Clustering model', 'Decision tree', 'General linear model', 'Outliers model'];
+  const dataMiningTechniques = ['Regression analysis', 'Association rules', 'Sequential patterns', 'Classification', 'Outlier detection'];
+
+  const productDevTypes = [
+    'Product Development', 'Product Validation', 'Quality Assurance & Control (QA/QC)', 'Formulation',
+    'Material Sourcing', 'Recipe Development', 'Product Evaluation', 'Product Launch Support',
+    'Packaging Design', 'Prototyping', 'Product Compliance', 'Deformulation', 'Concept Development',
+    'Stability/Shelf Life Testing', 'Reverse Engineering', 'Manufacturing', 'Device Fabrication'
+  ];
+
+  const productDevActivities = ['Lab work', 'Consulting call', 'Ship a sample or prototype'];
+
   const deliverables = ['Draft', 'Section of document', 'Full document'];
 
   const expertiseOptions = [
-    'Molecular Biology', 'Biochemistry', 'Medicine', 'Microbiology',
-    'Oncology', 'Chemistry', 'Public Health', 'Computer Science', 'Physics'
+    'Molecular Biology', 'Biochemistry', 'Medicine', 'Microbiology', 'Oncology', 'Chemistry', 'Public Health', 'Computer Science', 'Physics'
   ];
+
+  const researchExpertiseOptions = [
+    'Psychology', 'Molecular Biology', 'Chemistry', 'Public Health', 'Medicine', 'Physics', 'Genetics'
+  ];
+
+  const consultingExpertiseOptions = [
+    'Genetics', 'Molecular Biology', 'Microbiology', 'Food Science', 'Chemistry', 'Cosmetic & Skincare Formulation', 'Materials Science & Engineering'
+  ];
+
+  const dataAiExpertiseOptions = [
+    'Data Analysis', 'Machine Learning', 'Statistics', 'Bioinformatics', 'Artificial Intelligence', 'Computer Vision', 'Medicine', 'Applied Mathematics', 'Software Engineering'
+  ];
+
+  const productDevExpertiseOptions = [
+    'Food Science', 'Chemistry', 'Formulation', 'Medical Devices', 'Skin Care & Cosmetology', 'Biopolymers', 'Engineering Design', 'Genetics'
+  ];
+
+  const psychologySubFields = [];
 
   const industries = [
     'Academia', 'Accounting', 'Aerospace', 'Agriculture', 'Automotive', 'Aviation',
@@ -84,6 +155,10 @@ export default function PostProjectPage() {
     'Staffing & Recruiting', 'Telecommunications', 'Textiles', 'Transportation',
     'Travel & Tourism', 'Utilities', 'Veterinary'
   ];
+
+  const removeExpertise = (expertiseToRemove: string) => {
+    setSelectedExpertise(selectedExpertise.filter(e => e !== expertiseToRemove));
+  };
 
   const toggleExpertise = (expertise: string) => {
     if (selectedExpertise.includes(expertise)) {
@@ -414,6 +489,537 @@ export default function PostProjectPage() {
           </div>
         )}
 
+        {currentStep === 3 && selectedCategory === 'research' && (
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Choose a Type</h2>
+            <p className="text-gray-600 mb-6">
+              Select the primary goal of your project so that our experts understand your requirements.
+            </p>
+
+            {/* Types for Research */}
+            <div className="mb-8">
+              <h3 className="text-sm font-semibold text-gray-700 mb-3">Types for Research</h3>
+              <div className="grid grid-cols-2 gap-3">
+                {researchTypes.map((type) => (
+                  <button
+                    key={type}
+                    onClick={() => setSelectedType(type)}
+                    className={`px-4 py-2.5 text-sm border rounded-lg text-left transition-all ${
+                      selectedType === type
+                        ? 'border-blue-600 bg-blue-50 text-blue-600 font-semibold'
+                        : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                    }`}
+                  >
+                    {type}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Activity - Only show for Market Research */}
+            {selectedType === 'Market Research' && (
+              <div className="mb-8">
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">Activity</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {marketResearchActivities.map((activity) => (
+                    <button
+                      key={activity}
+                      onClick={() => setSelectedActivity(activity)}
+                      className={`px-4 py-2.5 text-sm border rounded-lg text-left transition-all ${
+                        selectedActivity === activity
+                          ? 'border-blue-600 bg-blue-50 text-blue-600 font-semibold'
+                          : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                      }`}
+                    >
+                      {activity}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Deliverable */}
+            <div className="mb-8">
+              <h3 className="text-sm font-semibold text-gray-700 mb-3">Deliverable</h3>
+              <div className="grid grid-cols-3 gap-3">
+                {(selectedType === 'Market Research' ? marketResearchDeliverables : researchDeliverables).map((deliverable) => (
+                  <button
+                    key={deliverable}
+                    onClick={() => setSelectedDeliverable(deliverable)}
+                    className={`px-4 py-2.5 text-sm border rounded-lg text-left transition-all ${
+                      selectedDeliverable === deliverable
+                        ? 'border-blue-600 bg-blue-50 text-blue-600 font-semibold'
+                        : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                    }`}
+                  >
+                    {deliverable}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="border-t border-gray-200 pt-6 flex justify-between">
+              <button
+                onClick={() => setCurrentStep(2)}
+                className="flex items-center gap-2 px-6 py-3 text-gray-700 font-semibold hover:text-gray-900 transition-all"
+              >
+                <span>←</span> Back
+              </button>
+              <button
+                disabled={!selectedType || !selectedDeliverable || (selectedType === 'Market Research' && !selectedActivity)}
+                onClick={() => setCurrentStep(4)}
+                className={`px-8 py-3 rounded-lg font-semibold transition-all ${
+                  selectedType && selectedDeliverable && (selectedType !== 'Market Research' || selectedActivity)
+                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                }`}
+              >
+                Next →
+              </button>
+            </div>
+          </div>
+        )}
+
+        {currentStep === 3 && selectedCategory === 'consulting' && (
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Choose a Type</h2>
+            <p className="text-gray-600 mb-6">
+              Select the primary goal of your project so that our experts understand your requirements.
+            </p>
+
+            {/* Types for Consulting */}
+            <div className="mb-8">
+              <h3 className="text-sm font-semibold text-gray-700 mb-3">Types for Consulting</h3>
+              <div className="grid grid-cols-2 gap-3">
+                {consultingTypes.map((type) => (
+                  <button
+                    key={type}
+                    onClick={() => setSelectedType(type)}
+                    className={`px-4 py-2.5 text-sm border rounded-lg text-left transition-all ${
+                      selectedType === type
+                        ? 'border-blue-600 bg-blue-50 text-blue-600 font-semibold'
+                        : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                    }`}
+                  >
+                    {type}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Deliverable */}
+            <div className="mb-8">
+              <h3 className="text-sm font-semibold text-gray-700 mb-3">Deliverable</h3>
+              <div className="grid grid-cols-2 gap-3">
+                {consultingDeliverables.map((deliverable) => (
+                  <button
+                    key={deliverable}
+                    onClick={() => setSelectedDeliverable(deliverable)}
+                    className={`px-4 py-2.5 text-sm border rounded-lg text-left transition-all ${
+                      selectedDeliverable === deliverable
+                        ? 'border-blue-600 bg-blue-50 text-blue-600 font-semibold'
+                        : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                    }`}
+                  >
+                    {deliverable}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="border-t border-gray-200 pt-6 flex justify-between">
+              <button
+                onClick={() => setCurrentStep(2)}
+                className="flex items-center gap-2 px-6 py-3 text-gray-700 font-semibold hover:text-gray-900 transition-all"
+              >
+                <span>←</span> Back
+              </button>
+              <button
+                disabled={!selectedType || !selectedDeliverable}
+                onClick={() => setCurrentStep(4)}
+                className={`px-8 py-3 rounded-lg font-semibold transition-all ${
+                  selectedType && selectedDeliverable
+                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                }`}
+              >
+                Next →
+              </button>
+            </div>
+          </div>
+        )}
+
+        {currentStep === 3 && selectedCategory === 'data-ai' && (
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Choose a Type</h2>
+            <p className="text-gray-600 mb-6">
+              Select the primary goal of your project so that our experts understand your requirements.
+            </p>
+
+            {/* Types for Data & AI */}
+            <div className="mb-8">
+              <h3 className="text-sm font-semibold text-gray-700 mb-3">Types for Data & AI</h3>
+              <div className="grid grid-cols-2 gap-3">
+                {dataAiTypes.map((type) => (
+                  <button
+                    key={type}
+                    onClick={() => setSelectedType(type)}
+                    className={`px-4 py-2.5 text-sm border rounded-lg text-left transition-all ${
+                      selectedType === type
+                        ? 'border-blue-600 bg-blue-50 text-blue-600 font-semibold'
+                        : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                    }`}
+                  >
+                    {type}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Conditional Techniques/Activities */}
+            {selectedType === 'Image Analysis' && (
+              <div className="mb-8">
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">Techniques</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {imageAnalysisTechniques.map((technique) => (
+                    <button
+                      key={technique}
+                      onClick={() => setSelectedActivity(technique)}
+                      className={`px-4 py-2.5 text-sm border rounded-lg text-left transition-all ${
+                        selectedActivity === technique
+                          ? 'border-blue-600 bg-blue-50 text-blue-600 font-semibold'
+                          : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                      }`}
+                    >
+                      {technique}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {selectedType === 'Data Cleaning' && (
+              <div className="mb-8">
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">Activity</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {dataCleaningActivities.map((activity) => (
+                    <button
+                      key={activity}
+                      onClick={() => setSelectedActivity(activity)}
+                      className={`px-4 py-2.5 text-sm border rounded-lg text-left transition-all ${
+                        selectedActivity === activity
+                          ? 'border-blue-600 bg-blue-50 text-blue-600 font-semibold'
+                          : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                      }`}
+                    >
+                      {activity}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {selectedType === 'Data Processing' && (
+              <div className="mb-8">
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">Activity</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {dataProcessingActivities.map((activity) => (
+                    <button
+                      key={activity}
+                      onClick={() => setSelectedActivity(activity)}
+                      className={`px-4 py-2.5 text-sm border rounded-lg text-left transition-all ${
+                        selectedActivity === activity
+                          ? 'border-blue-600 bg-blue-50 text-blue-600 font-semibold'
+                          : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                      }`}
+                    >
+                      {activity}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {selectedType === 'Algorithm Design-ML' && (
+              <div className="mb-8">
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">Techniques</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {algorithmDesignMLTechniques.map((technique) => (
+                    <button
+                      key={technique}
+                      onClick={() => setSelectedActivity(technique)}
+                      className={`px-4 py-2.5 text-sm border rounded-lg text-left transition-all ${
+                        selectedActivity === technique
+                          ? 'border-blue-600 bg-blue-50 text-blue-600 font-semibold'
+                          : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                      }`}
+                    >
+                      {technique}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {selectedType === 'Text Mining & Analytics' && (
+              <div className="mb-8">
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">Techniques</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {textMiningTechniques.map((technique) => (
+                    <button
+                      key={technique}
+                      onClick={() => setSelectedActivity(technique)}
+                      className={`px-4 py-2.5 text-sm border rounded-lg text-left transition-all ${
+                        selectedActivity === technique
+                          ? 'border-blue-600 bg-blue-50 text-blue-600 font-semibold'
+                          : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                      }`}
+                    >
+                      {technique}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {selectedType === 'Statistical Analysis' && (
+              <div className="mb-8">
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">Activity</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {statisticalActivities.map((activity) => (
+                    <button
+                      key={activity}
+                      onClick={() => setSelectedActivity(activity)}
+                      className={`px-4 py-2.5 text-sm border rounded-lg text-left transition-all ${
+                        selectedActivity === activity
+                          ? 'border-blue-600 bg-blue-50 text-blue-600 font-semibold'
+                          : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                      }`}
+                    >
+                      {activity}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {selectedType === 'Algorithm Design-Non ML' && (
+              <div className="mb-8">
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">Techniques</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {algorithmDesignNonMLTechniques.map((technique) => (
+                    <button
+                      key={technique}
+                      onClick={() => setSelectedActivity(technique)}
+                      className={`px-4 py-2.5 text-sm border rounded-lg text-left transition-all ${
+                        selectedActivity === technique
+                          ? 'border-blue-600 bg-blue-50 text-blue-600 font-semibold'
+                          : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                      }`}
+                    >
+                      {technique}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {selectedType === 'Image Processing' && (
+              <div className="mb-8">
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">Techniques</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {imageProcessingTechniques.map((technique) => (
+                    <button
+                      key={technique}
+                      onClick={() => setSelectedActivity(technique)}
+                      className={`px-4 py-2.5 text-sm border rounded-lg text-left transition-all ${
+                        selectedActivity === technique
+                          ? 'border-blue-600 bg-blue-50 text-blue-600 font-semibold'
+                          : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                      }`}
+                    >
+                      {technique}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {selectedType === 'Big Data Analytics' && (
+              <div className="mb-8">
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">Techniques</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {bigDataAnalyticsTechniques.map((technique) => (
+                    <button
+                      key={technique}
+                      onClick={() => setSelectedActivity(technique)}
+                      className={`px-4 py-2.5 text-sm border rounded-lg text-left transition-all ${
+                        selectedActivity === technique
+                          ? 'border-blue-600 bg-blue-50 text-blue-600 font-semibold'
+                          : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                      }`}
+                    >
+                      {technique}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {selectedType === 'Data Visualization' && (
+              <div className="mb-8">
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">Techniques</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {dataVisualizationTechniques.map((technique) => (
+                    <button
+                      key={technique}
+                      onClick={() => setSelectedActivity(technique)}
+                      className={`px-4 py-2.5 text-sm border rounded-lg text-left transition-all ${
+                        selectedActivity === technique
+                          ? 'border-blue-600 bg-blue-50 text-blue-600 font-semibold'
+                          : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                      }`}
+                    >
+                      {technique}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {selectedType === 'Predictive Modeling' && (
+              <div className="mb-8">
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">Techniques</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {predictiveModelingTechniques.map((technique) => (
+                    <button
+                      key={technique}
+                      onClick={() => setSelectedActivity(technique)}
+                      className={`px-4 py-2.5 text-sm border rounded-lg text-left transition-all ${
+                        selectedActivity === technique
+                          ? 'border-blue-600 bg-blue-50 text-blue-600 font-semibold'
+                          : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                      }`}
+                    >
+                      {technique}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {selectedType === 'Data Mining' && (
+              <div className="mb-8">
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">Techniques</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {dataMiningTechniques.map((technique) => (
+                    <button
+                      key={technique}
+                      onClick={() => setSelectedActivity(technique)}
+                      className={`px-4 py-2.5 text-sm border rounded-lg text-left transition-all ${
+                        selectedActivity === technique
+                          ? 'border-blue-600 bg-blue-50 text-blue-600 font-semibold'
+                          : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                      }`}
+                    >
+                      {technique}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="border-t border-gray-200 pt-6 flex justify-between">
+              <button
+                onClick={() => setCurrentStep(2)}
+                className="flex items-center gap-2 px-6 py-3 text-gray-700 font-semibold hover:text-gray-900 transition-all"
+              >
+                <span>←</span> Back
+              </button>
+              <button
+                disabled={!selectedType || (selectedType !== 'Data Insights' && !selectedActivity)}
+                onClick={() => setCurrentStep(4)}
+                className={`px-8 py-3 rounded-lg font-semibold transition-all ${
+                  selectedType && (selectedType === 'Data Insights' || selectedActivity)
+                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                }`}
+              >
+                Next →
+              </button>
+            </div>
+          </div>
+        )}
+
+        {currentStep === 3 && selectedCategory === 'product-dev' && (
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Choose a Type</h2>
+            <p className="text-gray-600 mb-6">
+              Select the primary goal of your project so that our experts understand your requirements.
+            </p>
+
+            {/* Types for Product Development */}
+            <div className="mb-8">
+              <h3 className="text-sm font-semibold text-gray-700 mb-3">Types for Product Development</h3>
+              <div className="grid grid-cols-2 gap-3">
+                {productDevTypes.map((type) => (
+                  <button
+                    key={type}
+                    onClick={() => setSelectedType(type)}
+                    className={`px-4 py-2.5 text-sm border rounded-lg text-left transition-all ${
+                      selectedType === type
+                        ? 'border-blue-600 bg-blue-50 text-blue-600 font-semibold'
+                        : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                    }`}
+                  >
+                    {type}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Activity */}
+            <div className="mb-8">
+              <h3 className="text-sm font-semibold text-gray-700 mb-3">Activity</h3>
+              <div className="grid grid-cols-3 gap-3">
+                {productDevActivities.map((activity) => (
+                  <button
+                    key={activity}
+                    onClick={() => setSelectedActivity(activity)}
+                    className={`px-4 py-2.5 text-sm border rounded-lg text-left transition-all ${
+                      selectedActivity === activity
+                        ? 'border-blue-600 bg-blue-50 text-blue-600 font-semibold'
+                        : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                    }`}
+                  >
+                    {activity}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="border-t border-gray-200 pt-6 flex justify-between">
+              <button
+                onClick={() => setCurrentStep(2)}
+                className="flex items-center gap-2 px-6 py-3 text-gray-700 font-semibold hover:text-gray-900 transition-all"
+              >
+                <span>←</span> Back
+              </button>
+              <button
+                disabled={!selectedType || !selectedActivity}
+                onClick={() => setCurrentStep(4)}
+                className={`px-8 py-3 rounded-lg font-semibold transition-all ${
+                  selectedType && selectedActivity
+                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                }`}
+              >
+                Next →
+              </button>
+            </div>
+          </div>
+        )}
+
         {currentStep === 4 && (
           <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2">What kind of expertise would you like the freelancer to have?</h2>
@@ -421,10 +1027,41 @@ export default function PostProjectPage() {
               What kind of expertise would you like the freelancer to have?
             </p>
 
-            {/* Expertise Tags */}
+            {/* Selected Expertise Display - Always at top */}
+            <div className="mb-8">
+              <h3 className="text-sm font-semibold text-gray-700 mb-3">Selected Expertise</h3>
+              <div className="min-h-[80px] p-4 border border-gray-300 rounded-lg bg-gray-50">
+                {selectedExpertise.length > 0 ? (
+                  <div className="flex flex-wrap gap-2">
+                    {selectedExpertise.map((expertise, index) => (
+                      <span
+                        key={index}
+                        className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm"
+                      >
+                        {expertise}
+                        <button
+                          onClick={() => removeExpertise(expertise)}
+                          className="text-blue-600 hover:text-blue-800 font-bold"
+                        >
+                          ×
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-gray-500 text-sm">Your selected expertise will appear here...</p>
+                )}
+              </div>
+            </div>
+
+            {/* Expertise Selection */}
             <div className="mb-8">
               <div className="flex flex-wrap gap-3">
-                {expertiseOptions.map((expertise) => (
+                {(selectedCategory === 'research' ? researchExpertiseOptions : 
+                  selectedCategory === 'consulting' ? consultingExpertiseOptions : 
+                  selectedCategory === 'data-ai' ? dataAiExpertiseOptions :
+                  selectedCategory === 'product-dev' ? productDevExpertiseOptions :
+                  expertiseOptions).map((expertise) => (
                   <button
                     key={expertise}
                     onClick={() => toggleExpertise(expertise)}

@@ -45,8 +45,8 @@ export default function Navbar({ onNavigate, onViewProfile, onLogout }: NavbarPr
 
       <div className={`absolute inset-0 backdrop-blur-md border-b transition-all ${scrolled ? 'bg-white/10 border-white/20' : 'bg-white/5 border-white/10'}`}></div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-16 relative z-10">
-        <div className="flex justify-between items-center h-16 md:h-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="flex justify-between items-center h-16 md:h-17">
           <div className="flex items-center gap-8 lg:gap-12">
             <div
               className="flex items-center gap-2 cursor-pointer group"

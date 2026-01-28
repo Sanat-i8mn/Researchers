@@ -6,7 +6,7 @@ export default function VerificationCertificationPage() {
   const [activeTab, setActiveTab] = useState<'verification' | 'certification'>('verification');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0A0E27] via-[#1a1f3a] to-[#0f1629] py-12">
+    <div className="min-h-screen bg-gradient-to-br from-[#0A0E27] via-[#1a1f3a] to-[#0f1629] py-12 pt-20">
       <div className="max-w-[1400px] mx-auto px-6">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">

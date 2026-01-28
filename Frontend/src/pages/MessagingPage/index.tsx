@@ -102,7 +102,7 @@ export default function MessagingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0A0E27] via-[#1a1f3a] to-[#0f1629]">
+    <div className="min-h-screen bg-gradient-to-br from-[#0A0E27] via-[#1a1f3a] to-[#0f1629] pt-20">
       <div className="max-w-[1600px] mx-auto p-6">
         <div className="bg-yellow-500/20 border-2 border-yellow-400/30 rounded-xl p-4 mb-6 flex items-start gap-3">
           <Shield className="text-yellow-400 flex-shrink-0 mt-0.5" size={20} />
