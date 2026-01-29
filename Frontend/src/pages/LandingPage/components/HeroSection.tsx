@@ -318,7 +318,7 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
   useEffect(() => {
     const interval = setInterval(
       () => setCurrentImageIndex((i) => (i + 1) % researcherImages.length),
-      4500
+      7000
     )
     return () => clearInterval(interval)
   }, [])
@@ -472,51 +472,78 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
             transition={{ duration: 1 }}
             className="relative hidden md:flex justify-center"
           >
-            <AnimatePresence mode="wait">
+            {/* Deep Teal Background Card - Fixed */}
+            <div className="relative bg-gradient-to-br from-[#2C5F6F] to-[#1A3D4A] rounded-[2rem] p-8 shadow-2xl">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentImageIndex}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 1.2, ease: 'easeInOut' }}
+                >
+                  <motion.img
+                    src={researcherImages[currentImageIndex].src}
+                    alt=""
+                    className="h-[450px] w-[340px] rounded-2xl object-cover object-top"
+                    style={{
+                      boxShadow: '0 25px 50px rgba(0,0,0,0.3)',
+                    }}
+                  />
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Verified Badge */}
               <motion.div
-                key={currentImageIndex}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-                className="relative p-1 bg-gradient-to-br from-blue-400 via-blue-500 to-indigo-500 rounded-3xl"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.3, type: 'spring' }}
+                className="absolute -top-3 -right-3 rounded-full bg-green-500 p-3 shadow-xl border-4 border-white"
               >
-                <motion.img
-                  src={researcherImages[currentImageIndex].src}
-                  alt=""
-                  className="h-[420px] w-[320px] rounded-3xl object-cover"
-                  style={{
-                    boxShadow:
-                      '0 40px 80px rgba(37,99,235,0.25)',
-                  }}
-                />
+                <CheckCircle className="text-white" size={24} />
+              </motion.div>
 
-                {/* Badge */}
-                <div className="absolute top-4 right-4 rounded-full bg-green-500 p-2 shadow-lg">
-                  <CheckCircle className="text-white" size={22} />
-                </div>
-
-                {/* Info card */}
-                <div className="absolute bottom-4 left-4 right-4 rounded-2xl bg-white/90 backdrop-blur p-4 shadow-xl">
+              {/* Info Card - Positioned at bottom */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentImageIndex}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 1, ease: 'easeInOut' }}
+                  className="absolute -bottom-6 left-8 right-8 rounded-2xl bg-white shadow-2xl p-5 border border-gray-100"
+                >
                   <div className="flex justify-between items-center">
                     <div>
-                      <h3 className="font-semibold text-gray-900">
+                      <h3 className="font-bold text-gray-900 text-lg">
                         {researcherImages[currentImageIndex].name}
                       </h3>
-                      <p className="text-sm text-blue-600">
+                      <p className="text-sm text-gray-600 mt-0.5">
                         {researcherImages[currentImageIndex].field}
                       </p>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <Star className="text-yellow-400 fill-yellow-400" size={18} />
-                      <span className="font-semibold">
+                    <div className="flex items-center gap-1 bg-yellow-50 px-3 py-1.5 rounded-full">
+                      <Star className="text-yellow-500 fill-yellow-500" size={16} />
+                      <span className="font-bold text-gray-900 text-sm">
                         {researcherImages[currentImageIndex].rating}
                       </span>
                     </div>
                   </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Decorative Elements */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                className="absolute -top-4 -left-4 w-20 h-20 border-4 border-blue-400/30 rounded-full"
+              />
+              <motion.div
+                animate={{ rotate: -360 }}
+                transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
+                className="absolute -bottom-4 -right-4 w-16 h-16 border-4 border-indigo-400/30 rounded-full"
+              />
+            </div>
           </motion.div>
         </div>
       </div>

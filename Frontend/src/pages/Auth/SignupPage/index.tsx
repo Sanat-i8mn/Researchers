@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { Mail, Lock, User, Eye, EyeOff, Briefcase, GraduationCap, Phone, ChevronDown } from 'lucide-react';
+import { Mail, Lock, User, Phone, X, Eye, EyeOff } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { googleSignup } from '../../../services/api';
-import { useEffect, useRef } from 'react';
 
 const topCountries = [
   { code: '+1', name: 'United States', flag: '🇺🇸' },
@@ -15,28 +14,22 @@ const topCountries = [
   { code: '+61', name: 'Australia', flag: '🇦🇺' },
   { code: '+7', name: 'Russia', flag: '🇷🇺' },
   { code: '+55', name: 'Brazil', flag: '🇧🇷' },
-  { code: '+82', name: 'South Korea', flag: '🇰🇷' },
-  { code: '+39', name: 'Italy', flag: '🇮🇹' },
-  { code: '+34', name: 'Spain', flag: '🇪🇸' },
-  { code: '+52', name: 'Mexico', flag: '🇲🇽' },
-  { code: '+971', name: 'UAE', flag: '🇦🇪' },
 ];
 
-const GoogleIcon = () => (
+const LinkedInIcon = () => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M19.9895 10.1871C19.9895 9.36767 19.9214 8.76973 19.7742 8.14966H10.1992V11.848H15.8195C15.7062 12.7671 15.0943 14.1512 13.7346 15.0813L13.7155 15.2051L16.7429 17.4969L16.9527 17.5174C18.8789 15.7789 19.9895 13.221 19.9895 10.1871Z" fill="#4285F4"/>
-    <path d="M10.1993 19.9313C12.9527 19.9313 15.2643 19.0454 16.9527 17.5174L13.7346 15.0813C12.8734 15.6682 11.7176 16.0779 10.1993 16.0779C7.50243 16.0779 5.21352 14.3395 4.39759 11.9366L4.27799 11.9466L1.13003 14.3273L1.08887 14.4391C2.76588 17.6945 6.21061 19.9313 10.1993 19.9313Z" fill="#34A853"/>
-    <path d="M4.39748 11.9366C4.18219 11.3166 4.05759 10.6521 4.05759 9.96565C4.05759 9.27909 4.18219 8.61473 4.38615 7.99466L4.38045 7.8626L1.19304 5.44366L1.08875 5.49214C0.397576 6.84305 0.000976562 8.36008 0.000976562 9.96565C0.000976562 11.5712 0.397576 13.0882 1.08875 14.4391L4.39748 11.9366Z" fill="#FBBC05"/>
-    <path d="M10.1993 3.85336C12.1142 3.85336 13.406 4.66168 14.1425 5.33717L17.0207 2.59107C15.253 0.985496 12.9527 0 10.1993 0C6.2106 0 2.76588 2.23672 1.08887 5.49214L4.38626 7.99466C5.21352 5.59183 7.50242 3.85336 10.1993 3.85336Z" fill="#EB4335"/>
+    <path d="M18.5195 0H1.47656C0.660156 0 0 0.644531 0 1.44141V18.5547C0 19.3516 0.660156 20 1.47656 20H18.5195C19.3359 20 20 19.3516 20 18.5586V1.44141C20 0.644531 19.3359 0 18.5195 0ZM5.93359 17.043H2.96484V7.49609H5.93359V17.043ZM4.44922 6.19531C3.49609 6.19531 2.72656 5.42578 2.72656 4.47656C2.72656 3.52734 3.49609 2.75781 4.44922 2.75781C5.39844 2.75781 6.16797 3.52734 6.16797 4.47656C6.16797 5.42188 5.39844 6.19531 4.44922 6.19531ZM17.043 17.043H14.0781V12.4023C14.0781 11.2969 14.0586 9.87109 12.5352 9.87109C10.9922 9.87109 10.7578 11.0781 10.7578 12.3242V17.043H7.79297V7.49609H10.6406V8.80078H10.6797C11.0742 8.05078 12.043 7.25781 13.4844 7.25781C16.4883 7.25781 17.043 9.23438 17.043 11.8047V17.043Z" fill="white"/>
   </svg>
 );
 
 interface SignupPageProps {
   onSignup: (data: any) => void;
   onSwitchToLogin: () => void;
+  onLogin?: (email: string, password: string) => void;
 }
 
-export default function SignupPage({ onSignup, onSwitchToLogin }: SignupPageProps) {
+export default function SignupPage({ onSignup, onSwitchToLogin, onLogin }: SignupPageProps) {
+  const [activeTab, setActiveTab] = useState<'login' | 'signup'>('signup');
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -44,104 +37,42 @@ export default function SignupPage({ onSignup, onSwitchToLogin }: SignupPageProp
     countryCode: '+1',
     phoneNumber: '',
     password: '',
-    confirmPassword: '',
+    hearAbout: '',
     role: 'freelancer' as 'client' | 'freelancer'
   });
+  const [loginData, setLoginData] = useState({
+    email: '',
+    password: ''
+  });
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
+  const [wantsUpdates, setWantsUpdates] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [showCountryDropdown, setShowCountryDropdown] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+  const handleLoginSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
 
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const particles: Array<{
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      radius: number;
-    }> = [];
-
-    for (let i = 0; i < 80; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-        radius: Math.random() * 2 + 1,
-      });
+    try {
+      if (onLogin) {
+        await onLogin(loginData.email, loginData.password);
+        toast.success('Login successful!');
+      } else {
+        onSwitchToLogin();
+      }
+    } catch (err: any) {
+      toast.error(err.message || 'Login failed. Please check your credentials.');
+    } finally {
+      setLoading(false);
     }
-
-    let animationId: number;
-
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      particles.forEach((particle, i) => {
-        particle.x += particle.vx;
-        particle.y += particle.vy;
-
-        if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
-        if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
-
-        ctx.beginPath();
-        ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(59, 130, 246, 0.6)';
-        ctx.fill();
-
-        particles.forEach((otherParticle, j) => {
-          if (i === j) return;
-          const dx = particle.x - otherParticle.x;
-          const dy = particle.y - otherParticle.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < 150) {
-            ctx.beginPath();
-            ctx.moveTo(particle.x, particle.y);
-            ctx.lineTo(otherParticle.x, otherParticle.y);
-            ctx.strokeStyle = `rgba(59, 130, 246, ${0.2 * (1 - distance / 150)})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        });
-      });
-
-      animationId = requestAnimationFrame(animate);
-    };
-
-    animate();
-
-    const handleResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      cancelAnimationFrame(animationId);
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (formData.password !== formData.confirmPassword) {
-      toast.error('Passwords do not match');
-      return;
-    }
-    if (!agreedToTerms) {
+    if (!agreedToTerms || !agreedToPrivacy) {
       toast.error('Please agree to the terms and conditions');
       return;
     }
@@ -170,307 +101,350 @@ export default function SignupPage({ onSignup, onSwitchToLogin }: SignupPageProp
     }
   };
 
-  const handleGoogleSignup = () => {
-    const clientId = '179509708444-hnlbsa5qpugc4kq3p4qb3u1kiu92qqgg.apps.googleusercontent.com';
-    
-    // if (window.google) {
-    //   window.google.accounts.id.initialize({
-    //     client_id: clientId,
-    //     callback: handleGoogleCallback
-    //   });
-    //   window.google.accounts.id.prompt();
-    // } else {
-    //   toast.error('Google Sign-In is not available.');
-    // }
-  };
-
-  const handleGoogleCallback = async (response: any) => {
-    setLoading(true);
-    try {
-      const result = await googleSignup(response.credential, formData.role);
-      if (result.success) {
-        toast.success('Google signup successful!');
-        setTimeout(() => {
-          onSignup({ 
-            fullname: result.user.fullname,
-            email: result.user.email,
-            role: result.user.role
-          });
-        }, 1000);
-      }
-    } catch (err: any) {
-      toast.error(err.message || 'Google signup failed.');
-    } finally {
-      setLoading(false);
-    }
+  const handleLinkedInSignup = () => {
+    toast.info('LinkedIn signup coming soon!');
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#f0f4ff] via-[#dbe7ff] to-[#c0d4ff] ">
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 w-full h-full"
-      />
-      {/* Glow orbs */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-40 right-32 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute bottom-32 left-1/3 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+    <div className="min-h-screen flex items-start justify-center p-4 bg-gradient-to-br from-green-50 via-blue-50 to-gray-100 pt-8 relative overflow-hidden">
+      {/* Animated background shapes */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-green-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-40 right-20 w-96 h-96 bg-blue-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-teal-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
       </div>
       
-      {/* Floating emojis */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {['📚', '🔬', '💡', '📊', '🎓', '✍️', '🔍', '📝'].map((emoji, i) => (
-          <div
-            key={i}
-            className="absolute text-white/10 text-6xl"
-            style={{
-              left: `${10 + (i * 12)}%`,
-              top: `${20 + (i % 3) * 25}%`,
-              animation: `float ${8 + i * 2}s ease-in-out infinite`,
-              animationDelay: `${i * 0.5}s`
-            }}
-          >
-            {emoji}
-          </div>
-        ))}
-      </div>
+      {/* Subtle pattern overlay */}
+      <div className="absolute inset-0 opacity-5" style={{
+        backgroundImage: 'radial-gradient(circle at 2px 2px, gray 1px, transparent 0)',
+        backgroundSize: '40px 40px'
+      }}></div>
       
       <style>{`
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0px);
+        @keyframes borderAnimation {
+          0% {
+            background-position: 0% 50%;
           }
           50% {
-            transform: translateY(-20px);
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
           }
         }
+        .animated-border {
+          position: relative;
+          background: white;
+        }
+        .animated-border::before {
+          content: '';
+          position: absolute;
+          inset: -2px;
+          border-radius: 0.5rem;
+          padding: 2px;
+          background: linear-gradient(90deg, #000, #444, #000, #444);
+          background-size: 200% 100%;
+          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+          animation: borderAnimation 3s linear infinite;
+          z-index: -1;
+        }
       `}</style>
-      
-      <div className="max-w-3xl w-full relative z-10">
-        <div className="text-center mb-8">
-          {/* <button 
-            onClick={() => window.location.href = '/'}
-            className="w-50 h-15 rounded-2xl flex items-center justify-center mx-auto mb-4 cursor-pointer"
-          >
-            <img
-              src="/images/login.png"
-              alt="ResearchHub"
-              className="h-16 w-auto object-contain"
-            />
-          </button> */}
-          <div className="text-center mt-6">
-          <span className="text-gray-600">Already have an account? </span>
-          <button
-            onClick={onSwitchToLogin}
-            className="text-[#2D6CDF] font-bold hover:text-[#1F1F1F] transition-colors"
-          >
-            Sign in
-          </button>
-        </div>
-          {/* <h1 className="text-3xl font-bold text-gray-800 mb-2">Join ResearchHub</h1> */}
-          <p className="text-gray-700">Create your account to get started</p>
-        </div>
-        
+      <div className="w-full max-w-sm bg-white/95 backdrop-blur-sm rounded-lg shadow-2xl relative animated-border">
+        <button 
+          onClick={() => window.history.back()}
+          className="absolute -top-3 -right-3 w-8 h-8 flex items-center justify-center bg-gray-800 text-white rounded-full hover:bg-gray-700 transition-colors z-10"
+        >
+          <X size={18} />
+        </button>
 
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          <div className="mb-6">
-            <label className="block text-sm font-bold text-[#1F1F1F] mb-2">I want to:</label>
-            { /* here i chnaged the grid to 1 col from 2 */ }
-
-            <div className="grid grid-cols-1 gap-3">
-              {/* <button
-                type="button"
-                onClick={() => setFormData({ ...formData, role: 'client' })}
-                className={`p-3 border-2 rounded-xl transition-all ${formData.role === 'client'
-                    ? 'border-[#2D6CDF] ring-2 ring-[#2D6CDF]/50'
-                    : 'border-gray-200 hover:border-[#2D6CDF]'
-                  }`}
-              >
-                <Briefcase className="mx-auto mb-1 text-[#2D6CDF]" size={24} />
-                <div className="font-bold text-[#1F1F1F] text-sm mb-0.5">Request Service</div>
-                <div className="text-xs text-gray-600">Need research help</div>
-              </button> */}
-              <button
-                type="button"
-                onClick={() => setFormData({ ...formData, role: 'freelancer' })}
-                className={`p-3 border-2 rounded-xl transition-all ${formData.role === 'freelancer'
-                    ? 'border-[#2D6CDF] ring-2 ring-[#2D6CDF]/50'
-                    : 'border-gray-200 hover:border-[#2D6CDF]'
-                  }`}
-              >
-                <GraduationCap className="mx-auto mb-1 text-[#2D6CDF]" size={24} />
-                <div className="font-bold text-[#1F1F1F] text-sm mb-0.5">Join as Expert</div>
-                <div className="text-xs text-gray-600">I'm a researcher</div>
-              </button>
-            </div>
+        <div className="border-b border-gray-200">
+          <div className="flex">
+            <button
+              onClick={() => setActiveTab('login')}
+              className={`flex-1 py-4 text-center font-semibold transition-colors ${
+                activeTab === 'login'
+                  ? 'text-gray-900 border-b-2 border-green-500'
+                  : 'text-gray-500'
+              }`}
+            >
+              Log in
+            </button>
+            <button
+              onClick={() => setActiveTab('signup')}
+              className={`flex-1 py-4 text-center font-semibold transition-colors ${
+                activeTab === 'signup'
+                  ? 'text-gray-900 border-b-2 border-green-500'
+                  : 'text-gray-500'
+              }`}
+            >
+              Create account
+            </button>
           </div>
+        </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-sm font-bold text-[#1F1F1F] mb-2">First Name</label>
-                <div className="relative">
-                  <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                  <input
-                    type="text"
-                    value={formData.firstName}
-                    onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                    placeholder="First name"
-                    required
-                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2D6CDF] focus:border-transparent"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-[#1F1F1F] mb-2">Last Name</label>
-                <div className="relative">
-                  <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                  <input
-                    type="text"
-                    value={formData.lastName}
-                    onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                    placeholder="Last name"
-                    required
-                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2D6CDF] focus:border-transparent"
-                  />
-                </div>
-              </div>
-            </div>
+        {activeTab === 'signup' ? (
+        <div className="p-5">
+          <h2 className="text-center text-gray-700 mb-4 text-xs">
+            Create an account for a personalized and secure experience
+          </h2>
 
-            <div>
-              <label className="block text-sm font-bold text-[#1F1F1F] mb-2">Email Address</label>
-              <div className="relative">
-                <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                <input
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  placeholder="you@example.com"
-                  required
-                  className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2D6CDF] focus:border-transparent"
-                />
-              </div>
-            </div>
+          <button
+            type="button"
+            onClick={handleLinkedInSignup}
+            className="w-full bg-[#0077B5] text-white py-2.5 rounded-md font-semibold hover:bg-[#006399] transition-colors flex items-center justify-center gap-2 mb-3 text-sm"
+          >
+            <LinkedInIcon />
+            Sign up with LinkedIn
+          </button>
 
-            <div>
-              <label className="block text-sm font-bold text-[#1F1F1F] mb-2">Phone Number</label>
-              <div className="flex gap-2">
-                <div className="relative">
-                  <select
-                    value={formData.countryCode}
-                    onChange={(e) => setFormData({ ...formData, countryCode: e.target.value })}
-                    className="w-20 px-2 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2D6CDF] focus:border-transparent appearance-none"
-                  >
-                    {topCountries.map((country) => (
-                      <option key={country.code} value={country.code}>
-                        {country.code}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="relative flex-1">
-                  <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                  <input
-                    type="tel"
-                    value={formData.phoneNumber}
-                    onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
-                    placeholder="Phone number"
-                    required
-                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2D6CDF] focus:border-transparent"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-bold text-[#1F1F1F] mb-2">Password</label>
-              <div className="relative">
-                <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  placeholder="Enter your password"
-                  required
-                  className="w-full pl-12 pr-12 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2D6CDF] focus:border-transparent"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                >
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                </button>
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-bold text-[#1F1F1F] mb-2">Confirm Password</label>
-              <div className="relative">
-                <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                <input
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  value={formData.confirmPassword}
-                  onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                  placeholder="Confirm your password"
-                  required
-                  className="w-full pl-12 pr-12 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2D6CDF] focus:border-transparent"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                >
-                  {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                </button>
-              </div>
-            </div>
-
-            <div className="flex items-center">
+          <div className="mb-3">
+            <label className="flex items-start gap-2 text-xs text-gray-600">
               <input
                 type="checkbox"
                 checked={agreedToTerms}
                 onChange={(e) => setAgreedToTerms(e.target.checked)}
-                className="w-4 h-4 text-[#2D6CDF] border-gray-300 rounded focus:ring-[#2D6CDF]"
+                className="mt-0.5 w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
               />
-              <span className="ml-2 text-sm text-gray-700">
-                I agree to the <a href="#" className="text-[#2D6CDF] font-semibold hover:text-[#1F1F1F]">Terms and Conditions</a>
+              <span>
+                Yes, I understand and agree to Kolabtree's{' '}
+                <a href="#" className="text-blue-600 hover:underline">Terms and Conditions</a> and{' '}
+                <a href="#" className="text-blue-600 hover:underline">Privacy Policy</a>.
               </span>
+            </label>
+          </div>
+
+          <div className="relative mb-4">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-4 bg-white text-gray-500 font-semibold">OR</span>
+            </div>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                <input
+                  type="text"
+                  value={formData.firstName}
+                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                  placeholder="First Name"
+                  required
+                  className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
+                />
+              </div>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                <input
+                  type="text"
+                  value={formData.lastName}
+                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                  placeholder="Last Name"
+                  required
+                  className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
+                />
+              </div>
+            </div>
+
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+              <input
+                type="email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                placeholder="Email Address"
+                required
+                className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
+              />
+            </div>
+
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+              <input
+                type="password"
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                placeholder="Password"
+                required
+                className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
+              />
+            </div>
+
+            <div className="flex gap-2">
+              <select
+                value={formData.countryCode}
+                onChange={(e) => setFormData({ ...formData, countryCode: e.target.value })}
+                className="w-16 px-1 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
+              >
+                {topCountries.map((country) => (
+                  <option key={country.code} value={country.code}>
+                    {country.code}
+                  </option>
+                ))}
+              </select>
+              <div className="relative flex-1">
+                <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                <input
+                  type="tel"
+                  value={formData.phoneNumber}
+                  onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+                  placeholder="Contact Number"
+                  required
+                  className="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center bg-gray-800 text-white rounded-full text-xs"
+                >
+                  ?
+                </button>
+              </div>
+            </div>
+
+            <div className="relative">
+              <select
+                value={formData.hearAbout}
+                onChange={(e) => setFormData({ ...formData, hearAbout: e.target.value })}
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent appearance-none bg-white text-sm"
+              >
+                <option value="">How did you hear about us?</option>
+                <option value="google">Google Search</option>
+                <option value="social">Social Media</option>
+                <option value="friend">Friend/Colleague</option>
+                <option value="other">Other</option>
+              </select>
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+                  <path d="M1 1L6 6L11 1" stroke="#6B7280" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <label className="flex items-start gap-2 text-xs text-gray-600">
+                <input
+                  type="checkbox"
+                  checked={agreedToPrivacy}
+                  onChange={(e) => setAgreedToPrivacy(e.target.checked)}
+                  className="mt-0.5 w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
+                />
+                <span>
+                  Yes, I understand and agree to Kolabtree's{' '}
+                  <a href="#" className="text-blue-600 hover:underline">Terms and Conditions</a> and{' '}
+                  <a href="#" className="text-blue-600 hover:underline">Privacy Policy</a>.
+                </span>
+              </label>
+
+              <label className="flex items-start gap-2 text-xs text-gray-600">
+                <input
+                  type="checkbox"
+                  checked={wantsUpdates}
+                  onChange={(e) => setWantsUpdates(e.target.checked)}
+                  className="mt-0.5 w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
+                />
+                <span>
+                  Yes, send me useful tips, articles and offers to help me get the most out of Kolabtree.
+                </span>
+              </label>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#2D6CDF] text-white py-3 rounded-xl font-bold hover:bg-[#1F1F1F] transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-[#5CB85C] text-white py-2.5 rounded-md font-semibold hover:bg-[#4CAF50] transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
             >
-              {loading ? 'Creating account...' : 'Create Account'}
+              {loading ? 'Creating account...' : 'Create secure account'}
             </button>
           </form>
+        </div>
+        ) : (
+        <div className="p-5">
+          <h2 className="text-center text-gray-700 mb-4 text-xs">
+            Sign in to your account
+          </h2>
 
-          <div className="mt-6">
+          <button
+            type="button"
+            onClick={handleLinkedInSignup}
+            className="w-full bg-[#0077B5] text-white py-2.5 rounded-md font-semibold hover:bg-[#006399] transition-colors flex items-center justify-center gap-2 mb-4 text-sm"
+          >
+            <LinkedInIcon />
+            Sign in with LinkedIn
+          </button>
+
+          <div className="relative mb-4">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-4 bg-white text-gray-500 font-semibold">OR</span>
+            </div>
+          </div>
+
+          <form onSubmit={handleLoginSubmit} className="space-y-3">
             <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-white text-gray-500">Or continue with</span>
-              </div>
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+              <input
+                type="email"
+                value={loginData.email}
+                onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+                placeholder="Email Address"
+                required
+                className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
+              />
+            </div>
+
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+              <input
+                type={showPassword ? 'text' : 'password'}
+                value={loginData.password}
+                onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+                placeholder="Password"
+                required
+                className="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <label className="flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
+                />
+                <span className="ml-2 text-xs text-gray-700">Remember me</span>
+              </label>
+              <button
+                type="button"
+                className="text-xs text-blue-600 hover:underline"
+              >
+                Forgot password?
+              </button>
             </div>
 
             <button
-              type="button"
-              onClick={handleGoogleSignup}
+              type="submit"
               disabled={loading}
-              className="w-full mt-4 flex items-center justify-center gap-3 border-2 border-gray-300 py-3 rounded-xl font-semibold hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-[#5CB85C] text-white py-2.5 rounded-md font-semibold hover:bg-[#4CAF50] transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
             >
-              <GoogleIcon />
-              {loading ? 'Signing up...' : 'Sign up with Google'}
+              {loading ? 'Signing in...' : 'Sign in'}
             </button>
-          </div>
+          </form>
         </div>
-
-        
+        )}
       </div>
     </div>
   );
