@@ -131,18 +131,18 @@ export default function ProfileCompletion({ onComplete, userInfo }: ProfileCompl
   };
 
   return (
-    <div className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-100 min-h-screen py-8">
+    <div className="relative overflow-hidden bg-gradient-to-br from-[#f0f4ff] via-[#dbe7ff] to-[#c0d4ff]  py-20">
       {/* Soft glow */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.15),transparent_40%)]" />
       
-      <div className="relative max-w-4xl mx-auto px-4">
+      <div className="relative max-w-6xl mx-auto text-sm">
         <div className="text-center mb-8">
-          <User className="mx-auto mb-4 text-[#2D6CDF]" size={48} />
+          <User className="mx-auto mb-2 text-[#2D6CDF]" size={38} />
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Complete Your Profile</h1>
           <p className="text-gray-600">Help clients understand your expertise by completing your researcher profile</p>
         </div>
 
-        <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 p-8 space-y-8">
+        <div className="bg-white rounded-2xl p-10 space-y-8 shadow-[0_25px_80px_rgba(15,42,68,0.35)] border border-white/40">
           {/* Basic Information */}
           <div>
             <h2 className="text-xl font-bold text-gray-900 mb-6">Basic Information</h2>

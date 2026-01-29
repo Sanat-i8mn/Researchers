@@ -69,12 +69,18 @@ export const getAllProjects = async (filters?: {
     });
   }
 
+  console.log('Fetching projects from:', `${API_BASE_URL}/project/all?${queryParams}`);
+  
   const response = await fetch(`${API_BASE_URL}/project/all?${queryParams}`, {
     method: 'GET',
     credentials: 'include',
   });
 
+  console.log('Response status:', response.status);
+  console.log('Response ok:', response.ok);
+  
   const data = await response.json();
+  console.log('Response data:', data);
   
   if (!response.ok) {
     throw new Error(data.message || 'Failed to fetch projects');

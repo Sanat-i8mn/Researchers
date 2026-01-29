@@ -206,7 +206,7 @@ export default function SignupPage({ onSignup, onSwitchToLogin }: SignupPageProp
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#f0f4ff] via-[#dbe7ff] to-[#c0d4ff] pt-20">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#f0f4ff] via-[#dbe7ff] to-[#c0d4ff] ">
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full"
@@ -249,7 +249,7 @@ export default function SignupPage({ onSignup, onSwitchToLogin }: SignupPageProp
       
       <div className="max-w-3xl w-full relative z-10">
         <div className="text-center mb-8">
-          <button 
+          {/* <button 
             onClick={() => window.location.href = '/'}
             className="w-50 h-15 rounded-2xl flex items-center justify-center mx-auto mb-4 cursor-pointer"
           >
@@ -258,16 +258,28 @@ export default function SignupPage({ onSignup, onSwitchToLogin }: SignupPageProp
               alt="ResearchHub"
               className="h-16 w-auto object-contain"
             />
+          </button> */}
+          <div className="text-center mt-6">
+          <span className="text-gray-600">Already have an account? </span>
+          <button
+            onClick={onSwitchToLogin}
+            className="text-[#2D6CDF] font-bold hover:text-[#1F1F1F] transition-colors"
+          >
+            Sign in
           </button>
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Join ResearchHub</h1>
+        </div>
+          {/* <h1 className="text-3xl font-bold text-gray-800 mb-2">Join ResearchHub</h1> */}
           <p className="text-gray-700">Create your account to get started</p>
         </div>
+        
 
         <div className="bg-white rounded-2xl shadow-xl p-8">
           <div className="mb-6">
             <label className="block text-sm font-bold text-[#1F1F1F] mb-2">I want to:</label>
-            <div className="grid grid-cols-2 gap-3">
-              <button
+            { /* here i chnaged the grid to 1 col from 2 */ }
+
+            <div className="grid grid-cols-1 gap-3">
+              {/* <button
                 type="button"
                 onClick={() => setFormData({ ...formData, role: 'client' })}
                 className={`p-3 border-2 rounded-xl transition-all ${formData.role === 'client'
@@ -278,7 +290,7 @@ export default function SignupPage({ onSignup, onSwitchToLogin }: SignupPageProp
                 <Briefcase className="mx-auto mb-1 text-[#2D6CDF]" size={24} />
                 <div className="font-bold text-[#1F1F1F] text-sm mb-0.5">Request Service</div>
                 <div className="text-xs text-gray-600">Need research help</div>
-              </button>
+              </button> */}
               <button
                 type="button"
                 onClick={() => setFormData({ ...formData, role: 'freelancer' })}
@@ -458,15 +470,7 @@ export default function SignupPage({ onSignup, onSwitchToLogin }: SignupPageProp
           </div>
         </div>
 
-        <div className="text-center mt-6">
-          <span className="text-gray-600">Already have an account? </span>
-          <button
-            onClick={onSwitchToLogin}
-            className="text-[#2D6CDF] font-bold hover:text-[#1F1F1F] transition-colors"
-          >
-            Sign in
-          </button>
-        </div>
+        
       </div>
     </div>
   );

@@ -62,7 +62,7 @@ export default function BiddingPage() {
       }
     } catch (error: any) {
       console.error('Failed to fetch projects:', error);
-      // Don't show error toast for unauthenticated users viewing project list
+      toast.error(error.message || 'Failed to load projects');
       setProjects([]);
     } finally {
       setLoading(false);
