@@ -200,7 +200,7 @@ export default function PostProjectPage() {
       <div className="flex">
         {/* Main Content */}
         <div className="flex-1 flex justify-center pr-80">
-          <div className="w-full max-w-2xl px-6 py-12">
+          <div className="w-full max-w-4xl px-6 py-12">
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 overflow-hidden">
         {currentStep === 1 && (
           <div>
@@ -374,7 +374,7 @@ export default function PostProjectPage() {
             {/* Types for Writing */}
             <div className="mb-8">
               <h3 className="text-sm font-semibold text-gray-700 mb-3">Types for Writing</h3>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-3 gap-3">
                 {writingTypes.map((type) => (
                   <button
                     key={type}
@@ -499,7 +499,9 @@ export default function PostProjectPage() {
             {/* Types for Research */}
             <div className="mb-8">
               <h3 className="text-sm font-semibold text-gray-700 mb-3">Types for Research</h3>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-3 gap-4">
+              {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"> */}
+
                 {researchTypes.map((type) => (
                   <button
                     key={type}
@@ -520,7 +522,7 @@ export default function PostProjectPage() {
             {selectedType === 'Market Research' && (
               <div className="mb-8">
                 <h3 className="text-sm font-semibold text-gray-700 mb-3">Activity</h3>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-3 gap-3">
                   {marketResearchActivities.map((activity) => (
                     <button
                       key={activity}
@@ -590,7 +592,7 @@ export default function PostProjectPage() {
             {/* Types for Consulting */}
             <div className="mb-8">
               <h3 className="text-sm font-semibold text-gray-700 mb-3">Types for Consulting</h3>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-3 gap-3">
                 {consultingTypes.map((type) => (
                   <button
                     key={type}
@@ -607,10 +609,30 @@ export default function PostProjectPage() {
               </div>
             </div>
 
+            {/* Activity */}
+            <div className="mb-8">
+              <h3 className="text-sm font-semibold text-gray-700 mb-3">Activity</h3>
+              <div className="grid grid-cols-3 gap-3">
+                {['Consultation', 'Analysis', 'Strategy'].map((activity) => (
+                  <button
+                    key={activity}
+                    onClick={() => setSelectedActivity(activity)}
+                    className={`px-4 py-2.5 text-sm border rounded-lg text-left transition-all ${
+                      selectedActivity === activity
+                        ? 'border-blue-600 bg-blue-50 text-blue-600 font-semibold'
+                        : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                    }`}
+                  >
+                    {activity}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             {/* Deliverable */}
             <div className="mb-8">
               <h3 className="text-sm font-semibold text-gray-700 mb-3">Deliverable</h3>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-3 gap-3">
                 {consultingDeliverables.map((deliverable) => (
                   <button
                     key={deliverable}
@@ -659,7 +681,7 @@ export default function PostProjectPage() {
             {/* Types for Data & AI */}
             <div className="mb-8">
               <h3 className="text-sm font-semibold text-gray-700 mb-3">Types for Data & AI</h3>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-3 gap-3">
                 {dataAiTypes.map((type) => (
                   <button
                     key={type}
@@ -680,7 +702,7 @@ export default function PostProjectPage() {
             {selectedType === 'Image Analysis' && (
               <div className="mb-8">
                 <h3 className="text-sm font-semibold text-gray-700 mb-3">Techniques</h3>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-3 gap-3">
                   {imageAnalysisTechniques.map((technique) => (
                     <button
                       key={technique}
@@ -701,7 +723,7 @@ export default function PostProjectPage() {
             {selectedType === 'Data Cleaning' && (
               <div className="mb-8">
                 <h3 className="text-sm font-semibold text-gray-700 mb-3">Activity</h3>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-3 gap-3">
                   {dataCleaningActivities.map((activity) => (
                     <button
                       key={activity}
@@ -722,7 +744,7 @@ export default function PostProjectPage() {
             {selectedType === 'Data Processing' && (
               <div className="mb-8">
                 <h3 className="text-sm font-semibold text-gray-700 mb-3">Activity</h3>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-3 gap-3">
                   {dataProcessingActivities.map((activity) => (
                     <button
                       key={activity}
@@ -743,7 +765,7 @@ export default function PostProjectPage() {
             {selectedType === 'Algorithm Design-ML' && (
               <div className="mb-8">
                 <h3 className="text-sm font-semibold text-gray-700 mb-3">Techniques</h3>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-3 gap-3">
                   {algorithmDesignMLTechniques.map((technique) => (
                     <button
                       key={technique}
@@ -764,7 +786,7 @@ export default function PostProjectPage() {
             {selectedType === 'Text Mining & Analytics' && (
               <div className="mb-8">
                 <h3 className="text-sm font-semibold text-gray-700 mb-3">Techniques</h3>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-3 gap-3">
                   {textMiningTechniques.map((technique) => (
                     <button
                       key={technique}
@@ -785,7 +807,7 @@ export default function PostProjectPage() {
             {selectedType === 'Statistical Analysis' && (
               <div className="mb-8">
                 <h3 className="text-sm font-semibold text-gray-700 mb-3">Activity</h3>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-3 gap-3">
                   {statisticalActivities.map((activity) => (
                     <button
                       key={activity}
@@ -806,7 +828,7 @@ export default function PostProjectPage() {
             {selectedType === 'Algorithm Design-Non ML' && (
               <div className="mb-8">
                 <h3 className="text-sm font-semibold text-gray-700 mb-3">Techniques</h3>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-3 gap-3">
                   {algorithmDesignNonMLTechniques.map((technique) => (
                     <button
                       key={technique}
@@ -827,7 +849,7 @@ export default function PostProjectPage() {
             {selectedType === 'Image Processing' && (
               <div className="mb-8">
                 <h3 className="text-sm font-semibold text-gray-700 mb-3">Techniques</h3>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-3 gap-3">
                   {imageProcessingTechniques.map((technique) => (
                     <button
                       key={technique}
@@ -848,7 +870,7 @@ export default function PostProjectPage() {
             {selectedType === 'Big Data Analytics' && (
               <div className="mb-8">
                 <h3 className="text-sm font-semibold text-gray-700 mb-3">Techniques</h3>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-3 gap-3">
                   {bigDataAnalyticsTechniques.map((technique) => (
                     <button
                       key={technique}
@@ -869,7 +891,7 @@ export default function PostProjectPage() {
             {selectedType === 'Data Visualization' && (
               <div className="mb-8">
                 <h3 className="text-sm font-semibold text-gray-700 mb-3">Techniques</h3>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-3 gap-3">
                   {dataVisualizationTechniques.map((technique) => (
                     <button
                       key={technique}
@@ -890,7 +912,7 @@ export default function PostProjectPage() {
             {selectedType === 'Predictive Modeling' && (
               <div className="mb-8">
                 <h3 className="text-sm font-semibold text-gray-700 mb-3">Techniques</h3>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-3 gap-3">
                   {predictiveModelingTechniques.map((technique) => (
                     <button
                       key={technique}
@@ -911,7 +933,7 @@ export default function PostProjectPage() {
             {selectedType === 'Data Mining' && (
               <div className="mb-8">
                 <h3 className="text-sm font-semibold text-gray-700 mb-3">Techniques</h3>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-3 gap-3">
                   {dataMiningTechniques.map((technique) => (
                     <button
                       key={technique}
@@ -929,6 +951,26 @@ export default function PostProjectPage() {
               </div>
             )}
 
+            {/* Deliverable */}
+            <div className="mb-8">
+              <h3 className="text-sm font-semibold text-gray-700 mb-3">Deliverable</h3>
+              <div className="grid grid-cols-3 gap-3">
+                {deliverables.map((deliverable) => (
+                  <button
+                    key={deliverable}
+                    onClick={() => setSelectedDeliverable(deliverable)}
+                    className={`px-4 py-2.5 text-sm border rounded-lg text-left transition-all ${
+                      selectedDeliverable === deliverable
+                        ? 'border-blue-600 bg-blue-50 text-blue-600 font-semibold'
+                        : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                    }`}
+                  >
+                    {deliverable}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div className="border-t border-gray-200 pt-6 flex justify-between">
               <button
                 onClick={() => setCurrentStep(2)}
@@ -937,10 +979,10 @@ export default function PostProjectPage() {
                 <span>←</span> Back
               </button>
               <button
-                disabled={!selectedType || (selectedType !== 'Data Insights' && !selectedActivity)}
+                disabled={!selectedType || (selectedType !== 'Data Insights' && !selectedActivity) || !selectedDeliverable}
                 onClick={() => setCurrentStep(4)}
                 className={`px-8 py-3 rounded-lg font-semibold transition-all ${
-                  selectedType && (selectedType === 'Data Insights' || selectedActivity)
+                  selectedType && (selectedType === 'Data Insights' || selectedActivity) && selectedDeliverable
                     ? 'bg-blue-600 hover:bg-blue-700 text-white'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
@@ -961,7 +1003,7 @@ export default function PostProjectPage() {
             {/* Types for Product Development */}
             <div className="mb-8">
               <h3 className="text-sm font-semibold text-gray-700 mb-3">Types for Product Development</h3>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-3 gap-3">
                 {productDevTypes.map((type) => (
                   <button
                     key={type}
@@ -998,6 +1040,26 @@ export default function PostProjectPage() {
               </div>
             </div>
 
+            {/* Deliverable */}
+            <div className="mb-8">
+              <h3 className="text-sm font-semibold text-gray-700 mb-3">Deliverable</h3>
+              <div className="grid grid-cols-3 gap-3">
+                {deliverables.map((deliverable) => (
+                  <button
+                    key={deliverable}
+                    onClick={() => setSelectedDeliverable(deliverable)}
+                    className={`px-4 py-2.5 text-sm border rounded-lg text-left transition-all ${
+                      selectedDeliverable === deliverable
+                        ? 'border-blue-600 bg-blue-50 text-blue-600 font-semibold'
+                        : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                    }`}
+                  >
+                    {deliverable}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div className="border-t border-gray-200 pt-6 flex justify-between">
               <button
                 onClick={() => setCurrentStep(2)}
@@ -1006,10 +1068,10 @@ export default function PostProjectPage() {
                 <span>←</span> Back
               </button>
               <button
-                disabled={!selectedType || !selectedActivity}
+                disabled={!selectedType || !selectedActivity || !selectedDeliverable}
                 onClick={() => setCurrentStep(4)}
                 className={`px-8 py-3 rounded-lg font-semibold transition-all ${
-                  selectedType && selectedActivity
+                  selectedType && selectedActivity && selectedDeliverable
                     ? 'bg-blue-600 hover:bg-blue-700 text-white'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
@@ -1087,7 +1149,7 @@ export default function PostProjectPage() {
               <div className="space-y-3 relative">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Agriculture
+                    Industry
                   </label>
                   <input
                     type="text"
@@ -1100,8 +1162,8 @@ export default function PostProjectPage() {
                   
                   {/* Industry Dropdown */}
                   {showIndustryDropdown && (
-                    <div className="absolute z-50 w-full mt-2 bg-white border border-gray-300 rounded-lg shadow-xl max-h-80 overflow-y-auto">
-                      <div className="grid grid-cols-2 gap-1 p-2">
+                    <div className="absolute z-50 w-full bottom-full mb-2 bg-white border border-gray-300 rounded-lg shadow-xl max-h-80 overflow-y-auto">
+                      <div className="grid grid-cols-3 gap-1 p-2">
                         {industries.map((industry) => (
                           <button
                             key={industry}
@@ -1687,9 +1749,9 @@ export default function PostProjectPage() {
                     await postProjectFromLanding({
                       privacy: privacyOption,
                       category: selectedCategory,
-                      writingTypes: [selectedType],
-                      writingActivities: [selectedActivity],
-                      writingDeliverables: [selectedDeliverable],
+                      selectedType,
+                      selectedActivity,
+                      selectedDeliverable,
                       writingLength: lengthValue,
                       writingLengthUnit: lengthUnit,
                       expertiseTags: selectedExpertise,

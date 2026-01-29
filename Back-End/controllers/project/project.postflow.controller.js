@@ -12,10 +12,10 @@ export const postProjectFromLanding = async (req, res) => {
       privacy,
       // Step 2: Category
       category,
-      // Step 3: Writing details
-      writingTypes,
-      writingActivities,
-      writingDeliverables,
+      // Step 3: Category-specific details
+      selectedType,
+      selectedActivity,
+      selectedDeliverable,
       writingLength,
       writingLengthUnit,
       // Step 4: Expertise & Industry
@@ -105,17 +105,15 @@ export const postProjectFromLanding = async (req, res) => {
       }
     }
 
-    // Build skills array from expertise and writing details
+    // Build skills array from expertise and category-specific details
     const skills = [
       ...(Array.isArray(expertiseTags) ? expertiseTags : JSON.parse(expertiseTags || '[]')),
-      ...(Array.isArray(writingTypes) ? writingTypes : JSON.parse(writingTypes || '[]')),
-      ...(Array.isArray(writingActivities) ? writingActivities : JSON.parse(writingActivities || '[]')),
+      ...(selectedType ? [selectedType] : []),
+      ...(selectedActivity ? [selectedActivity] : []),
     ];
 
     // Parse deliverables
-    const deliverablesArray = Array.isArray(writingDeliverables) 
-      ? writingDeliverables 
-      : JSON.parse(writingDeliverables || '[]');
+    const deliverablesArray = selectedDeliverable ? [selectedDeliverable] : ['As specified'];
 
     // Create project
     const project = await Project.create({
@@ -132,6 +130,9 @@ export const postProjectFromLanding = async (req, res) => {
       files: uploadedFiles,
       metadata: {
         privacy,
+        selectedType,
+        selectedActivity,
+        selectedDeliverable,
         writingLength,
         writingLengthUnit,
         industries,
