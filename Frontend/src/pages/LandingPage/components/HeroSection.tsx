@@ -473,7 +473,8 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
             className="relative hidden md:flex justify-center"
           >
             {/* Deep Teal Background Card - Fixed */}
-            <div className="relative bg-gradient-to-br from-[#2C5F6F] to-[#1A3D4A] rounded-[2rem] p-8 shadow-2xl">
+            <div className="relative 
+ rounded-[2rem] p-8 shadow-2xl">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentImageIndex}

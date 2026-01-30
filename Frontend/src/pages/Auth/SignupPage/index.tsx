@@ -208,7 +208,7 @@ export default function SignupPage({ onSignup, onSwitchToLogin, onLogin }: Signu
                 className="mt-0.5 w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
               />
               <span>
-                Yes, I understand and agree to Kolabtree's{' '}
+                Yes, I understand and agree to ResearchHub {' '}
                 <a href="#" className="text-blue-600 hover:underline">Terms and Conditions</a> and{' '}
                 <a href="#" className="text-blue-600 hover:underline">Privacy Policy</a>.
               </span>
@@ -333,7 +333,7 @@ export default function SignupPage({ onSignup, onSwitchToLogin, onLogin }: Signu
                   className="mt-0.5 w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
                 />
                 <span>
-                  Yes, I understand and agree to Kolabtree's{' '}
+                  Yes, I understand and agree to ResearchHub{' '}
                   <a href="#" className="text-blue-600 hover:underline">Terms and Conditions</a> and{' '}
                   <a href="#" className="text-blue-600 hover:underline">Privacy Policy</a>.
                 </span>
@@ -347,7 +347,7 @@ export default function SignupPage({ onSignup, onSwitchToLogin, onLogin }: Signu
                   className="mt-0.5 w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
                 />
                 <span>
-                  Yes, send me useful tips, articles and offers to help me get the most out of Kolabtree.
+                  Yes, send me useful tips, articles and offers to help me get the most out of ResearchHub.
                 </span>
               </label>
             </div>
