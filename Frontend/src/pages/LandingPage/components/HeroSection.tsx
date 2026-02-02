@@ -19,6 +19,7 @@ import {
   Zap
 } from 'lucide-react'
 import type { PageType } from '../../../types'
+import AnimatedBackground from './AnimatedBackground'
 
 interface HeroSectionProps {
   onNavigate: (page: PageType) => void
@@ -27,7 +28,7 @@ interface HeroSectionProps {
 
 const researcherImages = [
   {
-    src: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop',
+    src: '/images/Dr. James Wilson.png',
     name: 'Dr. James Wilson',
     field: 'AI & Machine Learning Expert',
     rating: '4.9',
@@ -40,7 +41,7 @@ const researcherImages = [
     badges: ['Top Rated', 'AI Expert', 'Fast Responder']
   },
   {
-    src: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=500&fit=crop',
+    src: '/images/Dr. Maria Garcia.png',
     name: 'Dr. Maria Garcia',
     field: 'Data Science Specialist',
     rating: '4.8',
@@ -181,7 +182,7 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
 
   const scrollCarousel = (direction: 'left' | 'right') => {
     if (carouselRef.current) {
-      const scrollAmount = 220
+      const scrollAmount = 170
       carouselRef.current.scrollBy({
         left: direction === 'left' ? -scrollAmount : scrollAmount,
         behavior: 'smooth'
@@ -190,10 +191,12 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
   }
 
   return (
-    <section className="relative overflow-hidden py-16 sm:py-20 lg:py-24">
-      {/* Premium Multi-layer Background with Gradient Mesh */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/40" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-100/30 via-transparent to-transparent" />
+    <section className="relative overflow-hidden py-6 sm:py-10 lg:py-14">
+      {/* Ultra Cool 3D Animated Background */}
+      <AnimatedBackground />
+      
+      {/* Overlay gradient for better text readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-transparent to-white/30 pointer-events-none" />
       
       {/* Animated Mesh Grid with Particles */}
       <motion.div
@@ -295,41 +298,39 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
              
             </motion.div>
             
-            {/* Main Headline */}
-            <div className="space-y-4">
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 leading-tight"
-              >
-                Connect With{' '}
-                <span className="relative inline-block">
-                  <span className="relative z-10">Verified</span>
-                  <motion.div
-                    className="absolute -bottom-1 left-0 right-0 h-3 bg-blue-200/40 rounded-full -z-0"
-                    animate={{ scaleX: [0.8, 1, 0.8] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  />
-                </span>{' '}
-                <br />
-                <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                  Expert Researchers
-                </span>
-              </motion.h1>
-              
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-                className="text-lg sm:text-xl text-gray-600 max-w-xl mx-auto lg:mx-0 leading-relaxed"
-              >
-                AI-powered matching connects you with perfect researchers for your project.
-                <span className="block mt-2 font-medium text-blue-700">
-                  Start collaborating in minutes, not weeks.
-                </span>
-              </motion.p>
-            </div>
+{/* Main Headline */}
+<div className="space-y-3 sm:space-y-4">
+  <motion.h1
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.3 }}
+    className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight sm:leading-tight"
+  >
+    Get the Perfect{' '}
+    <span className="relative inline-block">
+      <span className="relative z-10">Verified</span>
+      <motion.div
+      />
+    </span>{' '}
+    Researcher
+    <br />
+    <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
+      AI-Matched to Your Project
+    </span>
+  </motion.h1>
+  
+  <motion.p
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.5 }}
+    className="text-base sm:text-base md:text-lg text-gray-600 max-w-lg sm:max-w-xl mx-auto lg:mx-0 leading-relaxed"
+  >
+    Connect with trusted, verified researchers worldwide.
+    <span className="block mt-1 sm:mt-2 text-blue-700 font-medium">
+      Our AI matches projects with perfect expertise instantly.
+    </span>
+  </motion.p>
+</div>
 
 
             {/* Enhanced Search Bar */}
@@ -347,7 +348,7 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onFocus={() => setShowDropdown(true)}
-                    placeholder="What expertise do you need? (e.g., AI Research, Data Analysis...)"
+                    // placeholder="      What do you need...?"
                     className="w-full px-5 sm:px-6 py-4 pl-14 pr-32 text-base text-gray-700 bg-white/95 backdrop-blur-sm border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-3 focus:ring-blue-500/30 focus:border-blue-500 shadow-xl hover:shadow-2xl transition-all duration-300 placeholder-gray-400"
                   />
                   <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 text-blue-500" size={20} />
@@ -359,20 +360,20 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
                   </div>
 
                   <motion.button
-                    onClick={handleSearch}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-5 py-2.5 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 font-semibold text-sm shadow-lg hover:shadow-xl"
-                  >
-                    Find Expert
-                  </motion.button>
+  onClick={handleSearch}
+  whileHover={{ scale: 1.05 }}
+  whileTap={{ scale: 0.95 }}
+  className="absolute right-1 top-0 bottom-0 my-auto h-fit bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-5 py-2.5 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 font-semibold text-sm shadow-lg hover:shadow-xl"
+>
+  Search
+</motion.button>
                 </div>
               </div>
 
               {/* Trending Searches */}
               <div className="mt-4 flex flex-wrap gap-2 justify-center lg:justify-start">
                 <span className="text-xs text-gray-500 flex items-center gap-1">
-                  <TrendingUp size={12} /> Trending:
+                  <TrendingUp size={22} /> Trending:-
                 </span>
                 {trendingSearches.map((search, index) => (
                   <motion.button
@@ -431,16 +432,15 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.9 }}
-              className="flex flex-col sm:flex-row items-center gap-4 pt-4 justify-center lg:justify-start"
+              className="flex flex-row items-center gap-3 pt-4 justify-center lg:justify-start flex-wrap"
             >
               <motion.button
                 whileHover={{ y: -3, scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => onNavigate('signup')}
-                className="group relative overflow-hidden rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-4 font-semibold text-white shadow-xl hover:shadow-2xl transition-all text-base flex items-center gap-2"
+                className="group relative overflow-hidden rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-6 sm:px-8 py-3 sm:py-4 font-semibold text-white shadow-xl hover:shadow-2xl transition-all text-sm sm:text-base flex items-center gap-2"
               >
                 <span className="relative z-10 flex items-center gap-2">
-                  <Users className="w-5 h-5" />
                   Join as Expert
                   <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </span>
@@ -451,10 +451,9 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
                 whileHover={{ y: -3, scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => onNavigate('post-project')}
-                className="group relative overflow-hidden rounded-full border-2 border-blue-600 px-8 py-4 font-semibold text-blue-600 bg-white hover:bg-blue-50 transition-all text-base shadow-lg hover:shadow-xl flex items-center gap-2"
+                className="group relative overflow-hidden rounded-full border-2 border-blue-600 px-6 sm:px-8 py-3 sm:py-4 font-semibold text-blue-600 bg-white hover:bg-blue-50 transition-all text-sm sm:text-base shadow-lg hover:shadow-xl flex items-center gap-2"
               >
                 <span className="relative z-10 flex items-center gap-2">
-                  <Zap className="w-5 h-5" />
                   Post a Project
                   <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </span>
@@ -514,11 +513,12 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
                   transition={{ duration: 0.7 }}
                   className="relative"
                 >
-                  <div className="relative w-[320px] h-[400px]">
+                  <div className="relative w-[240px] h-[300px] group mt-32">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
                     <motion.img
                       src={researcherImages[currentImageIndex].src}
                       alt={researcherImages[currentImageIndex].name}
-                      className="w-full h-full object-cover rounded-2xl shadow-2xl"
+                      className="relative w-full h-full object-cover rounded-2xl shadow-2xl ring-2 ring-white"
                       initial={{ scale: 1.1 }}
                       animate={{ scale: 1 }}
                       transition={{ duration: 0.8 }}
@@ -574,6 +574,32 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
                 </motion.div>
               </AnimatePresence>
 
+              {/* Animated Curved Connection Line */}
+              <motion.svg
+                className="absolute left-[240px] top-[180px] z-10"
+                width="80"
+                height="100"
+                viewBox="0 0 80 100"
+                fill="none"
+              >
+                <motion.path
+                  d="M 0 20 Q 40 30, 80 60"
+                  stroke="url(#gradient)"
+                  strokeWidth="2"
+                  strokeDasharray="5,5"
+                  fill="none"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: 1, opacity: 1 }}
+                  transition={{ duration: 1.5, delay: 0.5, repeat: Infinity, repeatDelay: 2 }}
+                />
+                <defs>
+                  <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.3" />
+                    <stop offset="100%" stopColor="#6366f1" stopOpacity="0.8" />
+                  </linearGradient>
+                </defs>
+              </motion.svg>
+
               {/* Enhanced Info Card */}
               <AnimatePresence mode="wait">
                 <motion.div
@@ -582,85 +608,42 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
                   animate={{ opacity: 1, x: 0, scale: 1 }}
                   exit={{ opacity: 0, x: -20, scale: 0.95 }}
                   transition={{ duration: 0.7 }}
-                  className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 w-[340px] border border-gray-100/50"
+                  className="bg-white rounded-xl shadow-lg p-5 w-[250px] border border-gray-200 mt-40"
                 >
-                  {/* Map with Animation */}
-                  <div className="mb-6 relative">
-                    <div className="h-24 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl flex items-center justify-center relative overflow-hidden">
-                      <div className="absolute inset-0 opacity-10">
-                        <svg width="100%" height="100%" className="text-blue-200">
-                          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="1"/>
-                          </pattern>
-                          <rect width="100%" height="100%" fill="url(#grid)" />
-                        </svg>
-                      </div>
-                      <motion.div
-                        animate={{ scale: [1, 1.2, 1], rotate: [0, 360] }}
-                        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-                        className="relative z-10"
-                      >
-                        <Globe className="w-10 h-10 text-blue-600" />
-                      </motion.div>
+                  {/* Map with dot */}
+                 
+
+                  {/* Name */}
+                  <h3 className="font-bold text-lg text-blue-600 mb-3">
+                    {researcherImages[currentImageIndex].name}
+                  </h3>
+
+                  {/* Verified Expert */}
+                  <div className="flex items-start gap-2 mb-3">
+                    <CheckCircle size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="text-sm text-gray-700 font-medium leading-tight">
+                        Verified Expert in {researcherImages[currentImageIndex].field}
+                      </p>
                     </div>
                   </div>
 
-                  {/* Name & Title */}
-                  <div className="mb-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-bold text-xl text-gray-900">
-                        {researcherImages[currentImageIndex].name}
-                      </h3>
-                      <div className="flex items-center gap-1 bg-gradient-to-r from-amber-50 to-yellow-50 px-2 py-1 rounded-full">
-                        <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
-                        <span className="text-xs font-bold text-gray-700">
-                          {researcherImages[currentImageIndex].rating}
-                        </span>
-                      </div>
+                  {/* Skills badge */}
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="w-4 h-4 border border-gray-400 rounded flex items-center justify-center">
+                      <CheckCircle size={12} className="text-gray-400" />
                     </div>
-                    
-                    <div className="flex items-center gap-2 text-blue-600 text-sm mb-2">
-                      <CheckCircle size={14} />
-                      <span className="font-semibold">Verified Expert</span>
-                    </div>
-                    
-                    <p className="text-sm text-gray-600 leading-relaxed">
-                      {researcherImages[currentImageIndex].field}
-                    </p>
+                    <span className="text-sm text-gray-600">
+                      {researcherImages[currentImageIndex].badges[0]}
+                    </span>
                   </div>
 
-                  {/* Location */}
-                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-4 p-2 bg-gray-50 rounded-lg">
-                    <MapPin size={14} className="text-blue-500" />
-                    <span>{researcherImages[currentImageIndex].location}</span>
-                  </div>
-
-                  {/* Badges */}
-                  <div className="mb-4">
-                    <p className="text-xs text-gray-500 uppercase tracking-wide mb-2 font-semibold">Expertise</p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {researcherImages[currentImageIndex].badges.map((badge, index) => (
-                        <span
-                          key={index}
-                          className="px-2.5 py-1 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 text-xs font-medium rounded-full border border-blue-100"
-                        >
-                          {badge}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Company */}
-                  <div className="pt-4 border-t border-gray-100">
-                    <p className="text-xs text-gray-500 uppercase tracking-wide mb-3">Previously at</p>
-                    <div className="flex items-center gap-3 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-3">
-                      <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center shadow-sm">
-                        <span className="text-2xl">{researcherImages[currentImageIndex].companyLogo}</span>
-                      </div>
-                      <div>
-                        <p className="font-bold text-gray-800">{researcherImages[currentImageIndex].company}</p>
-                        <p className="text-xs text-gray-500">Top-tier institution</p>
-                      </div>
+                  {/* Previously at */}
+                  <div className="pt-4 border-t border-gray-200">
+                    <p className="text-xs text-gray-500 uppercase tracking-wide mb-2">Previously at</p>
+                    <div className="flex items-center gap-2">
+                      <span className="text-2xl">{researcherImages[currentImageIndex].companyLogo}</span>
+                      <span className="font-bold text-gray-900">{researcherImages[currentImageIndex].company}</span>
                     </div>
                   </div>
                 </motion.div>
@@ -700,7 +683,7 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
                       onClick={() => setCurrentImageIndex(index)}
                       whileHover={{ y: -6, scale: 1.03 }}
                       whileTap={{ scale: 0.98 }}
-                      className={`flex-shrink-0 w-52 bg-white rounded-xl shadow-lg overflow-hidden border-2 transition-all duration-300 snap-center ${
+                      className={`flex-shrink-0 w-40 bg-white rounded-xl shadow-lg overflow-hidden border-2 transition-all duration-300 snap-center ${
                         index === currentImageIndex
                           ? 'border-blue-600 shadow-xl ring-2 ring-blue-500/20'
                           : 'border-gray-100 hover:border-gray-300'
@@ -711,7 +694,7 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
                         <div className={`w-2 h-2 rounded-full ${index === 0 || index === 2 ? 'bg-green-500' : 'bg-amber-500'} animate-pulse`} />
                       </div>
 
-                      <div className="relative h-36 overflow-hidden">
+                      <div className="relative h-28 overflow-hidden">
                         <img
                           src={researcher.src}
                           alt={researcher.name}
@@ -720,13 +703,13 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
                       </div>
                       
-                      <div className="p-3">
+                      <div className="p-2.5">
                         <div className="flex items-start justify-between mb-1">
-                          <h4 className="font-bold text-sm text-gray-900 truncate">
+                          <h4 className="font-bold text-xs text-gray-900 truncate">
                             {researcher.name}
                           </h4>
                           <div className="flex items-center gap-0.5">
-                            <Star size={10} className="text-amber-500 fill-amber-500" />
+                            <Star size={9} className="text-amber-500 fill-amber-500" />
                             <span className="text-xs font-bold text-gray-700">
                               {researcher.rating}
                             </span>
@@ -739,12 +722,12 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
                         
                         <div className="flex items-center justify-between text-xs text-gray-500">
                           <div className="flex items-center gap-1">
-                            <MapPin size={10} />
-                            <span>{researcher.location.split(',')[0]}</span>
+                            <MapPin size={9} />
+                            <span className="text-xs">{researcher.location.split(',')[0]}</span>
                           </div>
                           <div className="flex items-center gap-1">
-                            <Users size={10} />
-                            <span>{researcher.projects}</span>
+                            <Users size={9} />
+                            <span className="text-xs">{researcher.projects}</span>
                           </div>
                         </div>
                       </div>
