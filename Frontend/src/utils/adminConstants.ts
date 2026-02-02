@@ -3,7 +3,7 @@ import { Users, FolderOpen, DollarSign, AlertCircle } from 'lucide-react';
 export const ADMIN_STATS = [
   { label: 'Total Users', value: '12,847', icon: Users, color: 'bg-[#2D6CDF]', change: '+12.5%', trend: 'up' as const },
   { label: 'Active Projects', value: '1,892', icon: FolderOpen, color: 'bg-green-500', change: '+8.2%', trend: 'up' as const },
-  { label: 'Revenue (Month)', value: '$142,581', icon: DollarSign, color: 'bg-purple-500', change: '+15.3%', trend: 'up' as const },
+  { label: 'Revenue (Month)', value: '₹142,581', icon: DollarSign, color: 'bg-purple-500', change: '+15.3%', trend: 'up' as const },
   { label: 'Pending Disputes', value: '23', icon: AlertCircle, color: 'bg-red-500', change: '-5.1%', trend: 'down' as const }
 ];
 

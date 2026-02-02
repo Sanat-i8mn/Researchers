@@ -70,41 +70,91 @@ export default function AdminProjectsTable() {
 
   const getPaymentStatusBadge = (status: string) => {
     const statusConfig: Record<string, { bg: string; text: string; border: string; icon: any }> = {
-      pending: { bg: 'bg-gray-500/20', text: 'text-gray-300', border: 'border-gray-400/30', icon: Clock },
-      escrow_deposited: { bg: 'bg-blue-500/20', text: 'text-blue-300', border: 'border-blue-400/30', icon: Clock },
-      released: { bg: 'bg-green-500/20', text: 'text-green-300', border: 'border-green-400/30', icon: CheckCircle },
-      refunded: { bg: 'bg-red-500/20', text: 'text-red-300', border: 'border-red-400/30', icon: AlertCircle },
+      released: {
+        bg: 'bg-green-50',
+        text: 'text-green-700',
+        border: 'border-green-200',
+        icon: CheckCircle
+      },
+      pending: {
+        bg: 'bg-gray-50',
+        text: 'text-gray-700',
+        border: 'border-gray-200',
+        icon: Clock
+      },
+      escrow_deposited: {
+        bg: 'bg-blue-50',
+        text: 'text-blue-700',
+        border: 'border-blue-200',
+        icon: Clock
+      },
+      refunded: {
+        bg: 'bg-red-50',
+        text: 'text-red-700',
+        border: 'border-red-200',
+        icon: AlertCircle
+      }
     };
 
     const config = statusConfig[status] || statusConfig.pending;
     const Icon = config.icon;
 
     return (
-      <span className={`px-3 py-1.5 rounded-lg text-xs font-semibold ${config.bg} ${config.text} border ${config.border} flex items-center gap-1.5 w-fit backdrop-blur-sm`}>
+      <span
+        className={`px-3 py-1.5 rounded-lg text-xs font-semibold ${config.bg} ${config.text} border ${config.border} flex items-center gap-1.5 w-fit backdrop-blur-sm`}
+      >
         <Icon size={14} />
-        {status.replace('_', ' ').toUpperCase()}
+        {status.replace(/_/g, ' ').toUpperCase()}
       </span>
     );
   };
 
+
   const getProjectStatusBadge = (status: string) => {
     const statusConfig: Record<string, { bg: string; text: string; border: string; icon?: any }> = {
-      'in-progress': { bg: 'bg-yellow-500/20', text: 'text-yellow-300', border: 'border-yellow-400/30', icon: Clock },
-      completed: { bg: 'bg-blue-500/20', text: 'text-blue-300', border: 'border-blue-400/30', icon: CheckCircle },
-      approved: { bg: 'bg-green-500/20', text: 'text-green-300', border: 'border-green-400/30', icon: CheckCircle },
-      disputed: { bg: 'bg-red-500/20', text: 'text-red-300', border: 'border-red-400/30', icon: AlertCircle },
+      'in-progress': {
+        bg: 'bg-yellow-100',
+        text: 'text-yellow-700',
+        border: 'border-yellow-300',
+        icon: Clock
+      },
+      completed: {
+        bg: 'bg-blue-100',
+        text: 'text-blue-700',
+        border: 'border-blue-300',
+        icon: CheckCircle
+      },
+      approved: {
+        bg: 'bg-green-100',
+        text: 'text-green-700',
+        border: 'border-green-300',
+        icon: CheckCircle
+      },
+      disputed: {
+        bg: 'bg-red-100',
+        text: 'text-red-700',
+        border: 'border-red-300',
+        icon: AlertCircle
+      }
     };
 
-    const config = statusConfig[status] || { bg: 'bg-gray-500/20', text: 'text-gray-300', border: 'border-gray-400/30' };
+    const config =
+      statusConfig[status] || {
+        bg: 'bg-gray-500/20',
+        text: 'text-gray-300',
+        border: 'border-gray-400/30'
+      };
+
     const Icon = config.icon;
 
     return (
       <span className={`px-3 py-1.5 rounded-lg text-xs font-semibold ${config.bg} ${config.text} border ${config.border} flex items-center gap-1.5 w-fit backdrop-blur-sm`}>
         {Icon && <Icon size={14} />}
-        {status.replace('-', ' ').toUpperCase()}
+        {status.replace(/[-_]/g, ' ').toUpperCase()}
       </span>
     );
   };
+
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -117,24 +167,34 @@ export default function AdminProjectsTable() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#2D6CDF]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
+
   return (
-    <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl shadow-xl p-4 sm:p-6">
+    <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-4 sm:p-6">
+
+
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-6 gap-4">
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">Payment Management</h2>
-          <p className="text-gray-300 text-sm sm:text-base">Manage escrow payments and project completions</p>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+            Payment Management
+          </h2>
+          <p className="text-gray-600 text-sm sm:text-base">
+            Manage escrow payments and project completions
+          </p>
+
         </div>
         <select
           value={filterStatus}
           onChange={(e) => setFilterStatus(e.target.value)}
-          className="px-3 sm:px-4 py-2 bg-white/10 border border-white/20 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 backdrop-blur-sm text-sm sm:text-base w-full sm:w-auto"
+          className="px-3 sm:px-4 py-2 bg-white border border-gray-200 text-gray-900 rounded-xl
+focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm sm:text-base w-full sm:w-auto"
         >
-          <option value="all" className="bg-gray-800 text-white">All Status</option>
+          <option value="all">All Status</option>
+
           <option value="pending" className="bg-gray-800 text-white">Pending</option>
           <option value="escrow_deposited" className="bg-gray-800 text-white">Escrow Deposited</option>
           <option value="released" className="bg-gray-800 text-white">Released</option>
@@ -144,51 +204,67 @@ export default function AdminProjectsTable() {
 
       {filteredProjects.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-gray-400">No admin projects found</p>
+          <p className="text-gray-500">No admin projects found</p>
         </div>
       ) : (
         <div className="overflow-x-auto -mx-4 sm:mx-0">
           <div className="min-w-[800px] px-4 sm:px-0">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-white/20">
-                  <th className="text-left py-3 sm:py-4 px-2 sm:px-4 font-semibold text-gray-300 text-xs sm:text-sm">Project</th>
-                  <th className="text-left py-3 sm:py-4 px-2 sm:px-4 font-semibold text-gray-300 text-xs sm:text-sm hidden sm:table-cell">Client</th>
-                  <th className="text-left py-3 sm:py-4 px-2 sm:px-4 font-semibold text-gray-300 text-xs sm:text-sm hidden md:table-cell">Freelancer</th>
-                  <th className="text-left py-3 sm:py-4 px-2 sm:px-4 font-semibold text-gray-300 text-xs sm:text-sm">Amount</th>
-                  <th className="text-left py-3 sm:py-4 px-2 sm:px-4 font-semibold text-gray-300 text-xs sm:text-sm hidden lg:table-cell">Payment Status</th>
-                  <th className="text-left py-3 sm:py-4 px-2 sm:px-4 font-semibold text-gray-300 text-xs sm:text-sm">Status</th>
-                  <th className="text-left py-3 sm:py-4 px-2 sm:px-4 font-semibold text-gray-300 text-xs sm:text-sm hidden xl:table-cell">Created</th>
-                  <th className="text-left py-3 sm:py-4 px-2 sm:px-4 font-semibold text-gray-300 text-xs sm:text-sm">Actions</th>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 sm:py-4 px-2 sm:px-4 font-semibold
+text-[#0F172A] text-xs sm:text-sm border-b border-[#E5E7EB]"
+                  >Project</th>
+                  <th className="text-left py-3 sm:py-4 px-2 sm:px-4 font-semibold
+text-gray-900 text-xs sm:text-sm border-b border-gray-200"
+                  >Client</th>
+                  <th className="text-left py-3 sm:py-4 px-2 sm:px-4 font-semibold
+text-[#0F172A] text-xs sm:text-sm border-b border-[#E5E7EB]"
+                  >Freelancer</th>
+                  <th className="text-left py-3 sm:py-4 px-2 sm:px-4 font-semibold
+text-[#0F172A] text-xs sm:text-sm border-b border-[#E5E7EB]"
+                  >Amount</th>
+                  <th className="text-left py-3 sm:py-4 px-2 sm:px-4 font-semibold
+text-[#0F172A] text-xs sm:text-sm border-b border-[#E5E7EB]"
+                  >Payment Status</th>
+                  <th className="text-left py-3 sm:py-4 px-2 sm:px-4 font-semibold
+text-[#0F172A] text-xs sm:text-sm border-b border-[#E5E7EB]"
+                  >Status</th>
+                  <th className="text-left py-3 sm:py-4 px-2 sm:px-4 font-semibold
+text-[#0F172A] text-xs sm:text-sm border-b border-[#E5E7EB]"
+                  >Created</th>
+                  <th className="text-left py-3 sm:py-4 px-2 sm:px-4 font-semibold
+text-[#0F172A] text-xs sm:text-sm border-b border-[#E5E7EB]"
+                  >Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredProjects.map((project) => (
-                  <tr key={project._id} className="border-b border-white/10 hover:bg-white/5 transition-colors">
+                  <tr key={project._id} className="border-b border-gray-200 hover:bg-gray-50 hover:scale-[1.01] transition-all duration-200">
+
                     <td className="py-3 sm:py-4 px-2 sm:px-4">
-                      <div className="flex items-start gap-2 sm:gap-3">
-                        <Briefcase className="text-cyan-400 flex-shrink-0 mt-1" size={16} />
+                      <div className="flex items-start gap-3">
+                        <Briefcase className="text-cyan-600 mt-1" size={16} />
                         <div className="min-w-0">
-                          <div className="font-semibold text-white mb-1 text-sm sm:text-base truncate">{project.projectTitle}</div>
-                          <div className="text-xs text-gray-400 sm:hidden">
+                          <div className="font-semibold text-gray-900 mb-1 text-sm sm:text-base truncate">
+                            {project.projectTitle}
+                          </div>
+                          <div className="text-xs text-[#4B5563] sm:hidden">
                             {project.clientName} → {project.freelancerName}
                           </div>
-                          <div className="text-xs text-gray-400">
-                            {project.emailNotifications.proposalAcceptedSent && (
-                              <span className="mr-2">✓ Email</span>
-                            )}
-                            {project.clientApproval.approved && (
-                              <span>✓ Approved</span>
-                            )}
+                          <div className="text-xs text-[#6B7280]">
+                            {project.emailNotifications.proposalAcceptedSent && <span className="mr-2">✓ Email</span>}
+                            {project.clientApproval.approved && <span>✓ Approved</span>}
                           </div>
                         </div>
                       </div>
                     </td>
+
                     <td className="py-3 sm:py-4 px-2 sm:px-4 hidden sm:table-cell">
                       <div className="flex items-center gap-2">
                         {project.clientId?.profilePhoto ? (
-                          <img 
-                            src={project.clientId.profilePhoto} 
+                          <img
+                            src={project.clientId.profilePhoto}
                             alt={project.clientName}
                             className="w-6 h-6 sm:w-8 sm:h-8 rounded-full object-cover"
                           />
@@ -197,14 +273,17 @@ export default function AdminProjectsTable() {
                             <User size={12} className="sm:w-4 sm:h-4 text-blue-400" />
                           </div>
                         )}
-                        <span className="font-medium text-gray-300 text-sm truncate">{project.clientName}</span>
+                        <span className="font-medium text-gray-900 text-sm truncate">
+                          {project.clientName}
+                        </span>
+
                       </div>
                     </td>
                     <td className="py-3 sm:py-4 px-2 sm:px-4 hidden md:table-cell">
                       <div className="flex items-center gap-2">
                         {project.freelancerId?.profilePhoto ? (
-                          <img 
-                            src={project.freelancerId.profilePhoto} 
+                          <img
+                            src={project.freelancerId.profilePhoto}
                             alt={project.freelancerName}
                             className="w-6 h-6 sm:w-8 sm:h-8 rounded-full object-cover"
                           />
@@ -214,24 +293,29 @@ export default function AdminProjectsTable() {
                           </div>
                         )}
                         <div className="min-w-0">
-                          <div className="font-medium text-gray-300 text-sm truncate">{project.freelancerName}</div>
-                          {project.freelancerId?.bankAccount?.accountNumber && (
-                            <div className="text-xs text-gray-400 font-mono truncate">Bank: {project.freelancerId.bankAccount.accountNumber}</div>
-                          )}
+                          <div className="font-medium text-gray-900 text-sm truncate">
+                            {project.freelancerName}
+                          </div>
+
+                          <div className="text-xs text-gray-500 font-mono truncate">
+                            Bank: {project.freelancerId.bankAccount.accountNumber}
+                          </div>
                         </div>
                       </div>
                     </td>
                     <td className="py-3 sm:py-4 px-2 sm:px-4">
                       <div>
-                        <div className="font-bold text-green-400 flex items-center gap-1 text-sm sm:text-base">
-                          <DollarSign size={14} className="sm:w-4 sm:h-4" />
-                          ${project.bidAmount.toLocaleString()}
+                        <div className="font-bold text-cyan-600 flex items-center gap-1 text-sm sm:text-base">
+                          <span className="text-base sm:text-lg font-semibold">₹</span>
+                          {project.bidAmount.toLocaleString('en-IN')}
                         </div>
-                        <div className="text-xs text-gray-400">
-                          Escrow: ${project.escrowAmount.toLocaleString()}
+
+                        <div className="text-xs text-gray-600">
+
+                          Escrow: ₹{project.escrowAmount.toLocaleString()}
                         </div>
-                        <div className="text-xs text-gray-400 hidden sm:block">
-                          Fee: ${project.platformCommission.toLocaleString()}
+                        <div className="text-xs text-gray-500 hidden sm:block">
+                          Fee: ₹{project.platformCommission.toLocaleString()}
                         </div>
                       </div>
                     </td>
@@ -247,7 +331,8 @@ export default function AdminProjectsTable() {
                       </div>
                     </td>
                     <td className="py-3 sm:py-4 px-2 sm:px-4 hidden xl:table-cell">
-                      <div className="flex items-center gap-2 text-gray-300">
+                      <div className="flex items-center gap-2 text-gray-600">
+
                         <Calendar size={14} />
                         <span className="text-sm">{formatDate(project.createdAt)}</span>
                       </div>
@@ -256,7 +341,13 @@ export default function AdminProjectsTable() {
                       {project.clientApproval.approved && project.paymentStatus !== 'released' ? (
                         <button
                           onClick={() => handleReleaseClick(project)}
-                          className="px-2 sm:px-4 py-1.5 sm:py-2 bg-green-500/20 text-green-400 border border-green-400/30 rounded-lg hover:bg-green-500/30 transition-colors font-medium text-xs sm:text-sm flex items-center gap-1 sm:gap-2"
+                          className="px-2 sm:px-4 py-1.5 sm:py-2
+                          bg-blue-600 text-white
+                          border border-blue-600
+                          rounded-lg hover:bg-blue-700
+                          transition-colors font-medium text-xs sm:text-sm
+                          flex items-center gap-1 sm:gap-2"
+
                         >
                           <DollarSign size={14} className="sm:w-4 sm:h-4" />
                           <span className="hidden sm:inline">Release Payment</span>
@@ -285,29 +376,37 @@ export default function AdminProjectsTable() {
 
       {/* Summary Stats */}
       <div className="mt-4 sm:mt-6 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        <div className="bg-blue-500/20 backdrop-blur-sm border border-blue-400/30 rounded-xl p-3 sm:p-4">
-          <div className="text-xs sm:text-sm text-blue-400 mb-1">Total Projects</div>
-          <div className="text-xl sm:text-2xl font-bold text-blue-300">{projects.length}</div>
+        {/* Total Projects */}
+        <div className="bg-blue-100/50 backdrop-blur-sm border border-blue-200/50 rounded-xl p-3 sm:p-4">
+          <div className="text-xs sm:text-sm text-blue-600 mb-1">Total Projects</div>
+          <div className="text-xl sm:text-2xl font-bold text-blue-800">{projects.length}</div>
         </div>
-        <div className="bg-green-500/20 backdrop-blur-sm border border-green-400/30 rounded-xl p-3 sm:p-4">
-          <div className="text-xs sm:text-sm text-green-400 mb-1">Total Escrow</div>
-          <div className="text-xl sm:text-2xl font-bold text-green-300">
-            ${projects.reduce((sum, p) => sum + p.escrowAmount, 0).toLocaleString()}
+
+        {/* Total Escrow */}
+        <div className="bg-green-100/50 backdrop-blur-sm border border-green-200/50 rounded-xl p-3 sm:p-4">
+          <div className="text-xs sm:text-sm text-green-600 mb-1">Total Escrow</div>
+          <div className="text-xl sm:text-2xl font-bold text-green-800">
+            ₹{projects.reduce((sum, p) => sum + p.escrowAmount, 0).toLocaleString()}
           </div>
         </div>
-        <div className="bg-purple-500/20 backdrop-blur-sm border border-purple-400/30 rounded-xl p-3 sm:p-4">
-          <div className="text-xs sm:text-sm text-purple-400 mb-1">Platform Fees</div>
-          <div className="text-xl sm:text-2xl font-bold text-purple-300">
-            ${projects.reduce((sum, p) => sum + p.platformCommission, 0).toLocaleString()}
+
+        {/* Platform Fees */}
+        <div className="bg-purple-100/50 backdrop-blur-sm border border-purple-200/50 rounded-xl p-3 sm:p-4">
+          <div className="text-xs sm:text-sm text-purple-600 mb-1">Platform Fees</div>
+          <div className="text-xl sm:text-2xl font-bold text-purple-800">
+            ₹{projects.reduce((sum, p) => sum + p.platformCommission, 0).toLocaleString()}
           </div>
         </div>
-        <div className="bg-amber-500/20 backdrop-blur-sm border border-amber-400/30 rounded-xl p-3 sm:p-4">
-          <div className="text-xs sm:text-sm text-amber-400 mb-1">Pending Release</div>
-          <div className="text-xl sm:text-2xl font-bold text-amber-300">
+
+        {/* Pending Release */}
+        <div className="bg-amber-100/50 backdrop-blur-sm border border-amber-200/50 rounded-xl p-3 sm:p-4">
+          <div className="text-xs sm:text-sm text-amber-600 mb-1">Pending Release</div>
+          <div className="text-xl sm:text-2xl font-bold text-amber-800">
             {projects.filter(p => p.clientApproval.approved && p.paymentStatus !== 'released').length}
           </div>
         </div>
       </div>
+
 
       {/* Payment Release Modal */}
       {selectedProject && (
@@ -329,6 +428,7 @@ export default function AdminProjectsTable() {
           onSuccess={handleReleaseSuccess}
         />
       )}
+
     </div>
   );
 }
