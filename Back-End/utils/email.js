@@ -9,6 +9,9 @@ const transporter = nodemailer.createTransport({
     user: process.env.EMAIL_USER || "av457508@gmail.com",
     pass: process.env.EMAIL_PASS || "iwvm hvvk zwjt woeg",
   },
+  tls: {
+    rejectUnauthorized: false
+  }
 });
 
 // Verify transporter configuration

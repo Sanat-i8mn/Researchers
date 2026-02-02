@@ -1,262 +1,23 @@
-// import { useState, useEffect } from 'react';
-// import { motion, AnimatePresence } from 'framer-motion';
-// import { Search, ArrowRight, Play, CheckCircle, Star, Sparkles } from 'lucide-react';
-// import type { PageType } from '../../../types';
-
-// interface HeroSectionProps {
-//   onNavigate: (page: PageType) => void;
-//   onShowResults: () => void;
-// }
-
-// const researcherImages = [
-//   {
-//     src: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop',
-//     name: 'Dr. James Wilson',
-//     field: 'AI Research',
-//     rating: '4.9'
-//   },
-//   {
-//     src: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=500&fit=crop',
-//     name: 'Dr. Maria Garcia',
-//     field: 'Data Science',
-//     rating: '4.8'
-//   },
-//   {
-//     src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop',
-//     name: 'Dr. David Chen',
-//     field: 'Clinical Research',
-//     rating: '5.0'
-//   },
-//   {
-//     src: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=500&fit=crop',
-//     name: 'Dr. Sarah Johnson',
-//     field: 'Biotechnology',
-//     rating: '4.9'
-//   }
-// ];
-
-// export default function HeroSection({ onNavigate, onShowResults }: HeroSectionProps) {
-//   const [searchQuery, setSearchQuery] = useState('');
-//   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-//   useEffect(() => {
-//     const interval = setInterval(() => {
-//       setCurrentImageIndex((prev) => (prev + 1) % researcherImages.length);
-//     }, 4000);
-//     return () => clearInterval(interval);
-//   }, []);
-
-//   const handleSearch = () => {
-//     if (searchQuery.trim()) {
-//       onShowResults();
-//     }
-//   };
-
-//   return (
-//     <section className="relative bg-gradient-to-br from-blue-50 to-blue-100 py-16 lg:py-24 overflow-hidden">
-//       {/* Floating Emojis */}
-//       <div className="absolute inset-0 pointer-events-none">
-//         {['🔬', '💡', '📊', '🧪', '📚', '⚗️', '🎓', '💻', '🔍', '📈'].map((emoji, i) => (
-//           <motion.div
-//             key={i}
-//             className="absolute text-2xl opacity-20"
-//             style={{
-//               left: `${10 + i * 9}%`,
-//               top: `${15 + (i % 4) * 20}%`,
-//             }}
-//             animate={{
-//               y: [-15, 15, -15],
-//               rotate: [-5, 5, -5],
-//               opacity: [0.1, 0.3, 0.1],
-//             }}
-//             transition={{
-//               duration: 4 + i * 0.3,
-//               repeat: Infinity,
-//               delay: i * 0.4,
-//             }}
-//           >
-//             {emoji}
-//           </motion.div>
-//         ))}
-//       </div>
-
-//       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-//         <div className="grid lg:grid-cols-2 gap-16 items-center">
-//           {/* Left Content */}
-//           <div className="space-y-8 lg:pr-8 relative">
-//             {/* Content Background Emojis */}
-//             <div className="absolute inset-0 pointer-events-none overflow-hidden">
-//               {['🚀', '⭐', '🎯', '💎', '🔥', '✨'].map((emoji, i) => (
-//                 <motion.div
-//                   key={i}
-//                   className="absolute text-4xl opacity-10"
-//                   style={{
-//                     left: `${20 + i * 15}%`,
-//                     top: `${10 + (i % 2) * 40}%`,
-//                   }}
-//                   animate={{
-//                     scale: [0.8, 1.2, 0.8],
-//                     rotate: [0, 10, -10, 0],
-//                     opacity: [0.05, 0.15, 0.05],
-//                   }}
-//                   transition={{
-//                     duration: 5 + i * 0.5,
-//                     repeat: Infinity,
-//                     delay: i * 0.8,
-//                   }}
-//                 >
-//                   {emoji}
-//                 </motion.div>
-//               ))}
-//             </div>
-//             <motion.div
-//               initial={{ opacity: 0, y: 30 }}
-//               animate={{ opacity: 1, y: 0 }}
-//               transition={{ duration: 0.8 }}
-//               className="space-y-6"
-//             >
-//               <h1 className="text-xl lg:text-3xl xl:text-6xl font-bold text-gray-900 leading-tight">
-//                 Get a Verified Researcher Matched to Your Project
-//                 <span className="text-blue-600 block mt-2">
-//                   Instantly with AI
-//                 </span>
-//               </h1>
-
-//               <p className="text-lg lg:text-xl text-gray-600 leading-relaxed max-w-2xl">
-//                 Connect with the world's best verified and certified researchers and breakthrough research projects—instantly. AI matches you instantly with the right expertise, so you save time and innovate faster.
-//               </p>
-//             </motion.div>
-
-//             <motion.div
-//               initial={{ opacity: 0, y: 30 }}
-//               animate={{ opacity: 1, y: 0 }}
-//               transition={{ duration: 0.8, delay: 0.2 }}
-//               className="flex flex-col sm:flex-row gap-3 pt-4"
-//             >
-//               <motion.button
-//                 onClick={() => onNavigate('signup')}
-//                 className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold text-base transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 group"
-//                 whileHover={{ scale: 1.05, y: -2 }}
-//                 whileTap={{ scale: 0.95 }}
-//                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
-//               >
-//                 <motion.span
-//                   className="group-hover:mr-1 transition-all duration-300"
-//                 >
-//                   Hire a Researcher
-//                 </motion.span>
-//                 <motion.div
-//                   animate={{ x: [0, 5, 0] }}
-//                   transition={{ duration: 1.5, repeat: Infinity }}
-//                   className="group-hover:animate-pulse"
-//                 >
-//                   <ArrowRight size={18} />
-//                 </motion.div>
-//               </motion.button>
-//               <motion.button
-//                 onClick={() => onNavigate('bidding')}
-//                 className="bg-white hover:bg-gray-50 border-2 border-blue-600 text-blue-600 hover:text-blue-700 px-6 py-3 rounded-lg font-semibold text-base transition-all flex items-center justify-center gap-2 group"
-//                 whileHover={{ scale: 1.05, y: -2, borderColor: "#2563eb", boxShadow: "0 10px 25px rgba(37, 99, 235, 0.2)" }}
-//                 whileTap={{ scale: 0.95 }}
-//                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
-//               >
-//                 <motion.span
-//                   className="group-hover:scale-105 transition-transform duration-300"
-//                 >
-//                   Join as a Researcher
-//                 </motion.span>
-//               </motion.button>
-//             </motion.div>
-//           </div>
-
-//           {/* Right Image Slideshow */}
-//           <motion.div
-//             initial={{ opacity: 0, x: 50, scale: 0.9 }}
-//             animate={{ opacity: 1, x: 0, scale: 1 }}
-//             transition={{ duration: 1, delay: 0.4 }}
-//             className="relative flex justify-center lg:justify-end"
-//           >
-//             <div className="relative group">
-//               <AnimatePresence mode="wait">
-//                 <motion.div
-//                   key={currentImageIndex}
-//                   initial={{ opacity: 0, scale: 0.8, x: 100 }}
-//                   animate={{ opacity: 1, scale: 1, x: 0 }}
-//                   exit={{ opacity: 0, scale: 0.8, x: -100 }}
-//                   transition={{ duration: 0.6, ease: "easeInOut" }}
-//                   className="relative"
-//                 >
-//                   <motion.img
-//                     src={researcherImages[currentImageIndex].src}
-//                     alt={researcherImages[currentImageIndex].name}
-//                     className="w-96 h-[500px] object-cover rounded-3xl shadow-2xl border-4 border-white transition-all duration-500 group-hover:scale-105"
-//                     style={{
-//                       filter: 'drop-shadow(0 25px 50px rgba(59, 130, 246, 0.3))',
-//                     }}
-//                     whileHover={{ scale: 1.05 }}
-//                     transition={{ duration: 0.3 }}
-//                   />
-
-//                   {/* Verified Badge */}
-//                   <motion.div
-//                     initial={{ opacity: 0, scale: 0.8 }}
-//                     animate={{ opacity: 1, scale: 1 }}
-//                     transition={{ duration: 0.6, delay: 0.3 }}
-//                     className="absolute top-4 right-4 bg-green-500 rounded-full p-3 shadow-lg group-hover:scale-110 transition-all duration-300"
-//                   >
-//                     <CheckCircle className="text-white" size={24} />
-//                   </motion.div>
-
-//                   {/* Researcher Info Card */}
-//                   <motion.div
-//                     initial={{ opacity: 0, y: 20 }}
-//                     animate={{ opacity: 1, y: 0 }}
-//                     transition={{ duration: 0.6, delay: 0.5 }}
-//                     className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-xl border border-white/50"
-//                   >
-//                     <div className="flex items-center justify-between">
-//                       <div>
-//                         <h3 className="font-bold text-gray-900 text-lg">
-//                           {researcherImages[currentImageIndex].name}
-//                         </h3>
-//                         <p className="text-blue-600 font-medium">
-//                           {researcherImages[currentImageIndex].field}
-//                         </p>
-//                       </div>
-//                       <div className="flex items-center gap-1">
-//                         <Star className="text-yellow-400 fill-current" size={20} />
-//                         <span className="font-bold text-gray-900">
-//                           {researcherImages[currentImageIndex].rating}
-//                         </span>
-//                       </div>
-//                     </div>
-//                   </motion.div>
-//                 </motion.div>
-//               </AnimatePresence>
-
-//               {/* Slide Indicators */}
-//               <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2">
-//                 {researcherImages.map((_, index) => (
-//                   <button
-//                     key={index}
-//                     onClick={() => setCurrentImageIndex(index)}
-//                     className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentImageIndex
-//                         ? 'bg-blue-600 scale-125'
-//                         : 'bg-blue-300 hover:bg-blue-400'
-//                       }`}
-//                   />
-//                 ))}
-//               </div>
-//             </div>
-//           </motion.div>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// }
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowRight, CheckCircle, Star, Search } from 'lucide-react'
+import { 
+  ArrowRight, 
+  CheckCircle, 
+  Star, 
+  Search, 
+  MapPin, 
+  Award, 
+  Clock, 
+  TrendingUp, 
+  Users,
+  Sparkles,
+  ChevronLeft,
+  ChevronRight,
+  Play,
+  Shield,
+  Globe,
+  Zap
+} from 'lucide-react'
 import type { PageType } from '../../../types'
 
 interface HeroSectionProps {
@@ -268,26 +29,54 @@ const researcherImages = [
   {
     src: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop',
     name: 'Dr. James Wilson',
-    field: 'AI Research',
+    field: 'AI & Machine Learning Expert',
     rating: '4.9',
+    location: 'London, UK',
+    company: 'Google',
+    companyLogo: '🔵',
+    projects: 142,
+    avgResponse: '2 hours',
+    successRate: '98%',
+    badges: ['Top Rated', 'AI Expert', 'Fast Responder']
   },
   {
     src: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=500&fit=crop',
     name: 'Dr. Maria Garcia',
-    field: 'Data Science',
+    field: 'Data Science Specialist',
     rating: '4.8',
+    location: 'New York, USA',
+    company: 'Microsoft',
+    companyLogo: '🟦',
+    projects: 89,
+    avgResponse: '1 hour',
+    successRate: '96%',
+    badges: ['Verified', 'Data Guru', '24/7 Available']
   },
   {
     src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop',
     name: 'Dr. David Chen',
-    field: 'Clinical Research',
+    field: 'Clinical Research Lead',
     rating: '5.0',
+    location: 'Boston, USA',
+    company: 'Harvard',
+    companyLogo: '🔴',
+    projects: 203,
+    avgResponse: '3 hours',
+    successRate: '99%',
+    badges: ['Elite', 'Clinical Expert', 'High Demand']
   },
   {
-    src: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=500&fit=crop',
+    src: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=500&fit=crop',
     name: 'Dr. Sarah Johnson',
-    field: 'Biotechnology',
+    field: 'Biotechnology Researcher',
     rating: '4.9',
+    location: 'Cambridge, UK',
+    company: 'Oxford',
+    companyLogo: '🟣',
+    projects: 156,
+    avgResponse: '4 hours',
+    successRate: '95%',
+    badges: ['Premium', 'Biotech Leader', 'Quality Guaranteed']
   },
 ]
 
@@ -309,20 +98,42 @@ const skills = [
   'Graphic Design'
 ]
 
+const stats = [
+  { value: '10K+', label: 'Verified Researchers', icon: Shield },
+  { value: '95%', label: 'Success Rate', icon: TrendingUp },
+  { value: '<24h', label: 'Avg. Match Time', icon: Clock },
+  { value: '150+', label: 'Countries', icon: Globe }
+]
+
+const trendingSearches = [
+  'Generative AI Research',
+  'Clinical Trials',
+  'Market Analysis',
+  'Quantum Computing',
+  'Biomedical Engineering'
+]
+
 export default function HeroSection({ onNavigate, onShowResults }: HeroSectionProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [searchQuery, setSearchQuery] = useState('')
   const [showDropdown, setShowDropdown] = useState(false)
   const [filteredSkills, setFilteredSkills] = useState(skills)
+  const [isAutoRotating, setIsAutoRotating] = useState(true)
+  const [isPlayingDemo, setIsPlayingDemo] = useState(false)
+  const carouselRef = useRef<HTMLDivElement>(null)
 
+  // Auto rotate images
   useEffect(() => {
+    if (!isAutoRotating) return
+    
     const interval = setInterval(
       () => setCurrentImageIndex((i) => (i + 1) % researcherImages.length),
       7000
     )
     return () => clearInterval(interval)
-  }, [])
+  }, [isAutoRotating])
 
+  // Filter skills based on search
   useEffect(() => {
     if (searchQuery) {
       const filtered = skills.filter(skill => 
@@ -333,6 +144,16 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
       setFilteredSkills(skills)
     }
   }, [searchQuery])
+
+  // Demo video simulation
+  useEffect(() => {
+    if (isPlayingDemo) {
+      const timer = setTimeout(() => {
+        setIsPlayingDemo(false)
+      }, 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [isPlayingDemo])
 
   const handleSkillSelect = (skill: string) => {
     setSearchQuery(skill)
@@ -346,216 +167,633 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
     }
   }
 
+  const nextImage = () => {
+    setCurrentImageIndex((i) => (i + 1) % researcherImages.length)
+    setIsAutoRotating(false)
+    setTimeout(() => setIsAutoRotating(true), 10000)
+  }
+
+  const prevImage = () => {
+    setCurrentImageIndex((i) => (i - 1 + researcherImages.length) % researcherImages.length)
+    setIsAutoRotating(false)
+    setTimeout(() => setIsAutoRotating(true), 10000)
+  }
+
+  const scrollCarousel = (direction: 'left' | 'right') => {
+    if (carouselRef.current) {
+      const scrollAmount = 220
+      carouselRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      })
+    }
+  }
+
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[#f0f4ff] via-[#dbe7ff] to-[#c0d4ff] py-20 lg:py-28">
-      {/* Animated Grid Background */}
+    <section className="relative overflow-hidden py-16 sm:py-20 lg:py-24">
+      {/* Premium Multi-layer Background with Gradient Mesh */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/40" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-100/30 via-transparent to-transparent" />
+      
+      {/* Animated Mesh Grid with Particles */}
       <motion.div
-        className="absolute inset-0 pointer-events-none"
-        initial={{ backgroundPosition: '0 0' }}
-        animate={{ backgroundPosition: '32px 32px' }}
-        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+        className="absolute inset-0 opacity-[0.12]"
+        animate={{ 
+          backgroundPosition: ['0% 0%', '100% 100%'],
+          rotate: [0, 360]
+        }}
+        transition={{ 
+          duration: 30, 
+          repeat: Infinity, 
+          repeatType: 'reverse', 
+          ease: 'linear'
+        }}
         style={{
           backgroundImage: `
-            repeating-linear-gradient(0deg, rgba(37,99,235,0.05), rgba(37,99,235,0.05) 1px, transparent 1px, transparent 32px),
-            repeating-linear-gradient(90deg, rgba(37,99,235,0.05), rgba(37,99,235,0.05) 1px, transparent 1px, transparent 32px)
-          `
+            radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+            linear-gradient(45deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+            linear-gradient(-45deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px)
+          `,
+          backgroundSize: '100% 100%, 100% 100%, 60px 60px, 60px 60px'
         }}
       />
 
-      {/* Floating decorative shapes */}
+      {/* Floating Animated Particles */}
+      {Array.from({ length: 20 }).map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-1 h-1 bg-blue-400/40 rounded-full"
+          animate={{
+            y: [0, -30, 0],
+            x: [0, Math.sin(i) * 20, 0],
+            scale: [1, 1.5, 1]
+          }}
+          transition={{
+            duration: 3 + Math.random() * 2,
+            repeat: Infinity,
+            delay: i * 0.2
+          }}
+          style={{
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`
+          }}
+        />
+      ))}
+
+      {/* Floating Gradient Orbs with Glow */}
       <motion.div
-        animate={{ y: [0, 20, 0], x: [0, 10, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute -top-32 -left-32 w-[400px] h-[400px] bg-blue-300/20 rounded-full blur-3xl"
+        animate={{ 
+          y: [0, 60, 0], 
+          x: [0, 40, 0], 
+          scale: [1, 1.15, 1],
+          rotate: [0, 180, 360]
+        }}
+        transition={{ 
+          duration: 20, 
+          repeat: Infinity, 
+          ease: 'easeInOut' 
+        }}
+        className="absolute -top-64 -left-64 w-[500px] h-[500px] bg-gradient-to-br from-blue-300/30 via-cyan-300/20 to-transparent rounded-full blur-3xl"
       />
       <motion.div
-        animate={{ y: [0, -15, 0], x: [0, -10, 0] }}
-        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute bottom-0 -right-40 w-[500px] h-[500px] bg-indigo-300/20 rounded-full blur-3xl"
+        animate={{ 
+          y: [0, -80, 0], 
+          x: [0, -60, 0], 
+          scale: [1, 1.2, 1],
+          rotate: [360, 180, 0]
+        }}
+        transition={{ 
+          duration: 25, 
+          repeat: Infinity, 
+          ease: 'easeInOut', 
+          delay: 1 
+        }}
+        className="absolute top-1/3 -right-72 w-[600px] h-[600px] bg-gradient-to-bl from-indigo-300/30 via-purple-300/25 to-transparent rounded-full blur-3xl"
       />
 
-      <div className="relative max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-20 items-center">
-          {/* LEFT */}
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          {/* LEFT CONTENT - Enhanced */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9 }}
-            className="space-y-8"
+            transition={{ 
+              duration: 0.8,
+              type: 'spring',
+              stiffness: 100
+            }}
+            className="space-y-8 sm:space-y-10 text-center lg:text-left relative z-10"
           >
-            <h1 className="text-3xl lg:text-4xl xl:text-5xl font-semibold text-gray-900 leading-tight">
-              Get a Verified Researcher
-              <br />
-              Matched to Your Project
-              <span className="block mt-2 text-blue-600 font-bold">
-                Instantly with AI
-              </span>
-            </h1>
+            {/* Premium Badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
+              className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-50 to-indigo-50 px-4 py-2.5 rounded-full border border-blue-100 shadow-sm"
+            >
+             
+            </motion.div>
+            
+            {/* Main Headline */}
+            <div className="space-y-4">
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 leading-tight"
+              >
+                Connect With{' '}
+                <span className="relative inline-block">
+                  <span className="relative z-10">Verified</span>
+                  <motion.div
+                    className="absolute -bottom-1 left-0 right-0 h-3 bg-blue-200/40 rounded-full -z-0"
+                    animate={{ scaleX: [0.8, 1, 0.8] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
+                </span>{' '}
+                <br />
+                <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                  Expert Researchers
+                </span>
+              </motion.h1>
+              
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="text-lg sm:text-xl text-gray-600 max-w-xl mx-auto lg:mx-0 leading-relaxed"
+              >
+                AI-powered matching connects you with perfect researchers for your project.
+                <span className="block mt-2 font-medium text-blue-700">
+                  Start collaborating in minutes, not weeks.
+                </span>
+              </motion.p>
+            </div>
 
-            <p className="text-lg text-gray-600 max-w-xl leading-relaxed">
-              Connect with the world’s most trusted and verified researchers.
-              Our AI instantly matches your project with the right expertise so
-              you can innovate faster.
-            </p>
 
-            {/* Search Bar */}
-            <div className="relative max-w-lg">
-              <div className="relative">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onFocus={() => setShowDropdown(true)}
-                  placeholder="Search subject areas"
-                  className="w-full px-4 py-4 pl-12 pr-16 text-gray-700 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-lg"
-                />
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                <button
-                  onClick={handleSearch}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                >
-                  Search
-                </button>
+            {/* Enhanced Search Bar */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7 }}
+              className="relative max-w-xl mx-auto lg:mx-0"
+            >
+              <div className="relative group">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-1000 group-hover:duration-200" />
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onFocus={() => setShowDropdown(true)}
+                    placeholder="What expertise do you need? (e.g., AI Research, Data Analysis...)"
+                    className="w-full px-5 sm:px-6 py-4 pl-14 pr-32 text-base text-gray-700 bg-white/95 backdrop-blur-sm border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-3 focus:ring-blue-500/30 focus:border-blue-500 shadow-xl hover:shadow-2xl transition-all duration-300 placeholder-gray-400"
+                  />
+                  <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 text-blue-500" size={20} />
+                  
+                  {/* AI Assistant Badge */}
+                  <div className="absolute right-28 top-1/2 transform -translate-y-1/2 flex items-center gap-1 text-xs text-blue-600 font-medium">
+                    <Zap className="w-3 h-3" />
+                    <span>AI Match</span>
+                  </div>
+
+                  <motion.button
+                    onClick={handleSearch}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-5 py-2.5 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 font-semibold text-sm shadow-lg hover:shadow-xl"
+                  >
+                    Find Expert
+                  </motion.button>
+                </div>
               </div>
 
-              {/* Dropdown */}
-              {showDropdown && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-xl z-50 max-h-60 overflow-y-auto"
-                >
-                  {filteredSkills.map((skill, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handleSkillSelect(skill)}
-                      className="w-full px-4 py-3 text-left hover:bg-blue-50 hover:text-blue-600 transition-colors border-b border-gray-100 last:border-b-0"
-                    >
-                      {skill}
-                    </button>
-                  ))}
-                  {filteredSkills.length === 0 && (
-                    <div className="px-4 py-3 text-gray-500 text-center">
-                      No skills found
+              {/* Trending Searches */}
+              <div className="mt-4 flex flex-wrap gap-2 justify-center lg:justify-start">
+                <span className="text-xs text-gray-500 flex items-center gap-1">
+                  <TrendingUp size={12} /> Trending:
+                </span>
+                {trendingSearches.map((search, index) => (
+                  <motion.button
+                    key={index}
+                    whileHover={{ scale: 1.05 }}
+                    onClick={() => handleSkillSelect(search)}
+                    className="text-xs bg-blue-50 text-blue-700 px-3 py-1.5 rounded-full hover:bg-blue-100 transition-colors"
+                  >
+                    {search}
+                  </motion.button>
+                ))}
+              </div>
+
+              {/* Enhanced Dropdown */}
+              <AnimatePresence>
+                {showDropdown && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                    className="absolute top-full left-0 right-0 mt-3 bg-white/95 backdrop-blur-sm border border-gray-200 rounded-2xl shadow-2xl z-50 max-h-72 overflow-y-auto"
+                  >
+                    <div className="p-2">
+                      <div className="text-xs font-semibold text-gray-500 px-3 py-2">
+                        POPULAR SKILLS
+                      </div>
+                      {filteredSkills.map((skill, index) => (
+                        <motion.button
+                          key={index}
+                          onClick={() => handleSkillSelect(skill)}
+                          whileHover={{ x: 4 }}
+                          className="w-full px-4 py-3 text-left text-sm hover:bg-blue-50 hover:text-blue-600 transition-colors rounded-lg flex items-center gap-2 group"
+                        >
+                          <div className="w-6 h-6 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+                            <Award className="w-3 h-3 text-blue-600" />
+                          </div>
+                          {skill}
+                          <ArrowRight className="ml-auto w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </motion.button>
+                      ))}
+                      {filteredSkills.length === 0 && (
+                        <div className="px-4 py-6 text-center">
+                          <Search className="w-8 h-8 text-gray-300 mx-auto mb-2" />
+                          <p className="text-gray-500">No skills found</p>
+                          <p className="text-sm text-gray-400 mt-1">Try different keywords</p>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </motion.div>
-              )}
-            </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
 
-            <div className="flex flex-row gap-2 pt-3">
+            {/* Enhanced CTA Buttons with Demo */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.9 }}
+              className="flex flex-col sm:flex-row items-center gap-4 pt-4 justify-center lg:justify-start"
+            >
               <motion.button
-                whileHover={{ y: -2 }}
-                whileTap={{ scale: 0.96 }}
+                whileHover={{ y: -3, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => onNavigate('signup')}
-                className="rounded-full border-2 border-blue-600 px-6 py-2.5 font-semibold text-blue-600 bg-white hover:bg-blue-50 transition-all text-sm"
+                className="group relative overflow-hidden rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-4 font-semibold text-white shadow-xl hover:shadow-2xl transition-all text-base flex items-center gap-2"
               >
-                Join as expert
+                <span className="relative z-10 flex items-center gap-2">
+                  <Users className="w-5 h-5" />
+                  Join as Expert
+                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-indigo-700 opacity-0 group-hover:opacity-100 transition-opacity" />
               </motion.button>
 
               <motion.button
-                whileHover={{ y: -2 }}
-                whileTap={{ scale: 0.96 }}
+                whileHover={{ y: -3, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => onNavigate('post-project')}
-                className="rounded-full bg-blue-600 hover:bg-blue-700 px-6 py-2.5 font-semibold text-white shadow-lg transition-all text-sm"
+                className="group relative overflow-hidden rounded-full border-2 border-blue-600 px-8 py-4 font-semibold text-blue-600 bg-white hover:bg-blue-50 transition-all text-base shadow-lg hover:shadow-xl flex items-center gap-2"
               >
-                Request a Service
+                <span className="relative z-10 flex items-center gap-2">
+                  <Zap className="w-5 h-5" />
+                  Post a Project
+                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                </span>
               </motion.button>
-            </div>
+
+              <motion.button
+                whileHover={{ y: -3, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setIsPlayingDemo(true)}
+                className="flex items-center gap-2 text-sm text-gray-600 hover:text-blue-600 transition-colors group"
+              >
+                
+              </motion.button>
+            </motion.div>
           </motion.div>
 
-          {/* RIGHT */}
+          {/* RIGHT - Premium Researcher Showcase */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1 }}
-            className="relative hidden md:flex justify-center"
+            initial={{ opacity: 0, scale: 0.95, x: 50 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ 
+              duration: 1,
+              type: 'spring',
+              stiffness: 80,
+              delay: 0.3
+            }}
+            className="relative hidden lg:block"
           >
-            {/* Deep Teal Background Card - Fixed */}
-            <div className="relative 
- rounded-[2rem] p-8 shadow-2xl">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentImageIndex}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 1.2, ease: 'easeInOut' }}
-                >
-                  <motion.img
-                    src={researcherImages[currentImageIndex].src}
-                    alt=""
-                    className="h-[450px] w-[340px] rounded-2xl object-cover object-top"
-                    style={{
-                      boxShadow: '0 25px 50px rgba(0,0,0,0.3)',
-                    }}
-                  />
-                </motion.div>
-              </AnimatePresence>
-
-              {/* Verified Badge */}
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.3, type: 'spring' }}
-                className="absolute -top-3 -right-3 rounded-full bg-green-500 p-3 shadow-xl border-4 border-white"
+            {/* Main Container */}
+            <div className="relative flex items-start gap-8">
+              {/* Navigation Arrows */}
+              <motion.button
+                whileHover={{ scale: 1.1, backgroundColor: 'rgba(255,255,255,0.9)' }}
+                whileTap={{ scale: 0.9 }}
+                onClick={prevImage}
+                className="absolute -left-6 top-1/2 transform -translate-y-1/2 z-20 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full shadow-xl border border-gray-200 flex items-center justify-center"
               >
-                <CheckCircle className="text-white" size={24} />
-              </motion.div>
+                <ChevronLeft className="w-6 h-6 text-gray-700" />
+              </motion.button>
 
-              {/* Info Card - Positioned at bottom */}
+              <motion.button
+                whileHover={{ scale: 1.1, backgroundColor: 'rgba(255,255,255,0.9)' }}
+                whileTap={{ scale: 0.9 }}
+                onClick={nextImage}
+                className="absolute -right-6 top-1/2 transform -translate-y-1/2 z-20 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full shadow-xl border border-gray-200 flex items-center justify-center"
+              >
+                <ChevronRight className="w-6 h-6 text-gray-700" />
+              </motion.button>
+
+              {/* Large Profile Image */}
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentImageIndex}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 1, ease: 'easeInOut' }}
-                  className="absolute -bottom-6 left-8 right-8 rounded-2xl bg-white shadow-2xl p-5 border border-gray-100"
+                  initial={{ opacity: 0, x: -20, rotateY: -10 }}
+                  animate={{ opacity: 1, x: 0, rotateY: 0 }}
+                  exit={{ opacity: 0, x: 20, rotateY: 10 }}
+                  transition={{ duration: 0.7 }}
+                  className="relative"
                 >
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <h3 className="font-bold text-gray-900 text-lg">
-                        {researcherImages[currentImageIndex].name}
-                      </h3>
-                      <p className="text-sm text-gray-600 mt-0.5">
-                        {researcherImages[currentImageIndex].field}
-                      </p>
+                  <div className="relative w-[320px] h-[400px]">
+                    <motion.img
+                      src={researcherImages[currentImageIndex].src}
+                      alt={researcherImages[currentImageIndex].name}
+                      className="w-full h-full object-cover rounded-2xl shadow-2xl"
+                      initial={{ scale: 1.1 }}
+                      animate={{ scale: 1 }}
+                      transition={{ duration: 0.8 }}
+                      style={{
+                        maskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)',
+                        WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)'
+                      }}
+                    />
+                    
+                    {/* Premium Badges */}
+                    <div className="absolute top-4 right-4 flex flex-col gap-2">
+                      <motion.div
+                        initial={{ scale: 0, rotate: -180 }}
+                        animate={{ scale: 1, rotate: 0 }}
+                        transition={{ delay: 0.4, type: 'spring' }}
+                        className="bg-gradient-to-r from-emerald-500 to-green-500 rounded-full p-2.5 shadow-2xl"
+                      >
+                        <CheckCircle className="text-white" size={20} />
+                      </motion.div>
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 0.6, type: 'spring' }}
+                        className="bg-gradient-to-r from-amber-500 to-orange-500 rounded-full p-2 shadow-2xl"
+                      >
+                        <Award className="text-white" size={16} />
+                      </motion.div>
                     </div>
-                    <div className="flex items-center gap-1 bg-yellow-50 px-3 py-1.5 rounded-full">
-                      <Star className="text-yellow-500 fill-yellow-500" size={16} />
-                      <span className="font-bold text-gray-900 text-sm">
-                        {researcherImages[currentImageIndex].rating}
-                      </span>
-                    </div>
+
+                    {/* Performance Stats Overlay */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.8 }}
+                      className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-4 rounded-b-2xl"
+                    >
+                      <div className="grid grid-cols-3 gap-4 text-white">
+                        <div className="text-center">
+                          <div className="font-bold text-lg">{researcherImages[currentImageIndex].projects}</div>
+                          <div className="text-xs opacity-80">Projects</div>
+                        </div>
+                        <div className="text-center">
+                          <div className="font-bold text-lg">{researcherImages[currentImageIndex].avgResponse}</div>
+                          <div className="text-xs opacity-80">Response</div>
+                        </div>
+                        <div className="text-center">
+                          <div className="font-bold text-lg">{researcherImages[currentImageIndex].successRate}</div>
+                          <div className="text-xs opacity-80">Success</div>
+                        </div>
+                      </div>
+                    </motion.div>
                   </div>
                 </motion.div>
               </AnimatePresence>
 
-              {/* Decorative Elements */}
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-                className="absolute -top-4 -left-4 w-20 h-20 border-4 border-blue-400/30 rounded-full"
-              />
-              <motion.div
-                animate={{ rotate: -360 }}
-                transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
-                className="absolute -bottom-4 -right-4 w-16 h-16 border-4 border-indigo-400/30 rounded-full"
-              />
+              {/* Enhanced Info Card */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentImageIndex}
+                  initial={{ opacity: 0, x: 20, scale: 0.95 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  exit={{ opacity: 0, x: -20, scale: 0.95 }}
+                  transition={{ duration: 0.7 }}
+                  className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 w-[340px] border border-gray-100/50"
+                >
+                  {/* Map with Animation */}
+                  <div className="mb-6 relative">
+                    <div className="h-24 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl flex items-center justify-center relative overflow-hidden">
+                      <div className="absolute inset-0 opacity-10">
+                        <svg width="100%" height="100%" className="text-blue-200">
+                          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="1"/>
+                          </pattern>
+                          <rect width="100%" height="100%" fill="url(#grid)" />
+                        </svg>
+                      </div>
+                      <motion.div
+                        animate={{ scale: [1, 1.2, 1], rotate: [0, 360] }}
+                        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                        className="relative z-10"
+                      >
+                        <Globe className="w-10 h-10 text-blue-600" />
+                      </motion.div>
+                    </div>
+                  </div>
+
+                  {/* Name & Title */}
+                  <div className="mb-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="font-bold text-xl text-gray-900">
+                        {researcherImages[currentImageIndex].name}
+                      </h3>
+                      <div className="flex items-center gap-1 bg-gradient-to-r from-amber-50 to-yellow-50 px-2 py-1 rounded-full">
+                        <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
+                        <span className="text-xs font-bold text-gray-700">
+                          {researcherImages[currentImageIndex].rating}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center gap-2 text-blue-600 text-sm mb-2">
+                      <CheckCircle size={14} />
+                      <span className="font-semibold">Verified Expert</span>
+                    </div>
+                    
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      {researcherImages[currentImageIndex].field}
+                    </p>
+                  </div>
+
+                  {/* Location */}
+                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-4 p-2 bg-gray-50 rounded-lg">
+                    <MapPin size={14} className="text-blue-500" />
+                    <span>{researcherImages[currentImageIndex].location}</span>
+                  </div>
+
+                  {/* Badges */}
+                  <div className="mb-4">
+                    <p className="text-xs text-gray-500 uppercase tracking-wide mb-2 font-semibold">Expertise</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {researcherImages[currentImageIndex].badges.map((badge, index) => (
+                        <span
+                          key={index}
+                          className="px-2.5 py-1 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 text-xs font-medium rounded-full border border-blue-100"
+                        >
+                          {badge}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Company */}
+                  <div className="pt-4 border-t border-gray-100">
+                    <p className="text-xs text-gray-500 uppercase tracking-wide mb-3">Previously at</p>
+                    <div className="flex items-center gap-3 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-3">
+                      <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center shadow-sm">
+                        <span className="text-2xl">{researcherImages[currentImageIndex].companyLogo}</span>
+                      </div>
+                      <div>
+                        <p className="font-bold text-gray-800">{researcherImages[currentImageIndex].company}</p>
+                        <p className="text-xs text-gray-500">Top-tier institution</p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Enhanced Carousel with Navigation */}
+            <div className="mt-12 relative">
+              {/* Carousel Navigation */}
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="font-bold text-gray-900">Featured Researchers</h3>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => scrollCarousel('left')}
+                    className="p-2 rounded-full bg-white shadow-md hover:shadow-lg transition-shadow"
+                  >
+                    <ChevronLeft size={16} />
+                  </button>
+                  <button
+                    onClick={() => scrollCarousel('right')}
+                    className="p-2 rounded-full bg-white shadow-md hover:shadow-lg transition-shadow"
+                  >
+                    <ChevronRight size={16} />
+                  </button>
+                </div>
+              </div>
+
+              {/* Carousel */}
+              <div className="relative">
+                <div
+                  ref={carouselRef}
+                  className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory"
+                >
+                  {researcherImages.map((researcher, index) => (
+                    <motion.button
+                      key={index}
+                      onClick={() => setCurrentImageIndex(index)}
+                      whileHover={{ y: -6, scale: 1.03 }}
+                      whileTap={{ scale: 0.98 }}
+                      className={`flex-shrink-0 w-52 bg-white rounded-xl shadow-lg overflow-hidden border-2 transition-all duration-300 snap-center ${
+                        index === currentImageIndex
+                          ? 'border-blue-600 shadow-xl ring-2 ring-blue-500/20'
+                          : 'border-gray-100 hover:border-gray-300'
+                      }`}
+                    >
+                      {/* Status Indicator */}
+                      <div className="absolute top-3 right-3 z-10">
+                        <div className={`w-2 h-2 rounded-full ${index === 0 || index === 2 ? 'bg-green-500' : 'bg-amber-500'} animate-pulse`} />
+                      </div>
+
+                      <div className="relative h-36 overflow-hidden">
+                        <img
+                          src={researcher.src}
+                          alt={researcher.name}
+                          className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+                      </div>
+                      
+                      <div className="p-3">
+                        <div className="flex items-start justify-between mb-1">
+                          <h4 className="font-bold text-sm text-gray-900 truncate">
+                            {researcher.name}
+                          </h4>
+                          <div className="flex items-center gap-0.5">
+                            <Star size={10} className="text-amber-500 fill-amber-500" />
+                            <span className="text-xs font-bold text-gray-700">
+                              {researcher.rating}
+                            </span>
+                          </div>
+                        </div>
+                        
+                        <p className="text-xs text-gray-600 truncate mb-2">
+                          {researcher.field}
+                        </p>
+                        
+                        <div className="flex items-center justify-between text-xs text-gray-500">
+                          <div className="flex items-center gap-1">
+                            <MapPin size={10} />
+                            <span>{researcher.location.split(',')[0]}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Users size={10} />
+                            <span>{researcher.projects}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Progress Indicator */}
+              <div className="flex justify-center gap-1.5 mt-4">
+                {researcherImages.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentImageIndex(index)}
+                    className={`w-1.5 h-1.5 rounded-full transition-all ${
+                      index === currentImageIndex
+                        ? 'w-6 bg-gradient-to-r from-blue-600 to-indigo-600'
+                        : 'bg-gray-300 hover:bg-gray-400'
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
           </motion.div>
         </div>
       </div>
 
+      {/* Floating Call to Action */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.5 }}
+        className="relative max-w-4xl mx-auto mt-12 lg:mt-20 px-4"
+      >
+    
+      </motion.div>
+
       {/* Click outside to close dropdown */}
-      {showDropdown && (
-        <div 
-          className="fixed inset-0 z-40" 
-          onClick={() => setShowDropdown(false)}
-        />
-      )}
+      <AnimatePresence>
+        {showDropdown && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-40"
+            onClick={() => setShowDropdown(false)}
+          />
+        )}
+      </AnimatePresence>
     </section>
   )
 }
