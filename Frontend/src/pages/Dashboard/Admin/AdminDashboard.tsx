@@ -61,23 +61,36 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row" style={{ background: 'linear-gradient(135deg, #0A0E27 0%, #1a1f3a 50%, #0f1629 100%)' }}>
+    <div
+  className="min-h-screen flex flex-col lg:flex-row "
+  style={{
+    background: `
+      radial-gradient(circle at top right, rgba(10,102,194,0.06), transparent 40%),
+      linear-gradient(180deg, #F3F8FF 0%, #EEF4FF 100%)
+    `
+  }}
+>
+
+
       {/* Glow orbs */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+      {/* <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"></div>
         <div className="absolute top-40 right-32 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl"></div>
         <div className="absolute bottom-32 left-1/3 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl"></div>
-      </div>
-      
-      <AdminSidebar 
-        activeTab={activeTab} 
+      </div> */}
+
+      <AdminSidebar
+        activeTab={activeTab}
         onTabChange={setActiveTab}
         isMobileMenuOpen={isMobileMenuOpen}
         onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
       />
-      <main className="flex-1 min-w-0 p-4 sm:p-6 lg:p-8 relative z-10 overflow-x-auto lg:ml-0">
-        <div className="max-w-full mx-auto">
-          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-8 mt-16 lg:mt-0">
+      <main className="flex-1 min-w-0 p-4 sm:p-6 lg:p-8 relative z-10 overflow-x-auto lg:ml-0 text-[#4B5563]">
+
+        <div className="max-w-full mx-auto ">
+          <h1 className="text-2xl sm:text-3xl font-bold text-[#0F172A] mb-6 sm:mb-8 mt-16 lg:mt-0">
+
+
             {activeTab === 'overview' && 'Dashboard Overview'}
             {activeTab === 'users' && 'User Management'}
             {activeTab === 'projects' && 'Payment Management'}
