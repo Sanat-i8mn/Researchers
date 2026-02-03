@@ -13,8 +13,8 @@
     "typecheck": "tsc --noEmit -p tsconfig.app.json"
   },
   "dependencies": {
-    "@react-three/drei": "^10.7.7",
-    "@react-three/fiber": "^9.5.0",
+    "@react-three/drei": "^9.108.3",
+    "@react-three/fiber": "^8.16.8",
     "@supabase/supabase-js": "^2.57.4",
     "@types/aos": "^3.0.7",
     "aos": "^2.3.4",
