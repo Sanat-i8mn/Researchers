@@ -196,10 +196,23 @@ export default function BiddingPage() {
   // Show project list if no ID
   if (!id) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0A0E27] via-[#1a1f3a] to-[#0f1629] py-8 pt-20">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-8 pt-20">
+        {/* Floating Particles */}
+        {Array.from({ length: 20 }).map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-blue-400/40 rounded-full animate-pulse"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 2}s`
+            }}
+          />
+        ))}
+        
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl shadow-md p-8 mb-8">
-            <h1 className="text-3xl font-bold text-white mb-6">Find Projects</h1>
+          <div className="bg-white/80 backdrop-blur-sm border border-blue-200 rounded-2xl shadow-md p-8 mb-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-6">Find Projects</h1>
             <div className="relative mb-6">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
               <input
@@ -207,61 +220,61 @@ export default function BiddingPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search projects by title, description, or skills..."
-                className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 text-white placeholder-gray-400"
+                className="w-full pl-12 pr-4 py-3 bg-white/90 border border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-900 placeholder-gray-500"
               />
             </div>
           </div>
 
           <div className="space-y-4">
             {filteredProjects.length === 0 ? (
-              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl shadow-md p-12 text-center">
-                <p className="text-gray-300 text-lg">No projects found</p>
-                <p className="text-gray-400 text-sm mt-2">Try adjusting your search query</p>
+              <div className="bg-white/80 backdrop-blur-sm border border-blue-200 rounded-2xl shadow-md p-12 text-center">
+                <p className="text-gray-600 text-lg">No projects found</p>
+                <p className="text-gray-500 text-sm mt-2">Try adjusting your search query</p>
               </div>
             ) : (
               filteredProjects.map((proj) => (
-                <div key={proj._id} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl shadow-md p-6 hover:bg-white/10 hover:border-cyan-400 transition-all cursor-pointer" onClick={() => handleViewProject(proj._id)}>
+                <div key={proj._id} className="bg-white/80 backdrop-blur-sm border border-blue-200 rounded-2xl shadow-md p-6 hover:bg-white/90 hover:border-blue-400 transition-all cursor-pointer" onClick={() => handleViewProject(proj._id)}>
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
-                        <h3 className="text-xl font-bold text-white hover:text-cyan-400 transition-colors">{proj.title}</h3>
+                        <h3 className="text-xl font-bold text-gray-900 hover:text-blue-600 transition-colors">{proj.title}</h3>
                       </div>
                       <div className="flex items-center gap-3 mb-3">
-                        <span className="text-sm text-gray-300">Posted {getTimeAgo(proj.createdAt)}</span>
-                        <span className="text-sm text-cyan-400 font-semibold">{proj.bids?.length || 0} bids</span>
+                        <span className="text-sm text-gray-600">Posted {getTimeAgo(proj.createdAt)}</span>
+                        <span className="text-sm text-blue-600 font-semibold">{proj.bids?.length || 0} bids</span>
                         <div className="flex items-center gap-1.5">
-                          <span className="text-sm text-gray-300">by</span>
-                          <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-xs font-bold">
+                          <span className="text-sm text-gray-600">by</span>
+                          <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-xs font-bold">
                             {getInitials(proj.clientId?.fullname || 'Anonymous')}
                           </div>
-                          <span className="text-sm text-gray-200 font-medium">
+                          <span className="text-sm text-gray-700 font-medium">
                             {maskName(proj.clientId?.fullname || 'Anonymous')}
                           </span>
                         </div>
                       </div>
-                      <p className="text-sm text-gray-300 mb-3 line-clamp-2">{proj.introduction}</p>
+                      <p className="text-sm text-gray-600 mb-3 line-clamp-2">{proj.introduction}</p>
                       <div className="flex flex-wrap gap-2 mb-3">
                         {proj.skills?.slice(0, 5).map((skill: string, idx: number) => (
-                          <span key={idx} className="bg-white/10 text-cyan-400 px-3 py-1 rounded-lg text-sm font-medium border border-white/20">
+                          <span key={idx} className="bg-blue-50 text-blue-600 px-3 py-1 rounded-lg text-sm font-medium border border-blue-200">
                             {skill}
                           </span>
                         ))}
                         {proj.skills?.length > 5 && (
-                          <span className="bg-white/10 text-gray-300 px-3 py-1 rounded-lg text-sm font-medium border border-white/20">
+                          <span className="bg-gray-50 text-gray-600 px-3 py-1 rounded-lg text-sm font-medium border border-gray-200">
                             +{proj.skills.length - 5} more
                           </span>
                         )}
                       </div>
                     </div>
                     <div className="text-right ml-4">
-                      <div className="text-sm text-gray-400">Budget</div>
-                      <div className="text-xl font-bold text-cyan-400">${proj.budgetMin} - ${proj.budgetMax}</div>
-                      <div className="text-sm text-gray-400 mt-1">Due: {formatDate(proj.deadline)}</div>
+                      <div className="text-sm text-gray-500">Budget</div>
+                      <div className="text-xl font-bold text-blue-600">${proj.budgetMin} - ${proj.budgetMax}</div>
+                      <div className="text-sm text-gray-500 mt-1">Due: {formatDate(proj.deadline)}</div>
                     </div>
                   </div>
                   <button 
                     onClick={(e) => { e.stopPropagation(); handleViewProject(proj._id); }}
-                    className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white px-6 py-2.5 rounded-xl font-semibold transition-all inline-flex items-center gap-2"
+                    className="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-400 hover:to-indigo-400 text-white px-6 py-2.5 rounded-xl font-semibold transition-all inline-flex items-center gap-2"
                   >
                     View Project
                   </button>
@@ -283,58 +296,71 @@ export default function BiddingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0A0E27] via-[#1a1f3a] to-[#0f1629] py-8 pt-20">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-8 pt-20">
+      {/* Floating Particles */}
+      {Array.from({ length: 20 }).map((_, i) => (
+        <div
+          key={i}
+          className="absolute w-1 h-1 bg-blue-400/40 rounded-full animate-pulse"
+          style={{
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            animationDelay: `${Math.random() * 2}s`
+          }}
+        />
+      ))}
+      
       <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl shadow-md p-8 mb-6">
+            <div className="bg-white/80 backdrop-blur-sm border border-blue-200 rounded-2xl shadow-md p-8 mb-6">
               <div className="flex items-start justify-between mb-6">
                 <div>
-                  <h1 className="text-3xl font-bold text-white mb-2">{project.title}</h1>
-                  <div className="flex items-center gap-3 text-sm text-gray-300">
-                    <span>Posted by <span className="font-semibold text-cyan-400">{maskName(project.clientId?.fullname || 'Anonymous')}</span></span>
+                  <h1 className="text-3xl font-bold text-gray-900 mb-2">{project.title}</h1>
+                  <div className="flex items-center gap-3 text-sm text-gray-600">
+                    <span>Posted by <span className="font-semibold text-blue-600">{maskName(project.clientId?.fullname || 'Anonymous')}</span></span>
                     <span>•</span>
                     <span>{getTimeAgo(project.createdAt)}</span>
                     <span>•</span>
-                    <span className="text-cyan-400 font-semibold">{project.bids?.length || 0} bids</span>
+                    <span className="text-blue-600 font-semibold">{project.bids?.length || 0} bids</span>
                   </div>
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-6 mb-6 pb-6 border-b border-white/20">
+              <div className="grid grid-cols-3 gap-6 mb-6 pb-6 border-b border-blue-200">
                 <div>
-                  <div className="text-sm text-gray-400 mb-1">Budget</div>
-                  <div className="text-xl font-bold text-cyan-400">${project.budgetMin} - ${project.budgetMax}</div>
+                  <div className="text-sm text-gray-500 mb-1">Budget</div>
+                  <div className="text-xl font-bold text-blue-600">${project.budgetMin} - ${project.budgetMax}</div>
                 </div>
                 <div>
-                  <div className="text-sm text-gray-400 mb-1">Deadline</div>
-                  <div className="text-lg font-semibold text-white">{formatDate(project.deadline)}</div>
+                  <div className="text-sm text-gray-500 mb-1">Deadline</div>
+                  <div className="text-lg font-semibold text-gray-900">{formatDate(project.deadline)}</div>
                 </div>
                 <div>
-                  <div className="text-sm text-gray-400 mb-1">Status</div>
-                  <span className="inline-block bg-green-500/20 text-green-400 px-3 py-1 rounded-lg text-sm font-semibold border border-green-500/30">
+                  <div className="text-sm text-gray-500 mb-1">Status</div>
+                  <span className="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-lg text-sm font-semibold border border-green-200">
                     {project.status === 'open' ? 'Open for Bids' : project.status}
                   </span>
                 </div>
               </div>
 
               <div className="mb-6">
-                <h3 className="font-bold text-white text-lg mb-3">Project Introduction</h3>
-                <p className="text-gray-300 leading-relaxed">{project.introduction}</p>
+                <h3 className="font-bold text-gray-900 text-lg mb-3">Project Introduction</h3>
+                <p className="text-gray-600 leading-relaxed">{project.introduction}</p>
               </div>
 
               <div className="mb-6">
-                <h3 className="font-bold text-white text-lg mb-3">Detailed Requirements</h3>
-                <pre className="text-gray-300 leading-relaxed whitespace-pre-wrap font-sans bg-white/5 p-4 rounded-xl border border-white/10">
+                <h3 className="font-bold text-gray-900 text-lg mb-3">Detailed Requirements</h3>
+                <pre className="text-gray-600 leading-relaxed whitespace-pre-wrap font-sans bg-blue-50 p-4 rounded-xl border border-blue-200">
                   {project.detailedRequirements}
                 </pre>
               </div>
 
               <div className="mb-6">
-                <h3 className="font-bold text-white text-lg mb-3">Skills Required</h3>
+                <h3 className="font-bold text-gray-900 text-lg mb-3">Skills Required</h3>
                 <div className="flex flex-wrap gap-2">
                   {project.skills?.map((skill: string, idx: number) => (
-                    <span key={idx} className="bg-cyan-500/20 text-cyan-400 px-4 py-2 rounded-lg text-sm font-semibold border border-cyan-500/30">
+                    <span key={idx} className="bg-blue-100 text-blue-700 px-4 py-2 rounded-lg text-sm font-semibold border border-blue-200">
                       {skill}
                     </span>
                   ))}
@@ -343,7 +369,7 @@ export default function BiddingPage() {
 
               <button
                 onClick={handleProposalClick}
-                className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white py-4 rounded-xl font-bold text-lg transition-all shadow-lg"
+                className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-400 hover:to-indigo-400 text-white py-4 rounded-xl font-bold text-lg transition-all shadow-lg"
               >
                 {isAuthenticated ? 'Submit Your Proposal' : 'Login to Submit Proposal'}
               </button>

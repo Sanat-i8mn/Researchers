@@ -411,9 +411,22 @@ export default function PostProjectPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+      {/* Floating Particles */}
+      {Array.from({ length: 20 }).map((_, i) => (
+        <div
+          key={i}
+          className="absolute w-1 h-1 bg-blue-400/40 rounded-full animate-pulse"
+          style={{
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            animationDelay: `${Math.random() * 2}s`
+          }}
+        />
+      ))}
+      
       {/* Header */}
-      <div className="bg-slate-800 border-b border-slate-700">
+      <div className="bg-white/80 backdrop-blur-sm border-b border-blue-200">
         <div className="max-w-7xl mx-auto px-6 py-3">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.location.href = '/'}>
             <img
@@ -2008,16 +2021,16 @@ export default function PostProjectPage() {
         </div>
 
         {/* Right Sidebar - Fixed */}
-        <div className="fixed right-0 top-0 w-80 bg-slate-800 text-white p-6 h-screen overflow-hidden pt-20">
+        <div className="fixed right-0 top-0 w-80 bg-white/80 backdrop-blur-sm border-l border-blue-200 text-gray-900 p-6 h-screen overflow-hidden pt-20">
           {currentStep <= 6 ? (
             <div className="space-y-6">
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Shield size={20} />
+                  <Shield size={20} className="text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-bold text-base mb-1 truncate">Confidentiality Assured</h3>
-                  <p className="text-xs text-gray-300">
+                  <h3 className="font-bold text-base mb-1 truncate text-gray-900">Confidentiality Assured</h3>
+                  <p className="text-xs text-gray-600">
                     Choose who can see your project and invite best freelancers for your project.
                   </p>
                 </div>
@@ -2025,23 +2038,23 @@ export default function PostProjectPage() {
 
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
-                  <CheckCircle size={20} />
+                  <CheckCircle size={20} className="text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-bold text-base mb-1 truncate">100% Satisfaction Guaranteed</h3>
-                  <p className="text-xs text-gray-300">
+                  <h3 className="font-bold text-base mb-1 truncate text-gray-900">100% Satisfaction Guaranteed</h3>
+                  <p className="text-xs text-gray-600">
                     Throughout the project cycle, work closely with the freelancer to ensure that deliverables meet and exceed your expectations.
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 bg-cyan-500 rounded-full flex items-center justify-center flex-shrink-0">
-                  <DollarSign size={20} />
+                <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <DollarSign size={20} className="text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-bold text-base mb-1 truncate">Flexible, Secure Payments</h3>
-                  <p className="text-xs text-gray-300">
+                  <h3 className="font-bold text-base mb-1 truncate text-gray-900">Flexible, Secure Payments</h3>
+                  <p className="text-xs text-gray-600">
                     Pay by the hour or per project. Revise your fee after you discuss with freelancers if you're not sure while posting your project.
                   </p>
                 </div>
@@ -2049,11 +2062,11 @@ export default function PostProjectPage() {
             </div>
           ) : (
             <div className="overflow-hidden">
-              <h3 className="text-base font-semibold mb-3 truncate">Project Summary</h3>
-              <div className="border-t border-white/20 mb-4" />
+              <h3 className="text-base font-semibold mb-3 truncate text-gray-900">Project Summary</h3>
+              <div className="border-t border-blue-200 mb-4" />
 
               <div className="relative pl-8">
-                <div className="absolute left-3 top-2 bottom-2 border-l-2 border-dashed border-blue-400/70" />
+                <div className="absolute left-3 top-2 bottom-2 border-l-2 border-dashed border-blue-400" />
 
                 <div className="space-y-4">
                   {[
@@ -2074,23 +2087,23 @@ export default function PostProjectPage() {
                     <div key={index} className="relative flex gap-3">
                       <div className="absolute left-[-24px] top-1">
                         {item.completed ? (
-                          <div className="w-4 h-4 bg-blue-400 rounded-full" />
+                          <div className="w-4 h-4 bg-blue-500 rounded-full" />
                         ) : item.active ? (
-                          <div className="w-5 h-5 rounded-full border-2 border-blue-400 flex items-center justify-center bg-white">
+                          <div className="w-5 h-5 rounded-full border-2 border-blue-500 flex items-center justify-center bg-white">
                             <CheckCircle size={12} className="text-blue-500" />
                           </div>
                         ) : (
-                          <div className="w-3 h-3 bg-gray-500 rounded-full" />
+                          <div className="w-3 h-3 bg-gray-400 rounded-full" />
                         )}
                       </div>
 
-                      <div className={`flex-1 rounded-lg px-3 py-2 min-w-0 ${item.active ? 'bg-slate-700' : ''}`}>
+                      <div className={`flex-1 rounded-lg px-3 py-2 min-w-0 ${item.active ? 'bg-blue-50' : ''}`}>
                         <div className="flex justify-between items-start gap-2">
                           <div className="flex-1 min-w-0">
-                            <p className="text-xs font-semibold text-white truncate">{item.label}</p>
-                            <p className="text-xs text-white/70 truncate">{item.value}</p>
+                            <p className="text-xs font-semibold text-gray-900 truncate">{item.label}</p>
+                            <p className="text-xs text-gray-600 truncate">{item.value}</p>
                           </div>
-                          <button className="text-white/70 hover:text-white flex-shrink-0">
+                          <button className="text-gray-500 hover:text-gray-700 flex-shrink-0">
                             <Pencil size={12} />
                           </button>
                         </div>

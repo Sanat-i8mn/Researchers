@@ -12,7 +12,7 @@ export default function VerificationWorkflow({ verifications }: { verifications:
       <h3 className="text-xl font-bold text-gray-900 mb-6">Pending Verifications ({verifications.length})</h3>
       <div className="space-y-4">
         {verifications.map(verification => (
-          <div key={verification.id} className="flex items-center justify-between p-6 border border-gray-200 rounded-xl hover:border-cyan-300 transition-all bg-gray-50 hover:bg-gray-100 hover:shadow-lg hover:scale-[1.02] duration-300 cursor-pointer">
+          <div key={verification.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-6 border border-gray-200 rounded-xl hover:border-cyan-300 transition-all bg-gray-50 hover:bg-gray-100 hover:shadow-lg hover:scale-[1.02] duration-300 cursor-pointer gap-4">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
                 {verification.freelancer}
@@ -22,7 +22,7 @@ export default function VerificationWorkflow({ verifications }: { verifications:
                 <div className="text-sm text-gray-600">Submitted {verification.submittedDate} • {verification.documents} documents</div>
               </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2 sm:ml-4">
               <button className="bg-cyan-100 text-cyan-600 border border-cyan-300 px-6 py-2 rounded-xl font-semibold hover:bg-cyan-200 hover:scale-105 hover:shadow-md transition-all duration-200">
                 Review
               </button>

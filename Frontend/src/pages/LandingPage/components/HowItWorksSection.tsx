@@ -319,106 +319,233 @@ export default function HowItWorksSection() {
     },
   ]
 
-  // StepItem component with hover motion
+  // Enhanced StepItem component
   const StepItem = ({ step, index }) => {
     const Icon = step.icon
     return (
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
-        whileHover={{ scale: 1.05, y: -5 }}
+        whileHover={{ scale: 1.02, x: 8 }}
         transition={{ duration: 0.6, delay: index * 0.1 }}
         viewport={{ once: true }}
-        className="relative flex gap-6"
+        className="relative flex gap-6 group cursor-pointer"
       >
-        {/* Timeline circle */}
+        {/* Enhanced Timeline circle */}
         <div className="flex flex-col items-center">
-          <div className="w-12 h-12 rounded-full bg-blue-600 p-[2px] animate-pulse">
-            <div className="w-full h-full bg-white rounded-full flex items-center justify-center shadow-md">
-              <Icon size={20} strokeWidth={3} className="text-blue-600" />
+          <motion.div 
+            className="relative w-14 h-14 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 p-[3px] shadow-lg group-hover:shadow-xl transition-shadow"
+            whileHover={{ scale: 1.1, rotate: 5 }}
+          >
+            {/* Glow effect */}
+            <div className="absolute -inset-1 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full blur opacity-0 group-hover:opacity-50 transition-opacity" />
+            <div className="relative w-full h-full bg-white rounded-full flex items-center justify-center">
+              <Icon size={22} strokeWidth={2.5} className="text-blue-600 group-hover:text-indigo-600 transition-colors" />
             </div>
-          </div>
+            {/* Step number */}
+            <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-md">
+              {index + 1}
+            </div>
+          </motion.div>
 
-          {/* Animated vertical line */}
+          {/* Enhanced vertical line */}
           {index !== 3 && (
             <motion.div
-              initial={{ height: 0 }}
-              animate={{ height: '100%' }}
-              transition={{ duration: 0.8, delay: index * 0.1 }}
-              className="w-px bg-gradient-to-b from-blue-300 to-transparent mt-2"
+              initial={{ height: 0, opacity: 0 }}
+              whileInView={{ height: '100%', opacity: 1 }}
+              transition={{ duration: 1, delay: index * 0.2 + 0.3 }}
+              className="w-0.5 bg-gradient-to-b from-blue-400 via-indigo-400 to-transparent mt-4 group-hover:from-blue-500 group-hover:via-indigo-500 transition-colors"
             />
           )}
         </div>
 
-        {/* Content */}
+        {/* Enhanced Content */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: index * 0.15 }}
+          className="flex-1 group-hover:translate-x-1 transition-transform"
         >
-          <h4 className="text-lg font-semibold text-gray-900">{step.title}</h4>
-          <p className="text-gray-600 mt-1 max-w-md leading-relaxed">{step.desc}</p>
+          <h4 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors mb-2">
+            {step.title}
+          </h4>
+          <p className="text-gray-600 group-hover:text-gray-700 leading-relaxed transition-colors">
+            {step.desc}
+          </p>
+          {/* Accent line */}
+          <motion.div
+            className="w-12 h-0.5 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full mt-3 group-hover:w-16 group-hover:from-blue-500 group-hover:to-indigo-500 transition-all"
+            initial={{ width: 0 }}
+            whileInView={{ width: '3rem' }}
+            transition={{ duration: 0.8, delay: index * 0.1 + 0.5 }}
+          />
         </motion.div>
       </motion.div>
     )
   }
 
   return (
-    <section className="relative py-20 md:py-28 overflow-hidden bg-gradient-to-br from-[#f0f8ff] via-white to-[#e0efff]">
-      {/* Background grid */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(37,99,235,0.05)_1px,transparent_0)] [background-size:32px_32px]" />
-
-      {/* Floating decorative shapes */}
+    <section className="relative py-16 sm:py-20 lg:py-28 overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+      {/* Enhanced Animated Background Pattern */}
       <motion.div
-        animate={{ y: [0, 20, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute -top-32 -left-32 w-[500px] h-[500px] bg-blue-300/20 rounded-full blur-3xl"
-      />
-      <motion.div
-        animate={{ y: [0, -15, 0], x: [0, 10, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute bottom-0 -right-40 w-[500px] h-[500px] bg-indigo-300/20 rounded-full blur-3xl"
+        className="absolute inset-0 opacity-[0.08]"
+        animate={{ 
+          backgroundPosition: ['0% 0%', '100% 100%'],
+        }}
+        transition={{ 
+          duration: 30, 
+          repeat: Infinity, 
+          repeatType: 'reverse', 
+          ease: 'linear'
+        }}
+        style={{
+          backgroundImage: `
+            radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.12) 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+            linear-gradient(45deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+            linear-gradient(-45deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px)
+          `,
+          backgroundSize: '100% 100%, 100% 100%, 60px 60px, 60px 60px'
+        }}
       />
 
-      <div className="relative max-w-7xl mx-auto px-6">
-        {/* Heading */}
+      {/* Floating Particles */}
+      {Array.from({ length: 15 }).map((_, i) => (
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          key={i}
+          className="absolute w-1.5 h-1.5 bg-blue-400/50 rounded-full"
+          animate={{
+            y: [0, -40, 0],
+            x: [0, Math.sin(i) * 30, 0],
+            scale: [1, 1.8, 1],
+            opacity: [0.3, 0.9, 0.3]
+          }}
+          transition={{
+            duration: 8 + Math.random() * 4,
+            repeat: Infinity,
+            delay: i * 0.3
+          }}
+          style={{
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`
+          }}
+        />
+      ))}
+
+      {/* Enhanced Floating Orbs */}
+      <motion.div
+        animate={{ 
+          y: [0, 60, 0], 
+          x: [0, 40, 0], 
+          scale: [1, 1.3, 1],
+          rotate: [0, 180, 360]
+        }}
+        transition={{ 
+          duration: 25, 
+          repeat: Infinity, 
+          ease: 'easeInOut' 
+        }}
+        className="absolute -top-40 -left-40 w-80 h-80 bg-gradient-to-br from-blue-300/25 via-cyan-300/15 to-transparent rounded-full blur-3xl"
+      />
+      <motion.div
+        animate={{ 
+          y: [0, -70, 0], 
+          x: [0, -50, 0], 
+          scale: [1, 1.25, 1],
+          rotate: [360, 180, 0]
+        }}
+        transition={{ 
+          duration: 30, 
+          repeat: Infinity, 
+          ease: 'easeInOut', 
+          delay: 4 
+        }}
+        className="absolute top-1/3 -right-40 w-96 h-96 bg-gradient-to-bl from-indigo-300/25 via-purple-300/15 to-transparent rounded-full blur-3xl"
+      />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Enhanced Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16 md:mb-20"
+          className="text-center mb-16 sm:mb-20 lg:mb-24"
         >
-          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 relative inline-block">
-            How It Works — Fast & Simple
-            <span className="absolute left-0 -bottom-2 w-24 h-1 bg-blue-500 rounded-full"></span>
-          </h2>
-          <p className="text-lg md:text-xl text-gray-600 mt-4 max-w-2xl mx-auto">
-            A seamless workflow designed for companies and researchers.
-          </p>
+          <motion.h2 
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            How It Works —{' '}
+            <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              Fast & Simple
+            </span>
+          </motion.h2>
+          <motion.p 
+            className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            A seamless workflow designed for companies and researchers to collaborate effortlessly
+          </motion.p>
         </motion.div>
 
-        {/* Two columns */}
-        <div className="grid md:grid-cols-2 gap-20">
+        {/* Enhanced Two columns */}
+        <div className="grid lg:grid-cols-2 gap-16 sm:gap-20 lg:gap-24">
           {/* Companies */}
-          <div>
-            <h3 className="text-2xl font-semibold text-gray-900 mb-10">For Companies / Clients</h3>
-            <div className="space-y-10">
-              {companySteps.map((step, i) => (
-                <StepItem key={i} step={step} index={i} />
-              ))}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="relative"
+          >
+            {/* Background card */}
+            <div className="absolute inset-0 bg-white/80 backdrop-blur-sm rounded-3xl border border-gray-200/50 shadow-lg" />
+            <div className="relative p-6 sm:p-8">
+              <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8 sm:mb-12">
+                For{' '}
+                <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                  Companies
+                </span>{' '}
+                / Clients
+              </h3>
+              <div className="space-y-8 sm:space-y-12">
+                {companySteps.map((step, i) => (
+                  <StepItem key={i} step={step} index={i} />
+                ))}
+              </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Experts */}
-          <div>
-            <h3 className="text-2xl font-semibold text-gray-900 mb-10">For Researchers / Experts</h3>
-            <div className="space-y-10">
-              {expertSteps.map((step, i) => (
-                <StepItem key={i} step={step} index={i} />
-              ))}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            viewport={{ once: true }}
+            className="relative"
+          >
+            {/* Background card */}
+            <div className="absolute inset-0 bg-white/80 backdrop-blur-sm rounded-3xl border border-gray-200/50 shadow-lg" />
+            <div className="relative p-6 sm:p-8">
+              <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8 sm:mb-12">
+                For{' '}
+                <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                  Researchers
+                </span>{' '}
+                / Experts
+              </h3>
+              <div className="space-y-8 sm:space-y-12">
+                {expertSteps.map((step, i) => (
+                  <StepItem key={i} step={step} index={i} />
+                ))}
+              </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
