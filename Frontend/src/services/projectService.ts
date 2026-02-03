@@ -17,6 +17,9 @@ export const postProjectFromLanding = async (projectData: any) => {
       }
     });
 
+    console.log('Posting to:', `${API_URL}/project/post-from-landing`);
+    console.log('Project data:', projectData);
+
     const response = await axios.post(
       `${API_URL}/project/post-from-landing`,
       formData,
@@ -29,6 +32,7 @@ export const postProjectFromLanding = async (projectData: any) => {
 
     return response.data;
   } catch (error: any) {
-    throw new Error(error.response?.data?.message || 'Failed to post project');
+    console.error('API Error:', error.response?.data || error.message);
+    throw new Error(error.response?.data?.message || error.response?.data?.error || error.message || 'Failed to post project');
   }
 };
