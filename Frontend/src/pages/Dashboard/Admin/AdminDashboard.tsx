@@ -29,7 +29,7 @@ export default function AdminDashboard() {
         return (
           <div className="space-y-6">
             <StatsOverview stats={ADMIN_STATS} />
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <RecentUsersCard users={RECENT_USERS} />
               <PlatformActivityCard />
             </div>
@@ -85,10 +85,10 @@ export default function AdminDashboard() {
         isMobileMenuOpen={isMobileMenuOpen}
         onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
       />
-      <main className="flex-1 min-w-0 p-4 sm:p-6 lg:p-8 relative z-10 overflow-x-auto lg:ml-0 text-[#4B5563]">
+      <main className="flex-1 min-w-0 p-4 sm:p-6 lg:p-8 lg:ml-72 relative z-10 overflow-x-auto text-[#4B5563]">
 
         <div className="max-w-full mx-auto ">
-          <h1 className="text-2xl sm:text-3xl font-bold text-[#0F172A] mb-6 sm:mb-8 mt-16 lg:mt-0">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#0F172A] mb-6 sm:mb-8 mt-16 lg:mt-0">
 
 
             {activeTab === 'overview' && 'Dashboard Overview'}

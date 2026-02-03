@@ -9,9 +9,10 @@ interface NavbarProps {
   onNavigate: (page: PageType) => void;
   onViewProfile: () => void;
   onLogout: () => void;
+  onJoinAsExpert?: () => void;
 }
 
-export default function Navbar({ onNavigate, onViewProfile, onLogout }: NavbarProps) {
+export default function Navbar({ onNavigate, onViewProfile, onLogout, onJoinAsExpert }: NavbarProps) {
   const { user, isAuthenticated } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -92,9 +93,13 @@ export default function Navbar({ onNavigate, onViewProfile, onLogout }: NavbarPr
                   <button onClick={() => onNavigate('bidding')} className="px-4 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg font-medium transition-all">
                     Find Projects
                   </button>
-                  <button onClick={() => onNavigate('login')} className="px-4 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg font-medium transition-all">
-                    Post Projects
+                  <button
+                    onClick={() => onNavigate('post-project')}
+                    className="px-4 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg font-medium transition-all"
+                  >
+                    Post a Project
                   </button>
+
                   <button onClick={() => onNavigate('pricing')} className="px-4 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg font-medium transition-all">
                     Pricing
                   </button>
@@ -114,7 +119,7 @@ export default function Navbar({ onNavigate, onViewProfile, onLogout }: NavbarPr
                 <button onClick={() => onNavigate('login')} className="px-5 py-2.5 text-gray-300 hover:text-white font-semibold transition-all rounded-lg hover:bg-white/10">
                   Login
                 </button>
-                <button onClick={() => onNavigate('signup')} className="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white rounded-lg font-bold transition-all shadow-lg shadow-cyan-500/50 hover:shadow-cyan-500/80 hover:scale-105">
+                <button onClick={onJoinAsExpert || (() => onNavigate('signup'))} className="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white rounded-lg font-bold transition-all shadow-lg shadow-cyan-500/50 hover:shadow-cyan-500/80 hover:scale-105">
                   Join as Expert
                 </button>
               </>
@@ -122,7 +127,7 @@ export default function Navbar({ onNavigate, onViewProfile, onLogout }: NavbarPr
           </div>
 
           <div className="flex items-center gap-2">
-            <button onClick={() => onNavigate('signup')} className="hidden sm:block lg:hidden px-3 py-1.5 text-xs font-semibold text-blue-600 bg-white rounded-full hover:bg-gray-100 transition-all">
+            <button onClick={onJoinAsExpert || (() => onNavigate('signup'))} className="hidden sm:block lg:hidden px-3 py-1.5 text-xs font-semibold text-blue-600 bg-white rounded-full hover:bg-gray-100 transition-all">
               Join as expert
             </button>
             <button onClick={() => onNavigate('post-project')} className="hidden sm:block lg:hidden px-3 py-1.5 text-xs font-semibold text-white bg-blue-600 rounded-full hover:bg-blue-700 transition-all">
@@ -205,7 +210,7 @@ export default function Navbar({ onNavigate, onViewProfile, onLogout }: NavbarPr
                   <button onClick={() => handleMobileNavigate('login')} className="w-full px-4 py-3.5 text-gray-300 hover:text-white font-semibold transition-all border border-white/20 rounded-xl hover:bg-white/10">
                     Sign In
                   </button>
-                  <button onClick={() => handleMobileNavigate('signup')} className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white py-3.5 rounded-xl font-bold transition-all shadow-lg shadow-cyan-500/50 hover:shadow-cyan-500/80">
+                  <button onClick={onJoinAsExpert || (() => handleMobileNavigate('signup'))} className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white py-3.5 rounded-xl font-bold transition-all shadow-lg shadow-cyan-500/50 hover:shadow-cyan-500/80">
                     Join as Expert
                   </button>
                 </div>

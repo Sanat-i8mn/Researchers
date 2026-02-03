@@ -15,7 +15,7 @@ export default function PlatformActivityCard() {
           <span className="text-gray-600">Platform Commission (Month)</span>
           <span className="font-bold text-cyan-600 text-xl">₹28,492</span>
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="text-center p-4 bg-blue-100 border border-blue-300 rounded-xl hover:bg-blue-200 hover:shadow-lg hover:scale-105 transition-all duration-300">
             <div className="text-2xl font-bold text-blue-600">4,238</div>
             <div className="text-sm text-gray-600">Active Freelancers</div>

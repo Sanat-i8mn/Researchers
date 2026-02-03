@@ -11,8 +11,8 @@ interface User {
 export default function UserManagementTable({ users }: { users: User[] }) {
   return (
     <div className="bg-white border border-gray-200 rounded-2xl shadow-xl p-6">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex gap-3">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
+        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
           <select className="px-4 py-2 bg-white border border-gray-200 text-gray-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600">
             <option>All Roles</option>
             <option>Clients</option>
@@ -28,7 +28,7 @@ export default function UserManagementTable({ users }: { users: User[] }) {
         <input
           type="text"
           placeholder="Search users..."
-          className="px-4 py-2 bg-white border border-gray-200 text-gray-900 placeholder-gray-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 w-64"
+          className="px-4 py-2 bg-white border border-gray-200 text-gray-900 placeholder-gray-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 w-full sm:w-64"
         />
       </div>
       <div className="overflow-x-auto">

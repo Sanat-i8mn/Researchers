@@ -146,58 +146,74 @@ export default function PricingPage({ onNavigate }: PricingPageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0A0E27] via-[#1a1f3a] to-[#0f1629]">
-      <section className="relative pt-24 pb-16 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 overflow-hidden">
-        <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
-        <div className="absolute top-20 right-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"></div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+      <section className="relative pt-24 pb-16 overflow-hidden">
+        {/* Dynamic Background */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50" />
+          <div className="absolute top-20 right-20 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-20 left-20 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl animate-pulse" />
+        </div>
 
-        <div className="relative max-w-6xl mx-auto px-6 lg:px-12 text-center">
-          <div className="inline-flex items-center gap-2 bg-blue-500/20 backdrop-blur-sm px-4 py-2 rounded-full text-blue-200 text-sm font-semibold mb-6 border border-blue-400/30">
+        {/* Floating Particles */}
+        {Array.from({ length: 20 }).map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-blue-400/40 rounded-full animate-pulse"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 2}s`
+            }}
+          />
+        ))}
+
+        <div className="relative max-w-6xl mx-auto px-6 lg:px-12 text-center z-10">
+          <div className="inline-flex items-center gap-2 bg-blue-100 backdrop-blur-sm px-4 py-2 rounded-full text-blue-600 text-sm font-semibold mb-6 border border-blue-200">
             <Sparkles size={16} />
             <span>Transparent, Fair & Affordable</span>
           </div>
 
-          <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+          <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
             Pricing Built for Researchers
           </h1>
 
-          <p className="text-xl text-slate-300 max-w-4xl mx-auto leading-relaxed mb-8">
+          <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed mb-8">
             AI-powered matching reduces costs by 40% while delivering expert-quality research faster than traditional consulting firms
           </p>
 
           <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-blue-200 shadow-lg">
               <div className="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center mb-3 mx-auto">
                 <TrendingDown className="text-white" size={24} />
               </div>
-              <h3 className="text-white font-bold text-lg mb-2">40% Lower Costs</h3>
-              <p className="text-slate-300 text-sm">AI matching eliminates overhead, passing savings to you</p>
+              <h3 className="text-gray-900 font-bold text-lg mb-2">40% Lower Costs</h3>
+              <p className="text-gray-600 text-sm">AI matching eliminates overhead, passing savings to you</p>
             </div>
 
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-blue-200 shadow-lg">
               <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mb-3 mx-auto">
                 <Clock className="text-white" size={24} />
               </div>
-              <h3 className="text-white font-bold text-lg mb-2">3x Faster Delivery</h3>
-              <p className="text-slate-300 text-sm">Instant expert matching accelerates project timelines</p>
+              <h3 className="text-gray-900 font-bold text-lg mb-2">3x Faster Delivery</h3>
+              <p className="text-gray-600 text-sm">Instant expert matching accelerates project timelines</p>
             </div>
 
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-blue-200 shadow-lg">
               <div className="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center mb-3 mx-auto">
                 <Shield className="text-white" size={24} />
               </div>
-              <h3 className="text-white font-bold text-lg mb-2">100% Protected</h3>
-              <p className="text-slate-300 text-sm">Escrow payments and milestone-based approval system</p>
+              <h3 className="text-gray-900 font-bold text-lg mb-2">100% Protected</h3>
+              <p className="text-gray-600 text-sm">Escrow payments and milestone-based approval system</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-16 px-6 lg:px-12 bg-white/5 backdrop-blur-sm border-y border-white/10">
+      <section className="py-16 px-6 lg:px-12 bg-white/80 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto mb-12 text-center">
-          <h2 className="text-4xl font-bold text-white mb-4">Flexible Pricing for Every Research Need</h2>
-          <p className="text-lg text-gray-300 leading-relaxed max-w-4xl mx-auto">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">Flexible Pricing for Every Research Need</h2>
+          <p className="text-lg text-gray-600 leading-relaxed max-w-4xl mx-auto">
             ResearchHub offers transparent, competitive pricing designed to make world-class research expertise accessible to everyone—from students conducting thesis work to Fortune 500 companies driving R&D innovation. Our AI-powered platform eliminates traditional agency markups and administrative overhead, allowing us to connect you with verified researchers at fair market rates. Standard projects follow our clear pricing tiers below, while complex, multi-phase, or specialized deep-tech research (such as clinical trials, advanced machine learning systems, drug discovery, and large-scale bioinformatics) may require custom quotes tailored to your unique requirements. Every project includes milestone-based payments, secure escrow protection, and our commitment to quality—because breakthrough research should be accessible, not exclusive.
           </p>
         </div>
@@ -210,7 +226,7 @@ export default function PricingPage({ onNavigate }: PricingPageProps) {
             return (
               <div
                 key={index}
-                className={`relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl shadow-xl border-2 ${colors.border} transition-all duration-300 hover:shadow-2xl hover:scale-105 overflow-hidden`}
+                className={`relative bg-white/90 backdrop-blur-sm border border-gray-200 rounded-2xl shadow-xl border-2 ${colors.border} transition-all duration-300 hover:shadow-2xl hover:scale-105 overflow-hidden`}
               >
                 {plan.popular && (
                   <div className={`absolute top-0 left-0 right-0 ${colors.popular} text-white text-center py-2 text-sm font-bold`}>
@@ -223,22 +239,22 @@ export default function PricingPage({ onNavigate }: PricingPageProps) {
                     <Icon className="text-white" size={32} />
                   </div>
 
-                  <h3 className="text-3xl font-bold text-white mb-2">{plan.name}</h3>
-                  <p className="text-gray-300 font-medium mb-4">{plan.tagline}</p>
+                  <h3 className="text-3xl font-bold text-gray-900 mb-2">{plan.name}</h3>
+                  <p className="text-gray-600 font-medium mb-4">{plan.tagline}</p>
 
                   <div className="mb-6">
                     <div className="flex items-baseline gap-2">
-                      <span className="text-5xl font-bold text-white">{plan.price}</span>
+                      <span className="text-5xl font-bold text-gray-900">{plan.price}</span>
                       {plan.period !== 'tailored pricing' && (
-                        <span className="text-gray-400">/ {plan.period.replace('per ', '')}</span>
+                        <span className="text-gray-500">/ {plan.period.replace('per ', '')}</span>
                       )}
                     </div>
                     {plan.period === 'tailored pricing' && (
-                      <p className="text-gray-400 text-sm mt-1">Based on project scope and complexity</p>
+                      <p className="text-gray-500 text-sm mt-1">Based on project scope and complexity</p>
                     )}
                   </div>
 
-                  <p className="text-gray-300 leading-relaxed mb-6 text-sm">
+                  <p className="text-gray-600 leading-relaxed mb-6 text-sm">
                     {plan.description}
                   </p>
 
@@ -251,13 +267,13 @@ export default function PricingPage({ onNavigate }: PricingPageProps) {
                   </button>
 
                   <div className="space-y-3">
-                    <p className="text-sm font-bold text-white uppercase tracking-wide mb-4">What's Included:</p>
+                    <p className="text-sm font-bold text-gray-900 uppercase tracking-wide mb-4">What's Included:</p>
                     {plan.features.map((feature, idx) => (
                       <div key={idx} className="flex items-start gap-3">
                         <div className="flex-shrink-0 mt-0.5">
                           <Check className="text-green-400" size={20} />
                         </div>
-                        <span className="text-gray-300 text-sm leading-relaxed">{feature}</span>
+                        <span className="text-gray-600 text-sm leading-relaxed">{feature}</span>
                       </div>
                     ))}
                   </div>
@@ -405,30 +421,30 @@ export default function PricingPage({ onNavigate }: PricingPageProps) {
         </div>
       </section>
 
-      <section className="py-16 px-6 lg:px-12 bg-white/5 backdrop-blur-sm border-y border-white/10">
+      <section className="py-16 px-6 lg:px-12 bg-white/80 backdrop-blur-sm border-y border-blue-200">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 bg-cyan-500/20 px-4 py-2 rounded-full text-cyan-400 text-sm font-semibold mb-4 border border-cyan-400/30">
+            <div className="inline-flex items-center gap-2 bg-blue-100 px-4 py-2 rounded-full text-blue-600 text-sm font-semibold mb-4 border border-blue-200">
               <HelpCircle size={16} />
               <span>Common Questions</span>
             </div>
-            <h2 className="text-4xl font-bold text-white mb-4">Pricing FAQs</h2>
-            <p className="text-lg text-gray-300">Everything you need to know about ResearchHub pricing and payments</p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Pricing FAQs</h2>
+            <p className="text-lg text-gray-600">Everything you need to know about ResearchHub pricing and payments</p>
           </div>
 
           <div className="space-y-4">
             {faqs.map((faq, index) => (
               <div
                 key={index}
-                className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden hover:border-cyan-400/50 transition-all"
+                className="bg-white/90 backdrop-blur-sm border border-blue-200 rounded-xl overflow-hidden hover:border-blue-400 transition-all shadow-lg"
               >
                 <button
                   onClick={() => setOpenFaq(openFaq === index ? null : index)}
                   className="w-full flex items-start justify-between p-6 text-left"
                 >
-                  <span className="font-bold text-lg text-white pr-4">{faq.question}</span>
+                  <span className="font-bold text-lg text-gray-900 pr-4">{faq.question}</span>
                   <ChevronDown
-                    className={`flex-shrink-0 text-gray-400 transition-transform ${
+                    className={`flex-shrink-0 text-gray-600 transition-transform ${
                       openFaq === index ? 'rotate-180' : ''
                     }`}
                     size={24}
@@ -437,7 +453,7 @@ export default function PricingPage({ onNavigate }: PricingPageProps) {
 
                 {openFaq === index && (
                   <div className="px-6 pb-6">
-                    <p className="text-gray-300 leading-relaxed">{faq.answer}</p>
+                    <p className="text-gray-700 leading-relaxed">{faq.answer}</p>
                   </div>
                 )}
               </div>
@@ -446,15 +462,15 @@ export default function PricingPage({ onNavigate }: PricingPageProps) {
         </div>
       </section>
 
-      <section className="py-16 px-6 lg:px-12 bg-slate-50">
+      <section className="py-16 px-6 lg:px-12 bg-white/80 backdrop-blur-sm">
         <div className="max-w-5xl mx-auto">
-          <div className="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 rounded-3xl p-12 text-white text-center shadow-2xl relative overflow-hidden">
+          <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 rounded-3xl p-12 text-white text-center shadow-2xl relative overflow-hidden">
             <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
             <div className="absolute top-10 right-10 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl"></div>
 
             <div className="relative">
-              <h2 className="text-4xl font-bold mb-4">Ready to Start Your Research Project?</h2>
-              <p className="text-xl text-slate-300 mb-8 max-w-3xl mx-auto">
+              <h2 className="text-4xl font-bold mb-4 text-white">Ready to Start Your Research Project?</h2>
+              <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
                 Join thousands of researchers, students, and organizations accelerating innovation with ResearchHub. Get matched with verified experts in minutes.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">

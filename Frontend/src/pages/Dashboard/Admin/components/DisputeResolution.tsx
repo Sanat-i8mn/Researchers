@@ -30,7 +30,7 @@ export default function DisputeResolution({ disputes }: { disputes: Dispute[] })
                 {dispute.status}
               </span>
             </div>
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
               <button className="flex-1 bg-cyan-100 text-cyan-600 border border-cyan-300 py-2 rounded-xl font-semibold hover:bg-cyan-200 hover:scale-105 hover:shadow-md transition-all duration-200">
                 Review Details
               </button>

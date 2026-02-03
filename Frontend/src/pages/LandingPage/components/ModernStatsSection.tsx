@@ -82,28 +82,107 @@ export default function ModernStatsSection() {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-r from-blue-500 to-blue-600 relative overflow-hidden">
-      {/* Decorative background circles */}
+    <section className="relative py-20 bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 overflow-hidden">
+      {/* Dynamic Gradient Background */}
       <motion.div
-        className="absolute -top-32 -left-32 w-72 h-72 rounded-full bg-blue-400/30 blur-3xl"
-        animate={{ y: [0, 20, 0], x: [0, 10, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <motion.div
-        className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-blue-300/30 blur-3xl"
-        animate={{ y: [0, -20, 0], x: [0, -10, 0] }}
-        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute inset-0"
+        animate={{
+          background: [
+            'radial-gradient(circle at 20% 20%, rgba(139, 92, 246, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.2) 0%, transparent 50%)',
+            'radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.3) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.2) 0%, transparent 50%)',
+            'radial-gradient(circle at 20% 20%, rgba(139, 92, 246, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.2) 0%, transparent 50%)'
+          ]
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: 'easeInOut'
+        }}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-4">
+      {/* Floating Particles */}
+      {Array.from({ length: 20 }).map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-1 h-1 bg-white/40 rounded-full"
+          style={{
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+          }}
+          animate={{
+            y: [0, -40, 0],
+            x: [0, Math.random() * 30 - 15, 0],
+            opacity: [0.2, 0.8, 0.2],
+            scale: [1, 2, 1]
+          }}
+          transition={{
+            duration: 6 + Math.random() * 4,
+            repeat: Infinity,
+            delay: Math.random() * 3,
+            ease: 'easeInOut'
+          }}
+        />
+      ))}
+
+      {/* Geometric Shapes */}
+      <motion.div
+        className="absolute top-20 left-20 w-32 h-32 border border-purple-400/20 rounded-2xl"
+        animate={{
+          rotate: [0, 360],
+          scale: [1, 1.2, 1]
+        }}
+        transition={{
+          duration: 25,
+          repeat: Infinity,
+          ease: 'linear'
+        }}
+      />
+      <motion.div
+        className="absolute bottom-20 right-20 w-24 h-24 border border-blue-400/20 rounded-full"
+        animate={{
+          rotate: [360, 0],
+          y: [0, -30, 0]
+        }}
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          ease: 'easeInOut'
+        }}
+      />
+      <motion.div
+        className="absolute top-1/2 left-10 w-16 h-16 bg-gradient-to-r from-purple-500/10 to-blue-500/10 rounded-lg"
+        animate={{
+          rotate: [0, 180, 360],
+          x: [0, 20, 0]
+        }}
+        transition={{
+          duration: 18,
+          repeat: Infinity,
+          ease: 'easeInOut'
+        }}
+      />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16"
+        >
+          <motion.div
+            className="inline-block px-6 py-2 bg-gradient-to-r from-purple-500/20 to-blue-500/20 backdrop-blur-sm rounded-full mb-6 border border-white/10"
+            whileHover={{ scale: 1.05 }}
+          >
+            <span className="text-purple-300 text-sm font-semibold tracking-wide uppercase">Global Impact</span>
+          </motion.div>
+          <h2 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-6">
             Trusted by Millions
           </h2>
-          <p className="text-xl text-blue-100 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
             Join the world's largest research marketplace
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {stats.map((stat, i) => {
@@ -111,22 +190,62 @@ export default function ModernStatsSection() {
             return (
               <motion.div
                 key={stat.label}
-                className="relative bg-gradient-to-br from-blue-600 to-blue-500 rounded-3xl p-8 text-center shadow-xl hover:shadow-2xl cursor-pointer"
-                initial={{ opacity: 0, y: 40 }}
+                className="group relative"
+                initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
                 viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: i * 0.15 }}
+                whileHover={{ y: -10 }}
               >
-                {/* Icon */}
-                <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-tr from-white/20 to-white/10 flex items-center justify-center shadow-lg">
-                  <Icon size={32} className="text-white" />
-                </div>
+                {/* Glow Effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                {/* Card */}
+                <div className="relative bg-white/5 backdrop-blur-xl rounded-3xl p-8 text-center border border-white/10 shadow-2xl group-hover:bg-white/10 transition-all duration-500">
+                  {/* Animated Border */}
+                  <motion.div
+                    className="absolute inset-0 rounded-3xl"
+                    style={{
+                      background: 'linear-gradient(45deg, transparent, rgba(168, 85, 247, 0.3), transparent, rgba(59, 130, 246, 0.3), transparent)',
+                      backgroundSize: '300% 300%'
+                    }}
+                    animate={{
+                      backgroundPosition: ['0% 0%', '100% 100%']
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: 'linear'
+                    }}
+                  />
+                  
+                  {/* Content */}
+                  <div className="relative z-10">
+                    {/* Icon Container */}
+                    <motion.div
+                      className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 backdrop-blur-sm flex items-center justify-center border border-white/20"
+                      whileHover={{ rotate: 360, scale: 1.1 }}
+                      transition={{ duration: 0.6 }}
+                    >
+                      <Icon size={36} className="text-white" />
+                    </motion.div>
 
-                {/* Stats */}
-                <div className="text-3xl md:text-4xl font-bold text-white mb-2">{stat.number}</div>
-                <div className="text-xl font-semibold text-white/90 mb-1">{stat.label}</div>
-                <div className="text-white/70 text-sm">{stat.description}</div>
+                    {/* Number */}
+                    <motion.div
+                      className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent mb-3"
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {stat.number}
+                    </motion.div>
+                    
+                    {/* Label */}
+                    <div className="text-xl font-semibold text-white mb-2">{stat.label}</div>
+                    
+                    {/* Description */}
+                    <div className="text-gray-300 text-sm leading-relaxed">{stat.description}</div>
+                  </div>
+                </div>
               </motion.div>
             );
           })}

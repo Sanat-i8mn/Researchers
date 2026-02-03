@@ -1,14 +1,14 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  ArrowRight, 
-  CheckCircle, 
-  Star, 
-  Search, 
-  MapPin, 
-  Award, 
-  Clock, 
-  TrendingUp, 
+import {
+  ArrowRight,
+  CheckCircle,
+  Star,
+  Search,
+  MapPin,
+  Award,
+  Clock,
+  TrendingUp,
   Users,
   Sparkles,
   ChevronLeft,
@@ -22,7 +22,7 @@ import type { PageType } from '../../../types'
 import AnimatedBackground from './AnimatedBackground'
 
 interface HeroSectionProps {
-  onNavigate: (page: PageType) => void
+  onNavigate: (page: PageType | (() => void)) => void
   onShowResults: () => void
 }
 
@@ -126,7 +126,7 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
   // Auto rotate images
   useEffect(() => {
     if (!isAutoRotating) return
-    
+
     const interval = setInterval(
       () => setCurrentImageIndex((i) => (i + 1) % researcherImages.length),
       7000
@@ -137,7 +137,7 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
   // Filter skills based on search
   useEffect(() => {
     if (searchQuery) {
-      const filtered = skills.filter(skill => 
+      const filtered = skills.filter(skill =>
         skill.toLowerCase().includes(searchQuery.toLowerCase())
       )
       setFilteredSkills(filtered)
@@ -194,21 +194,21 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
     <section className="relative overflow-hidden py-6 sm:py-10 lg:py-14">
       {/* Ultra Cool 3D Animated Background */}
       <AnimatedBackground />
-      
+
       {/* Overlay gradient for better text readability */}
       <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-transparent to-white/30 pointer-events-none" />
-      
+
       {/* Animated Mesh Grid with Particles */}
       <motion.div
         className="absolute inset-0 opacity-[0.12]"
-        animate={{ 
+        animate={{
           backgroundPosition: ['0% 0%', '100% 100%'],
           rotate: [0, 360]
         }}
-        transition={{ 
-          duration: 30, 
-          repeat: Infinity, 
-          repeatType: 'reverse', 
+        transition={{
+          duration: 30,
+          repeat: Infinity,
+          repeatType: 'reverse',
           ease: 'linear'
         }}
         style={{
@@ -246,31 +246,31 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
 
       {/* Floating Gradient Orbs with Glow */}
       <motion.div
-        animate={{ 
-          y: [0, 60, 0], 
-          x: [0, 40, 0], 
+        animate={{
+          y: [0, 60, 0],
+          x: [0, 40, 0],
           scale: [1, 1.15, 1],
           rotate: [0, 180, 360]
         }}
-        transition={{ 
-          duration: 20, 
-          repeat: Infinity, 
-          ease: 'easeInOut' 
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          ease: 'easeInOut'
         }}
         className="absolute -top-64 -left-64 w-[500px] h-[500px] bg-gradient-to-br from-blue-300/30 via-cyan-300/20 to-transparent rounded-full blur-3xl"
       />
       <motion.div
-        animate={{ 
-          y: [0, -80, 0], 
-          x: [0, -60, 0], 
+        animate={{
+          y: [0, -80, 0],
+          x: [0, -60, 0],
           scale: [1, 1.2, 1],
           rotate: [360, 180, 0]
         }}
-        transition={{ 
-          duration: 25, 
-          repeat: Infinity, 
-          ease: 'easeInOut', 
-          delay: 1 
+        transition={{
+          duration: 25,
+          repeat: Infinity,
+          ease: 'easeInOut',
+          delay: 1
         }}
         className="absolute top-1/3 -right-72 w-[600px] h-[600px] bg-gradient-to-bl from-indigo-300/30 via-purple-300/25 to-transparent rounded-full blur-3xl"
       />
@@ -281,7 +281,7 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
           <motion.div
             initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ 
+            transition={{
               duration: 0.8,
               type: 'spring',
               stiffness: 100
@@ -295,42 +295,42 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
               transition={{ delay: 0.2 }}
               className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-50 to-indigo-50 px-4 py-2.5 rounded-full border border-blue-100 shadow-sm"
             >
-             
+
             </motion.div>
-            
-{/* Main Headline */}
-<div className="space-y-3 sm:space-y-4">
-  <motion.h1
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.3 }}
-    className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight sm:leading-tight"
-  >
-    Get the Perfect{' '}
-    <span className="relative inline-block">
-      <span className="relative z-10">Verified</span>
-      <motion.div
-      />
-    </span>{' '}
-    Researcher
-    <br />
-    <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
-      AI-Matched to Your Project
-    </span>
-  </motion.h1>
-  
-  <motion.p
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.5 }}
-    className="text-base sm:text-base md:text-lg text-gray-600 max-w-lg sm:max-w-xl mx-auto lg:mx-0 leading-relaxed"
-  >
-    Connect with trusted, verified researchers worldwide.
-    <span className="block mt-1 sm:mt-2 text-blue-700 font-medium">
-      Our AI matches projects with perfect expertise instantly.
-    </span>
-  </motion.p>
-</div>
+
+            {/* Main Headline */}
+            <div className="space-y-3 sm:space-y-4">
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight sm:leading-tight"
+              >
+                Get the Perfect{' '}
+                <span className="relative inline-block">
+                  <span className="relative z-10">Verified</span>
+                  <motion.div
+                  />
+                </span>{' '}
+                Researcher
+                <br />
+                <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                  AI-Matched to Your Project
+                </span>
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="text-base sm:text-base md:text-lg text-gray-600 max-w-lg sm:max-w-xl mx-auto lg:mx-0 leading-relaxed"
+              >
+                Connect with trusted, verified researchers worldwide.
+                <span className="block mt-1 sm:mt-2 text-blue-700 font-medium">
+                  Our AI matches projects with perfect expertise instantly.
+                </span>
+              </motion.p>
+            </div>
 
 
             {/* Enhanced Search Bar */}
@@ -352,7 +352,7 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
                     className="w-full px-5 sm:px-6 py-4 pl-14 pr-32 text-base text-gray-700 bg-white/95 backdrop-blur-sm border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-3 focus:ring-blue-500/30 focus:border-blue-500 shadow-xl hover:shadow-2xl transition-all duration-300 placeholder-gray-400"
                   />
                   <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 text-blue-500" size={20} />
-                  
+
                   {/* AI Assistant Badge */}
                   <div className="absolute right-28 top-1/2 transform -translate-y-1/2 flex items-center gap-1 text-xs text-blue-600 font-medium">
                     <Zap className="w-3 h-3" />
@@ -360,13 +360,13 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
                   </div>
 
                   <motion.button
-  onClick={handleSearch}
-  whileHover={{ scale: 1.05 }}
-  whileTap={{ scale: 0.95 }}
-  className="absolute right-1 top-0 bottom-0 my-auto h-fit bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-5 py-2.5 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 font-semibold text-sm shadow-lg hover:shadow-xl"
->
-  Search
-</motion.button>
+                    onClick={handleSearch}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="absolute right-1 top-0 bottom-0 my-auto h-fit bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-5 py-2.5 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 font-semibold text-sm shadow-lg hover:shadow-xl"
+                  >
+                    Search
+                  </motion.button>
                 </div>
               </div>
 
@@ -438,26 +438,20 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
                 whileHover={{ y: -3, scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => onNavigate('signup')}
-                className="group relative overflow-hidden rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-6 sm:px-8 py-3 sm:py-4 font-semibold text-white shadow-xl hover:shadow-2xl transition-all text-sm sm:text-base flex items-center gap-2"
+                className="group relative overflow-hidden rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-6 sm:px-8 py-3 sm:py-4 font-semibold text-white shadow-xl"
               >
-                <span className="relative z-10 flex items-center gap-2">
-                  Join as Expert
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-indigo-700 opacity-0 group-hover:opacity-100 transition-opacity" />
+                Join as Expert
               </motion.button>
 
               <motion.button
                 whileHover={{ y: -3, scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => onNavigate('post-project')}
-                className="group relative overflow-hidden rounded-full border-2 border-blue-600 px-6 sm:px-8 py-3 sm:py-4 font-semibold text-blue-600 bg-white hover:bg-blue-50 transition-all text-sm sm:text-base shadow-lg hover:shadow-xl flex items-center gap-2"
+                className="group relative overflow-hidden rounded-full border-2 border-blue-600 px-6 sm:px-8 py-3 sm:py-4 font-semibold text-blue-600 bg-white hover:bg-blue-50"
               >
-                <span className="relative z-10 flex items-center gap-2">
-                  Post a Project
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                </span>
+                Post a Project
               </motion.button>
+
 
               <motion.button
                 whileHover={{ y: -3, scale: 1.02 }}
@@ -465,7 +459,7 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
                 onClick={() => setIsPlayingDemo(true)}
                 className="flex items-center gap-2 text-sm text-gray-600 hover:text-blue-600 transition-colors group"
               >
-                
+
               </motion.button>
             </motion.div>
           </motion.div>
@@ -474,7 +468,7 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
           <motion.div
             initial={{ opacity: 0, scale: 0.95, x: 50 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
-            transition={{ 
+            transition={{
               duration: 1,
               type: 'spring',
               stiffness: 80,
@@ -527,7 +521,7 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
                         WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)'
                       }}
                     />
-                    
+
                     {/* Premium Badges */}
                     <div className="absolute top-4 right-4 flex flex-col gap-2">
                       <motion.div
@@ -611,7 +605,7 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
                   className="bg-white rounded-xl shadow-lg p-5 w-[250px] border border-gray-200 mt-40"
                 >
                   {/* Map with dot */}
-                 
+
 
                   {/* Name */}
                   <h3 className="font-bold text-lg text-blue-600 mb-3">
@@ -683,11 +677,10 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
                       onClick={() => setCurrentImageIndex(index)}
                       whileHover={{ y: -6, scale: 1.03 }}
                       whileTap={{ scale: 0.98 }}
-                      className={`flex-shrink-0 w-40 bg-white rounded-xl shadow-lg overflow-hidden border-2 transition-all duration-300 snap-center ${
-                        index === currentImageIndex
+                      className={`flex-shrink-0 w-40 bg-white rounded-xl shadow-lg overflow-hidden border-2 transition-all duration-300 snap-center ${index === currentImageIndex
                           ? 'border-blue-600 shadow-xl ring-2 ring-blue-500/20'
                           : 'border-gray-100 hover:border-gray-300'
-                      }`}
+                        }`}
                     >
                       {/* Status Indicator */}
                       <div className="absolute top-3 right-3 z-10">
@@ -702,7 +695,7 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
                       </div>
-                      
+
                       <div className="p-2.5">
                         <div className="flex items-start justify-between mb-1">
                           <h4 className="font-bold text-xs text-gray-900 truncate">
@@ -715,11 +708,11 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
                             </span>
                           </div>
                         </div>
-                        
+
                         <p className="text-xs text-gray-600 truncate mb-2">
                           {researcher.field}
                         </p>
-                        
+
                         <div className="flex items-center justify-between text-xs text-gray-500">
                           <div className="flex items-center gap-1">
                             <MapPin size={9} />
@@ -742,11 +735,10 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
                   <button
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
-                    className={`w-1.5 h-1.5 rounded-full transition-all ${
-                      index === currentImageIndex
+                    className={`w-1.5 h-1.5 rounded-full transition-all ${index === currentImageIndex
                         ? 'w-6 bg-gradient-to-r from-blue-600 to-indigo-600'
                         : 'bg-gray-300 hover:bg-gray-400'
-                    }`}
+                      }`}
                   />
                 ))}
               </div>
@@ -762,7 +754,7 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
         transition={{ delay: 1.5 }}
         className="relative max-w-4xl mx-auto mt-12 lg:mt-20 px-4"
       >
-    
+
       </motion.div>
 
       {/* Click outside to close dropdown */}

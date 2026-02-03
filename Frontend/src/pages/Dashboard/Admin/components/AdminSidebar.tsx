@@ -1,6 +1,6 @@
 import {
   Users, FolderOpen, DollarSign, AlertCircle, Shield, Settings,
-  BarChart3, FileText, Award, Wrench, LogOut, Menu, X, Search
+  BarChart3, FileBarChart, Award, Wrench, LogOut, Menu, X, Search
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { adminLogout } from '../../../../services/authApi';
@@ -42,7 +42,7 @@ export default function AdminSidebar({
     { id: 'payments', icon: DollarSign, label: 'Payments & Escrow' },
     { id: 'disputes', icon: AlertCircle, label: 'Disputes' },
     { id: 'skills', icon: Wrench, label: 'Skills Management' },
-    { id: 'reports', icon: FileText, label: 'Reports' },
+    { id: 'reports', icon: FileBarChart, label: 'Reports' },
     { id: 'settings', icon: Settings, label: 'Settings' }
   ];
 
@@ -51,7 +51,7 @@ export default function AdminSidebar({
       {/* Mobile Menu Button */}
       <button
         onClick={onMobileMenuToggle}
-        className="lg:hidden fixed top-4 left-4 z-50 w-12 h-12 bg-gray-200 rounded-xl flex items-center justify-center shadow-lg text-black"
+        className="lg:hidden fixed top-4 left-4 z-50 w-12 h-12 bg-white border border-gray-300 rounded-xl flex items-center justify-center shadow-lg text-gray-700 hover:bg-gray-50 transition-colors"
       >
         {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
@@ -68,17 +68,20 @@ export default function AdminSidebar({
       <aside
         className={`
           w-72 min-w-[288px] flex-shrink-0 text-black p-4 sm:p-6 flex flex-col
-          lg:relative lg:translate-x-0
+          lg:fixed lg:top-0 lg:left-0 lg:h-screen lg:z-30
           fixed top-0 left-0 h-full z-40 transition-transform duration-300
           ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+          ${isMobileMenuOpen ? 'bg-white border-r border-gray-300 shadow-2xl' : ''}
         `}
-        style={{ background: 'linear-gradient(to-br, #E2E2E2, #D1D1D1, #C0C0C0)' }}
+        style={{ background: isMobileMenuOpen ? 'white' : 'linear-gradient(to-br, #E2E2E2, #D1D1D1, #C0C0C0)' }}
       >
         {/* Glow / orbs */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-10 left-10 w-32 h-32 bg-gray-400/20 rounded-full blur-2xl" />
-          <div className="absolute bottom-20 right-10 w-24 h-24 bg-purple-300/20 rounded-full blur-2xl" />
-        </div>
+        {!isMobileMenuOpen && (
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-10 left-10 w-32 h-32 bg-gray-400/20 rounded-full blur-2xl" />
+            <div className="absolute bottom-20 right-10 w-24 h-24 bg-purple-300/20 rounded-full blur-2xl" />
+          </div>
+        )}
 
         {/* Logo */}
         <div className="flex flex-col items-center -mt-7 relative z-6">
@@ -115,13 +118,17 @@ export default function AdminSidebar({
         </nav>
 
         {/* Sign Out */}
-        <div className="pt-6 border-t border-gray-400 relative z-10">
+        <div className={`pt-6 border-t relative z-10 ${isMobileMenuOpen ? 'border-gray-300' : 'border-gray-400'}`}>
           <button
             onClick={handleSignOut}
-            className="w-full flex items-center gap-3 px-3 sm:px-4 py-2.5 sm:py-3 text-white hover:text-red-400 hover:bg-red-800 rounded-xl transition-all text-sm sm:text-base hover:scale-105 hover:shadow-md duration-200"
+            className={`w-full flex items-center gap-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl transition-all text-sm sm:text-base hover:scale-105 hover:shadow-md duration-200 ${
+              isMobileMenuOpen 
+                ? 'text-gray-700 hover:text-red-600 hover:bg-red-50' 
+                : 'text-white hover:text-red-400 hover:bg-red-800'
+            }`}
           >
-            <LogOut size={18} className="sm:w-5 sm:h-5 text-black" />
-            <span className="text-black">Sign Out</span>
+            <LogOut size={18} className={`sm:w-5 sm:h-5 ${isMobileMenuOpen ? 'text-gray-700' : 'text-black'}`} />
+            <span className={isMobileMenuOpen ? 'text-gray-700' : 'text-black'}>Sign Out</span>
           </button>
 
         </div>

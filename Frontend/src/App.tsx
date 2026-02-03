@@ -10,7 +10,6 @@ const LandingPage = lazy(() => import('./pages/LandingPage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
 const BlogPage = lazy(() => import('./pages/BlogPage'));
 const PricingPage = lazy(() => import('./pages/PricingPage'));
-const LoginPage = lazy(() => import('./pages/Auth/LoginPage'));
 const SignupPage = lazy(() => import('./pages/Auth/SignupPage'));
 const AdminLoginPage = lazy(() => import('./pages/Auth/AdminLoginPage'));
 const BiddingPage = lazy(() => import('./pages/BiddingPage'));
@@ -31,7 +30,7 @@ const CookiePolicyPage = lazy(() => import('./pages/CookiePolicyPage'));
 const ProfileViewPopup = lazy(() => import('./components/shared/ProfileViewPopup'));
 const PostProjectPage = lazy(() => import('./pages/PostProjectPage'));
 
-type PageType = 'home' | 'about' | 'blog' | 'pricing' | 'login' | 'signup' | 'admin-login' | 'bidding' | 'post-project' | 'messaging' | 'escrow' | 'verification' | 'freelancer-account-details' | 'client-dashboard' | 'freelancer-dashboard' | 'admin-dashboard' | 'terms-and-conditions' | 'privacy-policy' | 'academic-integrity-policy' | 'escrow-service-terms' | 'contact-us' | 'help-center' | 'faq' | 'cookie-policy';
+type PageType = 'home' | 'about' | 'blog' | 'pricing' | 'login' | 'signup' | 'admin-login' | 'bidding' | 'post-project' | 'postprojectpage' | 'messaging' | 'escrow' | 'verification' | 'freelancer-account-details' | 'client-dashboard' | 'freelancer-dashboard' | 'admin-dashboard' | 'terms-and-conditions' | 'privacy-policy' | 'academic-integrity-policy' | 'escrow-service-terms' | 'contact-us' | 'help-center' | 'faq' | 'cookie-policy';
 
 const LoadingSpinner = () => (
   <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#f0f4ff] via-[#dbe7ff] to-[#c0d4ff]">
@@ -45,13 +44,25 @@ function AppContent() {
   const { user, loading, setUser, refreshUser, isAuthenticated } = useAuth();
   const [currentPage, setCurrentPage] = useState<PageType>('home');
   const [showProfilePopup, setShowProfilePopup] = useState(false);
+  const [showAuthPopup, setShowAuthPopup] = useState(false);
+  const [authInitialTab, setAuthInitialTab] = useState<'login' | 'signup'>('signup');
 
   const handleNavigate = (page: PageType) => {
+    if (page === 'login') {
+      setAuthInitialTab('login');
+      setShowAuthPopup(true);
+      return;
+    }
+    if (page === 'signup') {
+      setAuthInitialTab('signup');
+      setShowAuthPopup(true);
+      return;
+    }
     setCurrentPage(page);
     const routes: Record<PageType, string> = {
       'home': '/', 'about': '/about', 'blog': '/blog', 'pricing': '/pricing',
       'login': '/login', 'signup': '/signup', 'admin-login': '/admin/login',
-      'bidding': '/bidding', 'post-project': '/post-project', 'messaging': '/messaging', 'escrow': '/escrow',
+      'bidding': '/bidding', 'post-project': '/post-project', 'postprojectpage': '/postprojectpage', 'messaging': '/messaging', 'escrow': '/escrow',
       'verification': '/verification', 'freelancer-account-details': '/freelancer-account-details',
       'client-dashboard': '/client-dashboard', 'freelancer-dashboard': '/freelancer-dashboard',
       'admin-dashboard': '/admin-dashboard', 'terms-and-conditions': '/terms-and-conditions',
@@ -63,21 +74,28 @@ function AppContent() {
   };
 
   useEffect(() => {
-    const pathToPage: Record<string, PageType> = {
-      '/': 'home', '/about': 'about', '/blog': 'blog', '/pricing': 'pricing',
-      '/login': 'login', '/signup': 'signup', '/admin': 'admin-login',
-      '/bidding': 'bidding', '/post-project': 'post-project', '/messaging': 'messaging', '/escrow': 'escrow',
-      '/verification': 'verification', '/freelancer-account-details': 'freelancer-account-details',
-      '/client-dashboard': 'client-dashboard', '/freelancer-dashboard': 'freelancer-dashboard',
-      '/admin-dashboard': 'admin-dashboard', '/terms-and-conditions': 'terms-and-conditions',
-      '/privacy-policy': 'privacy-policy', '/academic-integrity-policy': 'academic-integrity-policy',
-      '/escrow-service-terms': 'escrow-service-terms', '/contact-us': 'contact-us',
-      '/help-center': 'help-center', '/faq': 'faq', '/cookie-policy': 'cookie-policy'
-    };
-    
-    if (location.pathname.startsWith('/bidding')) {
+    if (location.pathname === '/login') {
+      setAuthInitialTab('login');
+      setShowAuthPopup(true);
+      setCurrentPage('home');
+    } else if (location.pathname === '/signup') {
+      setAuthInitialTab('signup');
+      setShowAuthPopup(true);
+      setCurrentPage('home');
+    } else if (location.pathname.startsWith('/bidding')) {
       setCurrentPage('bidding');
     } else {
+      const pathToPage: Record<string, PageType> = {
+        '/': 'home', '/about': 'about', '/blog': 'blog', '/pricing': 'pricing',
+        '/admin': 'admin-login',
+        '/post-project': 'post-project', '/postprojectpage': 'postprojectpage', '/messaging': 'messaging', '/escrow': 'escrow',
+        '/verification': 'verification', '/freelancer-account-details': 'freelancer-account-details',
+        '/client-dashboard': 'client-dashboard', '/freelancer-dashboard': 'freelancer-dashboard',
+        '/admin-dashboard': 'admin-dashboard', '/terms-and-conditions': 'terms-and-conditions',
+        '/privacy-policy': 'privacy-policy', '/academic-integrity-policy': 'academic-integrity-policy',
+        '/escrow-service-terms': 'escrow-service-terms', '/contact-us': 'contact-us',
+        '/help-center': 'help-center', '/faq': 'faq', '/cookie-policy': 'cookie-policy'
+      };
       const page = pathToPage[location.pathname] || 'home';
       setCurrentPage(page);
     }
@@ -87,6 +105,7 @@ function AppContent() {
     const response = await apiLoginUser({ email, password });
     if (response.success && response.user) {
       setUser(response.user);
+      setShowAuthPopup(false);
       navigate(response.user.role === 'client' ? '/client-dashboard' : '/freelancer-dashboard');
     }
   };
@@ -94,6 +113,7 @@ function AppContent() {
   const handleSignup = async (data: any) => {
     await registerUser(data);
     await refreshUser();
+    setShowAuthPopup(false);
     navigate('/login');
   };
 
@@ -108,6 +128,19 @@ function AppContent() {
     }
   };
 
+  const handleJoinAsExpert = () => {
+    setAuthInitialTab('signup');
+    setShowAuthPopup(true);
+  };
+
+  const handleCloseAuth = () => {
+    setShowAuthPopup(false);
+  };
+
+  const handleSwitchToLogin = () => {
+    setAuthInitialTab('login');
+  };
+
   const handleAdminLogin = async (email: string, password: string) => {
     const response = await apiAdminLogin({ email, password });
     if (response.success && response.user) {
@@ -118,15 +151,15 @@ function AppContent() {
 
   const renderPage = () => {
     switch (currentPage) {
-      case 'home': return <LandingPage onNavigate={handleNavigate} />;
+      case 'home': return <LandingPage onNavigate={handleNavigate} onSignup={handleSignup} onLogin={handleLogin} />;
       case 'about': return <AboutPage onNavigate={handleNavigate} />;
       case 'blog': return <BlogPage onNavigate={handleNavigate} />;
       case 'pricing': return <PricingPage onNavigate={handleNavigate} />;
-      case 'login': return <LoginPage onLogin={handleLogin} onSwitchToSignup={() => handleNavigate('signup')} />;
-      case 'signup': return <SignupPage onSignup={handleSignup} onSwitchToLogin={() => handleNavigate('login')} />;
+      case 'signup': return <SignupPage onSignup={handleSignup} onSwitchToLogin={() => handleNavigate('login')} onClose={() => handleNavigate('home')} />;
       case 'admin-login': return <AdminLoginPage onAdminLogin={handleAdminLogin} />;
       case 'bidding': return <BiddingPage />;
       case 'post-project': return <PostProjectPage />;
+      case 'postprojectpage': return <PostProjectPage />;
       case 'messaging': return <MessagingPage />;
       case 'escrow': return <EscrowPaymentPage />;
       case 'verification': return <VerificationCertificationPage />;
@@ -151,7 +184,7 @@ function AppContent() {
     }
   };
 
-  const showNavigation = !['login', 'signup', 'admin-login', 'admin-dashboard', 'post-project', 'terms-and-conditions', 'privacy-policy', 'academic-integrity-policy', 'escrow-service-terms', 'contact-us', 'help-center', 'faq', 'cookie-policy'].includes(currentPage);
+  const showNavigation = !['login', 'signup', 'admin-login', 'admin-dashboard', 'post-project', 'postprojectpage', 'terms-and-conditions', 'privacy-policy', 'academic-integrity-policy', 'escrow-service-terms', 'contact-us', 'help-center', 'faq', 'cookie-policy'].includes(currentPage);
 
   if (loading) return <LoadingSpinner />;
 
@@ -162,6 +195,7 @@ function AppContent() {
           onNavigate={handleNavigate}
           onViewProfile={() => setShowProfilePopup(true)}
           onLogout={handleLogout}
+          onJoinAsExpert={handleJoinAsExpert}
         />
       )}
 
@@ -173,6 +207,26 @@ function AppContent() {
         <Suspense fallback={null}>
           <ProfileViewPopup onClose={() => setShowProfilePopup(false)} />
         </Suspense>
+      )}
+
+      {showAuthPopup && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+          <div 
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm" 
+            onClick={handleCloseAuth}
+          />
+          <div className="relative z-10 w-full max-w-md transform transition-all">
+            <Suspense fallback={<LoadingSpinner />}>
+              <SignupPage 
+                onSignup={handleSignup}
+                onSwitchToLogin={handleSwitchToLogin}
+                onLogin={handleLogin}
+                onClose={handleCloseAuth}
+                initialTab={authInitialTab}
+              />
+            </Suspense>
+          </div>
+        </div>
       )}
     </>
   );

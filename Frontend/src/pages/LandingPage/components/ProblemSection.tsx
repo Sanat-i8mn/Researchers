@@ -44,79 +44,213 @@
 // }
 
 
-import { Briefcase, GraduationCap } from 'lucide-react';
+import { Briefcase, GraduationCap, AlertTriangle, Target } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function ProblemSection() {
   return (
-    <section className="relative py-20 bg-gradient-to-br from-[#e6f0ff] via-[#f0f7ff] to-[#ffffff] overflow-hidden">
-      {/* Background subtle grid */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(37,99,235,0.05)_1px,transparent_0)] [background-size:32px_32px]" />
-
-      {/* Soft floating shapes */}
+    <section className="relative py-20 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 overflow-hidden">
+      {/* Dynamic Background */}
       <motion.div
-        className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-blue-300/20 rounded-full blur-3xl"
-        animate={{ y: [0, 20, 0], x: [0, 10, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <motion.div
-        className="absolute -bottom-40 -right-40 w-[500px] h-[500px] bg-indigo-300/20 rounded-full blur-3xl"
-        animate={{ y: [0, -20, 0], x: [0, -10, 0] }}
-        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute inset-0"
+        animate={{
+          background: [
+            'radial-gradient(circle at 30% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 50%), radial-gradient(circle at 70% 80%, rgba(99, 102, 241, 0.06) 0%, transparent 50%)',
+            'radial-gradient(circle at 70% 30%, rgba(79, 70, 229, 0.08) 0%, transparent 50%), radial-gradient(circle at 30% 70%, rgba(139, 92, 246, 0.06) 0%, transparent 50%)',
+            'radial-gradient(circle at 30% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 50%), radial-gradient(circle at 70% 80%, rgba(99, 102, 241, 0.06) 0%, transparent 50%)'
+          ]
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: 'easeInOut'
+        }}
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
-        {/* Heading */}
+      {/* Floating Particles */}
+      {Array.from({ length: 12 }).map((_, i) => (
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          key={i}
+          className="absolute w-1 h-1 bg-blue-300/40 rounded-full"
+          style={{
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+          }}
+          animate={{
+            y: [0, -25, 0],
+            x: [0, Math.random() * 20 - 10, 0],
+            opacity: [0.3, 0.7, 0.3],
+            scale: [1, 1.5, 1]
+          }}
+          transition={{
+            duration: 5 + Math.random() * 3,
+            repeat: Infinity,
+            delay: Math.random() * 2,
+            ease: 'easeInOut'
+          }}
+        />
+      ))}
+
+      {/* Warning Icons */}
+      <motion.div
+        className="absolute top-20 left-20 text-blue-300/30"
+        animate={{
+          rotate: [0, 10, -10, 0],
+          scale: [1, 1.1, 1]
+        }}
+        transition={{
+          duration: 6,
+          repeat: Infinity,
+          ease: 'easeInOut'
+        }}
+      >
+        <AlertTriangle size={40} />
+      </motion.div>
+      <motion.div
+        className="absolute bottom-20 right-20 text-indigo-300/30"
+        animate={{
+          rotate: [0, -15, 15, 0],
+          y: [0, -10, 0]
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: 'easeInOut'
+        }}
+      >
+        <Target size={35} />
+      </motion.div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 relative inline-block">
+          <motion.div
+            
+          >
+           
+          </motion.div>
+          <h2 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent mb-6">
             The Challenge
-            <span className="absolute left-0 -bottom-2 w-24 h-1 bg-blue-500 rounded-full"></span>
           </h2>
-          <p className="text-lg md:text-xl text-gray-600 mt-4 max-w-2xl mx-auto">
-            Challenges faced by companies and researchers in finding talent and opportunities.
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Understanding the pain points that both companies and researchers face in today's fragmented ecosystem
           </p>
         </motion.div>
 
-        {/* Cards */}
-        <div className="grid lg:grid-cols-2 gap-10 md:gap-16">
+        {/* Problem Cards */}
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+          {/* Companies Card */}
           <motion.div
-            className="bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-shadow"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="group relative"
+            whileHover={{ y: -5 }}
           >
-            <div className="flex items-center gap-4 mb-4">
-              <Briefcase className="text-blue-500" size={28} />
-              <h3 className="text-2xl font-bold text-gray-900">
-                For Companies & Universities
-              </h3>
+            {/* Glow Effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            
+            <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-blue-100 shadow-xl group-hover:shadow-2xl transition-all duration-500">
+              {/* Icon Header */}
+              <div className="flex items-center gap-4 mb-6">
+                <motion.div
+                  className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center shadow-lg"
+                  whileHover={{ rotate: 360, scale: 1.1 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <Briefcase className="text-white" size={28} />
+                </motion.div>
+                <div>
+                  <h3 className="text-2xl font-bold text-gray-900">For Companies & Universities</h3>
+                  <div className="w-12 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full mt-2" />
+                </div>
+              </div>
+              
+              {/* Problem Statement */}
+              <div className="mb-4">
+                <h4 className="text-xl font-bold text-blue-600 mb-3">R&D is slow, expensive, and talent is hard to find</h4>
+                <p className="text-gray-700 leading-relaxed">
+                  Top researchers are scattered across labs, universities, and countries—with no unified global platform to hire them quickly and reliably.
+                </p>
+              </div>
+              
+              {/* Pain Points */}
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <div className="w-2 h-2 bg-blue-400 rounded-full" />
+                  <span>Limited access to global talent pool</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <div className="w-2 h-2 bg-indigo-400 rounded-full" />
+                  <span>High recruitment costs and time delays</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <div className="w-2 h-2 bg-purple-400 rounded-full" />
+                  <span>Difficulty verifying expertise and credentials</span>
+                </div>
+              </div>
             </div>
-            <p className="text-gray-700 leading-relaxed">
-              R&D is slow, expensive, and top talent is hard to find. Researchers are scattered across labs, universities, and countries—with no unified global platform to hire them quickly and reliably.
-            </p>
           </motion.div>
 
+          {/* Researchers Card */}
           <motion.div
-            className="bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-shadow"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="group relative"
+            whileHover={{ y: -5 }}
           >
-            <div className="flex items-center gap-4 mb-4">
-              <GraduationCap className="text-blue-400" size={28} />
-              <h3 className="text-2xl font-bold text-gray-900">
-                For Researchers & Scientists
-              </h3>
+            {/* Glow Effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            
+            <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-blue-100 shadow-xl group-hover:shadow-2xl transition-all duration-500">
+              {/* Icon Header */}
+              <div className="flex items-center gap-4 mb-6">
+                <motion.div
+                  className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg"
+                  whileHover={{ rotate: 360, scale: 1.1 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <GraduationCap className="text-white" size={28} />
+                </motion.div>
+                <div>
+                  <h3 className="text-2xl font-bold text-gray-900">For Researchers & Scientists</h3>
+                  <div className="w-12 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mt-2" />
+                </div>
+              </div>
+              
+              {/* Problem Statement */}
+              <div className="mb-4">
+                <h4 className="text-xl font-bold text-blue-600 mb-3">Your expertise is valuable—but opportunities are limited</h4>
+                <p className="text-gray-700 leading-relaxed">
+                  Opportunities are scattered and often underpaid. You deserve global visibility, meaningful projects, and fair compensation for your expertise.
+                </p>
+              </div>
+              
+              {/* Pain Points */}
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <div className="w-2 h-2 bg-blue-400 rounded-full" />
+                  <span>Limited visibility to global opportunities</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <div className="w-2 h-2 bg-purple-400 rounded-full" />
+                  <span>Undervalued expertise and low compensation</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <div className="w-2 h-2 bg-indigo-400 rounded-full" />
+                  <span>Fragmented job market and networking</span>
+                </div>
+              </div>
             </div>
-            <p className="text-gray-700 leading-relaxed">
-              Opportunities are scattered and often underpaid. You deserve global visibility, meaningful projects, and fair compensation for your expertise.
-            </p>
           </motion.div>
         </div>
       </div>

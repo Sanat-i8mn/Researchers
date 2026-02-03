@@ -91,34 +91,50 @@ export default function BlogPage({ onNavigate }: BlogPageProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0A0E27] via-[#1a1f3a] to-[#0f1629]">
-      <section className="relative pt-24 pb-16 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 overflow-hidden">
-        <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
-        <div className="absolute top-20 right-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"></div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+      <section className="relative pt-24 pb-16 overflow-hidden">
+        {/* Dynamic Background */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50" />
+          <div className="absolute top-20 right-20 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-20 left-20 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl animate-pulse" />
+        </div>
 
-        <div className="relative max-w-6xl mx-auto px-6 lg:px-12 text-center">
-          <div className="inline-flex items-center gap-2 bg-blue-500/20 backdrop-blur-sm px-4 py-2 rounded-full text-blue-200 text-sm font-semibold mb-6 border border-blue-400/30">
+        {/* Floating Particles */}
+        {Array.from({ length: 20 }).map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-blue-400/40 rounded-full animate-pulse"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 2}s`
+            }}
+          />
+        ))}
+
+        <div className="relative max-w-6xl mx-auto px-6 lg:px-12 text-center z-10">
+          <div className="inline-flex items-center gap-2 bg-blue-100 backdrop-blur-sm px-4 py-2 rounded-full text-blue-600 text-sm font-semibold mb-6 border border-blue-200">
             <Lightbulb size={16} />
             <span>Research Insights & Innovation</span>
           </div>
 
-          <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+          <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
             ResearchHub Blog
           </h1>
 
-          <p className="text-xl text-slate-300 max-w-4xl mx-auto leading-relaxed mb-4">
+          <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed mb-4">
             Expert insights, research methodologies, and industry trends from the world's leading research professionals
           </p>
 
-          <p className="text-lg text-slate-400 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg text-gray-500 max-w-3xl mx-auto leading-relaxed">
             Stay ahead with cutting-edge articles on AI-powered research, academic excellence, deep-tech innovation,
             career development strategies, and the latest tools transforming how scientific discovery happens.
           </p>
         </div>
       </section>
 
-      <section className="py-8 px-6 lg:px-12 bg-white/5 backdrop-blur-sm border-y border-white/10">
+      <section className="py-8 px-6 lg:px-12 bg-white/80 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-wrap gap-3 justify-center">
             {categories.map((category) => {
@@ -126,7 +142,7 @@ export default function BlogPage({ onNavigate }: BlogPageProps) {
               return (
                 <button
                   key={category.id}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl border-2 border-white/20 hover:border-cyan-400 hover:bg-cyan-500/20 transition-all font-medium text-gray-300 hover:text-cyan-400"
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl border-2 border-blue-200 hover:border-blue-400 hover:bg-blue-50 transition-all font-medium text-gray-600 hover:text-blue-600"
                 >
                   <Icon size={18} />
                   {category.name}
@@ -137,12 +153,12 @@ export default function BlogPage({ onNavigate }: BlogPageProps) {
         </div>
       </section>
 
-      <section className="py-16 px-6 lg:px-12 bg-white/5 backdrop-blur-sm">
+      <section className="py-16 px-6 lg:px-12 bg-white/90 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-12">
             <div>
-              <h2 className="text-4xl font-bold text-white mb-2">Latest Articles</h2>
-              <p className="text-lg text-gray-300">Discover expert insights and practical guidance for researchers</p>
+              <h2 className="text-4xl font-bold text-gray-900 mb-2">Latest Articles</h2>
+              <p className="text-lg text-gray-600">Discover expert insights and practical guidance for researchers</p>
             </div>
           </div>
 
@@ -150,7 +166,7 @@ export default function BlogPage({ onNavigate }: BlogPageProps) {
             {featuredBlogs.map((blog) => (
               <article
                 key={blog.id}
-                className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group cursor-pointer"
+                className="bg-white/90 backdrop-blur-sm border border-gray-200 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group cursor-pointer"
               >
                 <div className="relative h-56 overflow-hidden">
                   <img
@@ -159,14 +175,14 @@ export default function BlogPage({ onNavigate }: BlogPageProps) {
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute top-4 left-4">
-                    <span className="bg-cyan-500 text-white px-4 py-1.5 rounded-full text-sm font-semibold">
+                    <span className="bg-blue-500 text-white px-4 py-1.5 rounded-full text-sm font-semibold">
                       {blog.category}
                     </span>
                   </div>
                 </div>
 
                 <div className="p-6">
-                  <div className="flex items-center gap-4 text-sm text-gray-400 mb-4">
+                  <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
                     <div className="flex items-center gap-1.5">
                       <Calendar size={16} />
                       <span>{blog.date}</span>
@@ -177,11 +193,11 @@ export default function BlogPage({ onNavigate }: BlogPageProps) {
                     </div>
                   </div>
 
-                  <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 group-hover:text-cyan-400 transition-colors">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
                     {blog.title}
                   </h3>
 
-                  <p className="text-gray-300 mb-4 line-clamp-3 leading-relaxed">
+                  <p className="text-gray-600 mb-4 line-clamp-3 leading-relaxed">
                     {blog.summary}
                   </p>
 
@@ -189,7 +205,7 @@ export default function BlogPage({ onNavigate }: BlogPageProps) {
                     {blog.tags.map((tag, index) => (
                       <span
                         key={index}
-                        className="flex items-center gap-1 text-xs bg-white/10 text-cyan-400 px-3 py-1 rounded-full border border-white/20"
+                        className="flex items-center gap-1 text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full border border-blue-200"
                       >
                         <Tag size={12} />
                         {tag}
@@ -197,18 +213,18 @@ export default function BlogPage({ onNavigate }: BlogPageProps) {
                     ))}
                   </div>
 
-                  <div className="flex items-center justify-between pt-4 border-t border-white/20">
+                  <div className="flex items-center justify-between pt-4 border-t border-gray-200">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center">
+                      <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center">
                         <User className="text-white" size={20} />
                       </div>
                       <div>
-                        <p className="text-sm font-semibold text-white">{blog.author}</p>
-                        <p className="text-xs text-gray-400">{blog.authorRole}</p>
+                        <p className="text-sm font-semibold text-gray-900">{blog.author}</p>
+                        <p className="text-xs text-gray-500">{blog.authorRole}</p>
                       </div>
                     </div>
 
-                    <button className="flex items-center gap-1 text-cyan-400 font-semibold hover:gap-2 transition-all">
+                    <button className="flex items-center gap-1 text-blue-600 font-semibold hover:gap-2 transition-all">
                       Read
                       <ArrowRight size={18} />
                     </button>
@@ -243,38 +259,38 @@ export default function BlogPage({ onNavigate }: BlogPageProps) {
         </div>
       </section>
 
-      <section className="py-16 px-6 lg:px-12 bg-white/5 backdrop-blur-sm border-y border-white/10">
+      <section className="py-16 px-6 lg:px-12 bg-white/80 backdrop-blur-sm border-y border-blue-200">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">What We Write About</h2>
-          <p className="text-lg text-gray-300 leading-relaxed mb-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">What We Write About</h2>
+          <p className="text-lg text-gray-600 leading-relaxed mb-8">
             ResearchHub Blog publishes authoritative, peer-reviewed content on topics that matter to the global research community:
           </p>
 
           <div className="grid md:grid-cols-2 gap-6 text-left">
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-xl shadow-md">
-              <h3 className="font-bold text-lg text-white mb-2">Research Methodologies</h3>
-              <p className="text-gray-300">
+            <div className="bg-white/90 backdrop-blur-sm border border-blue-200 p-6 rounded-xl shadow-lg">
+              <h3 className="font-bold text-lg text-gray-900 mb-2">Research Methodologies</h3>
+              <p className="text-gray-600">
                 Qualitative and quantitative methods, experimental design, statistical analysis, systematic reviews, and best practices for rigorous research.
               </p>
             </div>
 
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-xl shadow-md">
-              <h3 className="font-bold text-lg text-white mb-2">Innovation & Technology</h3>
-              <p className="text-gray-300">
+            <div className="bg-white/90 backdrop-blur-sm border border-blue-200 p-6 rounded-xl shadow-lg">
+              <h3 className="font-bold text-lg text-gray-900 mb-2">Innovation & Technology</h3>
+              <p className="text-gray-600">
                 AI in research, machine learning applications, bioinformatics breakthroughs, data science tools, and emerging deep-tech trends.
               </p>
             </div>
 
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-xl shadow-md">
-              <h3 className="font-bold text-lg text-white mb-2">Academic & Career Growth</h3>
-              <p className="text-gray-300">
+            <div className="bg-white/90 backdrop-blur-sm border border-blue-200 p-6 rounded-xl shadow-lg">
+              <h3 className="font-bold text-lg text-gray-900 mb-2">Academic & Career Growth</h3>
+              <p className="text-gray-600">
                 PhD guidance, post-doctoral opportunities, grant writing, publication strategies, career transitions, and freelance consulting.
               </p>
             </div>
 
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-xl shadow-md">
-              <h3 className="font-bold text-lg text-white mb-2">Industry Insights</h3>
-              <p className="text-gray-300">
+            <div className="bg-white/90 backdrop-blur-sm border border-blue-200 p-6 rounded-xl shadow-lg">
+              <h3 className="font-bold text-lg text-gray-900 mb-2">Industry Insights</h3>
+              <p className="text-gray-600">
                 Market trends, R&D partnerships, startup innovation, scientific entrepreneurship, and the business of research.
               </p>
             </div>
