@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Mail, Lock, User, Phone, X, Eye, EyeOff } from 'lucide-react';
+import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { googleSignup } from '../../../services/api';
 
@@ -109,34 +110,99 @@ export default function SignupPage({ onSignup, onSwitchToLogin, onLogin, onClose
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center 
-                    bg-black/60 backdrop-blur-sm px-0 py-10">
+                    bg-black/60 backdrop-blur-sm px-4 py-6">
 
-      <div className="relative w-full max-w-7xl h-[88vh] 
-                      bg-white rounded-2xl shadow-2xl overflow-y-auto 
+      <div className="relative w-full max-w-5xl max-h-[90vh] 
+                      bg-white rounded-2xl shadow-2xl overflow-hidden 
                       border border-gray-200">
 
-
-        {/* Close button */}
-        <button
-          onClick={() => {
-            if (onClose) {
-              onClose();
-            } else {
-              window.history.back();
-            }
-          }}
-          className="absolute top-6 right-6 z-20 p-2 rounded-full 
-                     bg-gray-100 hover:bg-gray-200 transition-colors"
+        {/* Animated Gradient Header with Close Button */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 overflow-hidden"
         >
-          <X size={20} className="text-gray-600" />
-        </button>
+          {/* Animated Background Waves */}
+          <motion.div
+            animate={{
+              backgroundPosition: ['0% 0%', '100% 100%'],
+            }}
+            transition={{
+              duration: 15,
+              repeat: Infinity,
+              repeatType: 'reverse',
+              ease: 'linear'
+            }}
+            className="absolute inset-0 opacity-30"
+            style={{
+              backgroundImage: `
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.2) 0%, transparent 50%)
+              `,
+              backgroundSize: '200% 200%'
+            }}
+          />
+          
+          {/* Floating Particles */}
+          {Array.from({ length: 8 }).map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 bg-white/40 rounded-full"
+              animate={{
+                y: [0, -15, 0],
+                x: [0, Math.sin(i) * 10, 0],
+                opacity: [0.4, 0.8, 0.4]
+              }}
+              transition={{
+                duration: 2 + Math.random() * 2,
+                repeat: Infinity,
+                delay: i * 0.2
+              }}
+              style={{
+                left: `${10 + i * 12}%`,
+                top: '50%'
+              }}
+            />
+          ))}
+
+          {/* Close Button */}
+          <motion.button
+            onClick={() => {
+              if (onClose) {
+                onClose();
+              } else {
+                window.history.back();
+              }
+            }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="relative w-full py-3 px-4 flex items-center justify-center gap-2 
+                       text-white font-semibold text-sm backdrop-blur-sm
+                       hover:bg-white/10 transition-all duration-300 group"
+          >
+            <motion.div
+              animate={{ rotate: [0, 90, 0] }}
+              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <X size={20} className="text-white group-hover:text-yellow-300 transition-colors" />
+            </motion.div>
+            <span className="group-hover:text-yellow-300 transition-colors">Close</span>
+            
+            {/* Shine Effect */}
+            <motion.div
+              animate={{ x: ['-100%', '200%'] }}
+              transition={{ duration: 3, repeat: Infinity, repeatDelay: 1 }}
+              className="absolute inset-0 w-1/3 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"
+            />
+          </motion.button>
+        </motion.div>
 
         {/* Tab Navigation */}
         <div className="border-b bg-gray-50">
           <div className="flex max-w-md mx-auto">
             <button
               onClick={() => setActiveTab('login')}
-              className={`flex-1 py-4 px-6 text-center font-semibold transition-all duration-200 ${activeTab === 'login'
+              className={`flex-1 py-3 px-6 text-center font-semibold transition-all duration-200 text-sm ${activeTab === 'login'
                 ? 'text-blue-600 border-b-2 border-blue-600 bg-white'
                 : 'text-gray-500 hover:text-gray-700'
                 }`}
@@ -145,7 +211,7 @@ export default function SignupPage({ onSignup, onSwitchToLogin, onLogin, onClose
             </button>
             <button
               onClick={() => setActiveTab('signup')}
-              className={`flex-1 py-4 px-6 text-center font-semibold transition-all duration-200 ${activeTab === 'signup'
+              className={`flex-1 py-3 px-6 text-center font-semibold transition-all duration-200 text-sm ${activeTab === 'signup'
                 ? 'text-blue-600 border-b-2 border-blue-600 bg-white'
                 : 'text-gray-500 hover:text-gray-700'
                 }`}
@@ -156,86 +222,86 @@ export default function SignupPage({ onSignup, onSwitchToLogin, onLogin, onClose
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+        <div className="flex-1 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 overflow-y-auto">
           {activeTab === 'signup' ? (
-            <div className="max-w-2xl mx-auto px-6 py-3">
-              <div className="text-center mb-3">
-                <h2 className="text-xl font-semibold text-gray-800 mb-1">Create Your Expert Account</h2>
+            <div className="max-w-2xl mx-auto px-6 py-4">
+              <div className="text-center mb-4">
+                <h2 className="text-lg font-semibold text-gray-800 mb-1">Create Your Expert Account</h2>
               </div>
 
               <button
                 type="button"
                 onClick={handleLinkedInSignup}
-                className="w-full bg-[#0077B5] text-white py-2.5 rounded-xl font-semibold hover:bg-[#006399] transition-all flex items-center justify-center gap-3 mb-4 shadow-lg hover:shadow-xl"
+                className="w-full bg-[#0077B5] text-white py-2.5 rounded-xl font-semibold hover:bg-[#006399] transition-all flex items-center justify-center gap-3 mb-3 shadow-lg hover:shadow-xl text-sm"
               >
                 <LinkedInIcon />
                 Continue with LinkedIn
               </button>
 
-              <div className="relative mb-4">
+              <div className="relative mb-3">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-gray-300"></div>
                 </div>
-                <div className="relative flex justify-center text-sm">
+                <div className="relative flex justify-center text-xs">
                   <span className="px-4 bg-white text-gray-500 font-medium">or continue with email</span>
                 </div>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-3">
-                <div className="grid grid-cols-2 gap-4">
+              <form onSubmit={handleSubmit} className="space-y-2.5">
+                <div className="grid grid-cols-2 gap-3">
                   <div className="relative">
-                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
                     <input
                       type="text"
                       value={formData.firstName}
                       onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                       placeholder="First Name"
                       required
-                      className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      className="w-full pl-10 pr-3 py-2.5 text-sm border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                     />
                   </div>
                   <div className="relative">
-                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
                     <input
                       type="text"
                       value={formData.lastName}
                       onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                       placeholder="Last Name"
                       required
-                      className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      className="w-full pl-10 pr-3 py-2.5 text-sm border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                     />
                   </div>
                 </div>
 
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
                   <input
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="Email Address"
                     required
-                    className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    className="w-full pl-10 pr-3 py-2.5 text-sm border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   />
                 </div>
 
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
                   <input
                     type="password"
                     value={formData.password}
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                     placeholder="Password (min. 8 characters)"
                     required
-                    className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    className="w-full pl-10 pr-3 py-2.5 text-sm border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   />
                 </div>
 
-                <div className="flex gap-3">
+                <div className="flex gap-2">
                   <select
                     value={formData.countryCode}
                     onChange={(e) => setFormData({ ...formData, countryCode: e.target.value })}
-                    className="w-20 px-3 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    className="w-20 px-2 py-2.5 text-sm border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   >
                     {topCountries.map((country) => (
                       <option key={country.code} value={country.code}>
@@ -244,20 +310,20 @@ export default function SignupPage({ onSignup, onSwitchToLogin, onLogin, onClose
                     ))}
                   </select>
                   <div className="relative flex-1">
-                    <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                    <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
                     <input
                       type="tel"
                       value={formData.phoneNumber}
                       onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
                       placeholder="Phone Number"
                       required
-                      className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      className="w-full pl-10 pr-3 py-2.5 text-sm border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                     />
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <label className="flex items-start gap-3 text-sm text-gray-600 cursor-pointer">
+                <div className="space-y-2">
+                  <label className="flex items-start gap-2 text-xs text-gray-600 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={agreedToTerms}
@@ -271,7 +337,7 @@ export default function SignupPage({ onSignup, onSwitchToLogin, onLogin, onClose
                     </span>
                   </label>
 
-                  <label className="flex items-start gap-3 text-sm text-gray-600 cursor-pointer">
+                  <label className="flex items-start gap-2 text-xs text-gray-600 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={agreedToPrivacy}
@@ -283,7 +349,7 @@ export default function SignupPage({ onSignup, onSwitchToLogin, onLogin, onClose
                     </span>
                   </label>
 
-                  <label className="flex items-start gap-3 text-sm text-gray-600 cursor-pointer">
+                  <label className="flex items-start gap-2 text-xs text-gray-600 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={wantsUpdates}
@@ -296,14 +362,14 @@ export default function SignupPage({ onSignup, onSwitchToLogin, onLogin, onClose
                   </label>
                 </div>
 
-                <div className="mb-3">
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <div className="mb-2">
+                  <label className="block text-xs font-semibold text-gray-700 mb-1.5">
                     How did you hear about us?
                   </label>
                   <select
                     value={formData.hearAbout}
                     onChange={(e) => setFormData({ ...formData, hearAbout: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    className="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   >
                     <option value="">Select an option</option>
                     <option value="search">Search Engine</option>
@@ -314,8 +380,8 @@ export default function SignupPage({ onSignup, onSwitchToLogin, onLogin, onClose
                   </select>
                 </div>
 
-                <div className="mb-3">
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <div className="mb-2">
+                  <label className="block text-xs font-semibold text-gray-700 mb-1.5">
                     I want to join as:
                   </label>
                   <div className="flex gap-4">
@@ -328,7 +394,7 @@ export default function SignupPage({ onSignup, onSwitchToLogin, onLogin, onClose
                         onChange={(e) => setFormData({ ...formData, role: e.target.value as 'client' | 'freelancer' })}
                         className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                       />
-                      <span className="ml-2 text-sm text-gray-700">Freelancer/Expert</span>
+                      <span className="ml-2 text-xs text-gray-700">Freelancer/Expert</span>
                     </label>
                     <label className="flex items-center cursor-pointer">
                       <input
@@ -339,7 +405,7 @@ export default function SignupPage({ onSignup, onSwitchToLogin, onLogin, onClose
                         onChange={(e) => setFormData({ ...formData, role: e.target.value as 'client' | 'freelancer' })}
                         className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                       />
-                      <span className="ml-2 text-sm text-gray-700">Client</span>
+                      <span className="ml-2 text-xs text-gray-700">Client</span>
                     </label>
                   </div>
                 </div>
@@ -347,14 +413,14 @@ export default function SignupPage({ onSignup, onSwitchToLogin, onLogin, onClose
                 <button
                   type="submit"
                   disabled={loading || !agreedToTerms || !agreedToPrivacy}
-                  className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+                  className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-2.5 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl text-sm"
                 >
                   {loading ? 'Creating Account...' : 'Create Expert Account'}
                 </button>
               </form>
 
-              <div className="text-center mt-4">
-                <p className="text-sm text-gray-600">
+              <div className="text-center mt-3">
+                <p className="text-xs text-gray-600">
                   Already have an account?{' '}
                   <button
                     type="button"

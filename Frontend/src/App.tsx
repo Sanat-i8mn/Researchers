@@ -184,7 +184,7 @@ function AppContent() {
     }
   };
 
-  const showNavigation = !['login', 'signup', 'admin-login', 'admin-dashboard', 'post-project', 'postprojectpage', 'terms-and-conditions', 'privacy-policy', 'academic-integrity-policy', 'escrow-service-terms', 'contact-us', 'help-center', 'faq', 'cookie-policy'].includes(currentPage);
+  const showNavigation = !['login', 'signup', 'admin-login', 'admin-dashboard', 'terms-and-conditions', 'privacy-policy', 'academic-integrity-policy', 'escrow-service-terms', 'contact-us', 'help-center', 'faq', 'cookie-policy'].includes(currentPage);
 
   if (loading) return <LoadingSpinner />;
 

@@ -413,7 +413,7 @@ export default function PostProjectPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 pt-20">
       {/* Floating Particles */}
       {Array.from({ length: 20 }).map((_, i) => (
         <div
@@ -426,31 +426,18 @@ export default function PostProjectPage() {
           }}
         />
       ))}
-      
-      {/* Header */}
-      <div className="bg-white/80 backdrop-blur-sm border-b border-blue-200">
-        <div className="max-w-7xl mx-auto px-6 py-3">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.location.href = '/'}>
-            <img
-              src="/images/logo.png"
-              alt="ResearchHub"
-              className="h-14 w-auto object-contain"
-            />
-          </div>
-        </div>
-      </div>
 
       <div className="flex flex-col lg:flex-row">
         {/* Main Content */}
         <div className="flex-1 flex justify-center lg:pr-80">
-          <div className="w-full max-w-4xl px-4 sm:px-6 py-6 sm:py-12">
+          <div className="w-full max-w-3xl px-3 sm:px-4 py-3 sm:py-6">
             {/* Progress Bar */}
-            <div className="mb-6 sm:mb-8">
+            <div className="mb-4 sm:mb-6">
               <div className="flex justify-between items-center mb-2">
                 {steps.map((step, index) => (
                   <div key={step.number} className="flex items-center flex-1">
                     <div className="flex flex-col items-center flex-1">
-                      <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold ${
+                      <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs font-bold ${
                         currentStep === step.number
                           ? 'bg-blue-600 text-white'
                           : currentStep > step.number
@@ -459,10 +446,10 @@ export default function PostProjectPage() {
                       }`}>
                         {currentStep > step.number ? '✓' : step.number}
                       </div>
-                      <span className="text-xs sm:text-sm mt-1 text-center hidden sm:block">{step.title}</span>
+                      <span className="text-xs mt-1 text-center hidden sm:block">{step.title}</span>
                     </div>
                     {index < steps.length - 1 && (
-                      <div className={`h-1 flex-1 mx-1 sm:mx-2 ${
+                      <div className={`h-1 flex-1 mx-1 ${
                         currentStep > step.number ? 'bg-green-500' : 'bg-gray-300'
                       }`} />
                     )}
@@ -471,41 +458,41 @@ export default function PostProjectPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 overflow-hidden">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 sm:p-4 overflow-hidden">
               {currentStep === 1 && (
                 <div>
-                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Privacy & Category</h2>
-                  <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">
+                  <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">Privacy & Category</h2>
+                  <p className="text-xs sm:text-sm text-gray-600 mb-4">
                     Choose your privacy settings and select what you're looking for.
                   </p>
 
                   {/* Privacy Section */}
-                  <h3 className="text-lg font-bold text-gray-900 mb-4">Your Privacy Matters</h3>
+                  <h3 className="text-base font-bold text-gray-900 mb-3">Your Privacy Matters</h3>
 
-                  <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+                  <div className="space-y-2 sm:space-y-3 mb-4">
                     {/* All Experts Option */}
                     <div
                       onClick={() => setPrivacyOption('all')}
-                      className={`border-2 rounded-lg p-4 sm:p-6 cursor-pointer transition-all ${privacyOption === 'all'
+                      className={`border-2 rounded-lg p-3 sm:p-4 cursor-pointer transition-all ${privacyOption === 'all'
                         ? 'border-blue-600 bg-blue-50'
                         : 'border-gray-200 hover:border-gray-300'
                         }`}
                     >
-                      <div className="flex items-start gap-3 sm:gap-4">
-                        <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-1 ${privacyOption === 'all'
+                      <div className="flex items-start gap-2 sm:gap-3">
+                        <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-0.5 ${privacyOption === 'all'
                           ? 'border-blue-600 bg-blue-600'
                           : 'border-gray-300'
                           }`}>
                           {privacyOption === 'all' && (
-                            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-white rounded-full" />
+                            <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-white rounded-full" />
                           )}
                         </div>
                         <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-1 sm:mb-2">
-                            <Users className="text-gray-700" size={18} />
-                            <h3 className="text-sm sm:text-base font-bold text-gray-900">All ResearchHub Experts</h3>
+                          <div className="flex items-center gap-2 mb-1">
+                            <Users className="text-gray-700" size={16} />
+                            <h3 className="text-xs sm:text-sm font-bold text-gray-900">All ResearchHub Experts</h3>
                           </div>
-                          <p className="text-xs sm:text-sm text-gray-600">
+                          <p className="text-xs text-gray-600">
                             My job post will be visible to all registered experts on the ResearchHub platform.
                           </p>
                         </div>
@@ -515,26 +502,26 @@ export default function PostProjectPage() {
                     {/* Invitation Only Option */}
                     <div
                       onClick={() => setPrivacyOption('invitation')}
-                      className={`border-2 rounded-lg p-4 sm:p-6 cursor-pointer transition-all ${privacyOption === 'invitation'
+                      className={`border-2 rounded-lg p-3 sm:p-4 cursor-pointer transition-all ${privacyOption === 'invitation'
                         ? 'border-blue-600 bg-blue-50'
                         : 'border-gray-200 hover:border-gray-300'
                         }`}
                     >
-                      <div className="flex items-start gap-3 sm:gap-4">
-                        <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-1 ${privacyOption === 'invitation'
+                      <div className="flex items-start gap-2 sm:gap-3">
+                        <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-0.5 ${privacyOption === 'invitation'
                           ? 'border-blue-600 bg-blue-600'
                           : 'border-gray-300'
                           }`}>
                           {privacyOption === 'invitation' && (
-                            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-white rounded-full" />
+                            <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-white rounded-full" />
                           )}
                         </div>
                         <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-1 sm:mb-2">
-                            <Lock className="text-gray-700" size={18} />
-                            <h3 className="text-sm sm:text-base font-bold text-gray-900">Invitation Only</h3>
+                          <div className="flex items-center gap-2 mb-1">
+                            <Lock className="text-gray-700" size={16} />
+                            <h3 className="text-xs sm:text-sm font-bold text-gray-900">Invitation Only</h3>
                           </div>
-                          <p className="text-xs sm:text-sm text-gray-600">
+                          <p className="text-xs text-gray-600">
                             Only experts who I invite will be able to see my job post.
                           </p>
                         </div>
@@ -544,26 +531,26 @@ export default function PostProjectPage() {
                     {/* Internal Team Only Option */}
                     <div
                       onClick={() => setPrivacyOption('internal')}
-                      className={`border-2 rounded-lg p-4 sm:p-6 cursor-pointer transition-all ${privacyOption === 'internal'
+                      className={`border-2 rounded-lg p-3 sm:p-4 cursor-pointer transition-all ${privacyOption === 'internal'
                         ? 'border-blue-600 bg-blue-50'
                         : 'border-gray-200 hover:border-gray-300'
                         }`}
                     >
-                      <div className="flex items-start gap-3 sm:gap-4">
-                        <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-1 ${privacyOption === 'internal'
+                      <div className="flex items-start gap-2 sm:gap-3">
+                        <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-0.5 ${privacyOption === 'internal'
                           ? 'border-blue-600 bg-blue-600'
                           : 'border-gray-300'
                           }`}>
                           {privacyOption === 'internal' && (
-                            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-white rounded-full" />
+                            <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-white rounded-full" />
                           )}
                         </div>
                         <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-1 sm:mb-2">
-                            <Users className="text-gray-700" size={18} />
-                            <h3 className="text-sm sm:text-base font-bold text-gray-900">Internal Team Only</h3>
+                          <div className="flex items-center gap-2 mb-1">
+                            <Users className="text-gray-700" size={16} />
+                            <h3 className="text-xs sm:text-sm font-bold text-gray-900">Internal Team Only</h3>
                           </div>
-                          <p className="text-xs sm:text-sm text-gray-600">
+                          <p className="text-xs text-gray-600">
                             Only members of my internal team will be able to view this job post.
                           </p>
                         </div>
@@ -573,15 +560,15 @@ export default function PostProjectPage() {
 
 
                   {/* Terms Checkbox */}
-                  <div className="mb-6 sm:mb-8">
-                    <label className="flex items-start gap-2 sm:gap-3 cursor-pointer">
+                  <div className="mb-4">
+                    <label className="flex items-start gap-2 cursor-pointer">
                       <input
                         type="checkbox"
                         checked={agreedToTerms}
                         onChange={(e) => setAgreedToTerms(e.target.checked)}
-                        className="w-4 h-4 sm:w-5 sm:h-5 mt-0.5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                        className="w-4 h-4 mt-0.5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                       />
-                      <span className="text-xs sm:text-sm text-gray-700">
+                      <span className="text-xs text-gray-700">
                         I confirm that I have read and agree to the{' '}
                         <a href="#" className="text-blue-600 hover:underline">Terms and Conditions</a>
                         {' '}and{' '}
@@ -591,23 +578,23 @@ export default function PostProjectPage() {
                   </div>
 
                   {/* Category Section */}
-                  <h3 className="text-lg font-bold text-gray-900 mb-4">What are you looking for?</h3>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-6 sm:mb-8">
+                  <h3 className="text-base font-bold text-gray-900 mb-3">What are you looking for?</h3>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3 mb-4">
                     {categories.map((category) => (
                       <div
                         key={category.id}
                         onClick={() => setSelectedCategory(category.id)}
-                        className={`flex flex-col items-center justify-center p-4 sm:p-6 border-2 rounded-lg cursor-pointer transition-all hover:border-blue-400 hover:shadow-md ${selectedCategory === category.id
+                        className={`flex flex-col items-center justify-center p-3 sm:p-4 border-2 rounded-lg cursor-pointer transition-all hover:border-blue-400 hover:shadow-md ${selectedCategory === category.id
                           ? 'border-blue-600 bg-blue-50 shadow-md'
                           : 'border-gray-200'
                           }`}
                       >
                         <category.icon
-                          size={32}
-                          className={`mb-2 sm:mb-3 ${selectedCategory === category.id ? 'text-blue-600' : 'text-gray-600'
+                          size={24}
+                          className={`mb-1.5 sm:mb-2 ${selectedCategory === category.id ? 'text-blue-600' : 'text-gray-600'
                             }`}
                         />
-                        <span className={`text-xs sm:text-sm font-semibold text-center ${selectedCategory === category.id ? 'text-blue-600' : 'text-gray-900'
+                        <span className={`text-xs font-semibold text-center ${selectedCategory === category.id ? 'text-blue-600' : 'text-gray-900'
                           }`}>
                           {category.name}
                         </span>
@@ -619,7 +606,7 @@ export default function PostProjectPage() {
                   <button
                     disabled={!agreedToTerms || !selectedCategory}
                     onClick={() => setCurrentStep(2)}
-                    className={`w-full py-3 px-6 rounded-lg font-semibold transition-all ${agreedToTerms && selectedCategory
+                    className={`w-full py-2.5 px-6 rounded-lg font-semibold transition-all text-sm ${agreedToTerms && selectedCategory
                       ? 'bg-blue-600 hover:bg-blue-700 text-white'
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                       }`}

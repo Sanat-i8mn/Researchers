@@ -446,7 +446,7 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
               <motion.button
                 whileHover={{ y: -3, scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={() => onNavigate('post-project')}
+                onClick={() => window.location.href = '/post-project'}
                 className="group relative overflow-hidden rounded-full border-2 border-blue-600 px-6 sm:px-8 py-3 sm:py-4 font-semibold text-blue-600 bg-white hover:bg-blue-50"
               >
                 Post a Project
@@ -480,19 +480,19 @@ export default function HeroSection({ onNavigate, onShowResults }: HeroSectionPr
             <div className="relative flex items-start gap-8">
               {/* Navigation Arrows */}
               <motion.button
-                whileHover={{ scale: 1.1, backgroundColor: 'rgba(255,255,255,0.9)' }}
+                whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={prevImage}
-                className="absolute -left-6 top-1/2 transform -translate-y-1/2 z-20 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full shadow-xl border border-gray-200 flex items-center justify-center"
+                className="absolute -left-6 top-1/2 transform -translate-y-1/2 z-20 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full shadow-xl border border-gray-200 flex items-center justify-center hover:bg-white transition-colors"
               >
                 <ChevronLeft className="w-6 h-6 text-gray-700" />
               </motion.button>
 
               <motion.button
-                whileHover={{ scale: 1.1, backgroundColor: 'rgba(255,255,255,0.9)' }}
+                whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={nextImage}
-                className="absolute -right-6 top-1/2 transform -translate-y-1/2 z-20 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full shadow-xl border border-gray-200 flex items-center justify-center"
+                className="absolute -right-6 top-1/2 transform -translate-y-1/2 z-20 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full shadow-xl border border-gray-200 flex items-center justify-center hover:bg-white transition-colors"
               >
                 <ChevronRight className="w-6 h-6 text-gray-700" />
               </motion.button>
