@@ -10,8 +10,7 @@
     "build:prod": "tsc && vite build --mode production",
     "lint": "eslint .",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit -p tsconfig.app.json",
-    "postinstall": "npm install --legacy-peer-deps"
+    "typecheck": "tsc --noEmit -p tsconfig.app.json"
   },
   "dependencies": {
     "@react-three/drei": "^9.108.3",
