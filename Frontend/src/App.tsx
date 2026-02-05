@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
 import { logoutUser, loginUser as apiLoginUser, registerUser, adminLogin as apiAdminLogin } from './services/api';
 import Navbar from './components/layout/Navbar';
-import ResearchLoader from './components/shared/ResearchLoader';
 import toast from 'react-hot-toast';
 
 // Lazy load pages
@@ -32,6 +31,12 @@ const ProfileViewPopup = lazy(() => import('./components/shared/ProfileViewPopup
 const PostProjectPage = lazy(() => import('./pages/PostProjectPage'));
 
 type PageType = 'home' | 'about' | 'blog' | 'pricing' | 'login' | 'signup' | 'admin-login' | 'bidding' | 'post-project' | 'postprojectpage' | 'messaging' | 'escrow' | 'verification' | 'freelancer-account-details' | 'client-dashboard' | 'freelancer-dashboard' | 'admin-dashboard' | 'terms-and-conditions' | 'privacy-policy' | 'academic-integrity-policy' | 'escrow-service-terms' | 'contact-us' | 'help-center' | 'faq' | 'cookie-policy';
+
+const LoadingSpinner = () => (
+  <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#f0f4ff] via-[#dbe7ff] to-[#c0d4ff]">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+  </div>
+);
 
 function AppContent() {
   const navigate = useNavigate();
@@ -181,7 +186,7 @@ function AppContent() {
 
   const showNavigation = !['login', 'signup', 'admin-login', 'admin-dashboard', 'terms-and-conditions', 'privacy-policy', 'academic-integrity-policy', 'escrow-service-terms', 'contact-us', 'help-center', 'faq', 'cookie-policy'].includes(currentPage);
 
-  if (loading) return <ResearchLoader />;
+  if (loading) return <LoadingSpinner />;
 
   return (
     <>
@@ -194,7 +199,7 @@ function AppContent() {
         />
       )}
 
-      <Suspense fallback={<ResearchLoader />}>
+      <Suspense fallback={<LoadingSpinner />}>
         {renderPage()}
       </Suspense>
 
@@ -211,7 +216,7 @@ function AppContent() {
             onClick={handleCloseAuth}
           />
           <div className="relative z-10 w-full max-w-md transform transition-all">
-            <Suspense fallback={<ResearchLoader />}>
+            <Suspense fallback={<LoadingSpinner />}>
               <SignupPage 
                 onSignup={handleSignup}
                 onSwitchToLogin={handleSwitchToLogin}
