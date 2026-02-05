@@ -5,8 +5,9 @@ services:
     env: node
     region: singapore
     plan: free
-    buildCommand: cd Back-End && npm install
-    startCommand: cd Back-End && node index.js
+    rootDir: Back-End
+    buildCommand: npm install
+    startCommand: node index.js
     envVars:
       - key: NODE_ENV
         value: production
@@ -35,8 +36,9 @@ services:
     env: static
     region: singapore
     plan: free
-    buildCommand: cd Frontend && npm install && npm run build
-    staticPublishPath: ./Frontend/dist
+    rootDir: Frontend
+    buildCommand: npm install --legacy-peer-deps && npm run build
+    staticPublishPath: ./dist
     envVars:
       - key: VITE_API_URL
         sync: false
