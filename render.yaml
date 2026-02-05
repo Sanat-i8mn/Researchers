@@ -37,7 +37,7 @@ services:
     region: singapore
     plan: free
     rootDir: Frontend
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --legacy-peer-deps && npm run build
     staticPublishPath: ./dist
     envVars:
       - key: VITE_API_URL
